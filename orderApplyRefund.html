@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+	<title>奥特斯</title>
+	<link rel="stylesheet" href="css/swiper-4.3.5.min.css" />
+	<link rel="stylesheet" href="css/public.css?v=20180910" />
+	<link rel="stylesheet" href="css/shop.css?v=20180910" />
+</head>
+<body> <!-- hideHead hideFoot -->
+	<div class="webHead df hao jcb" id="webHead">
+		<div class="h-btn h-btn-back" toLocation="back"></div>
+		<div class="flex h-txt">申请退款</div>
+		<div class="h-btn"></div>
+	</div>
+
+	<div class="webBody" id="webBody">
+		<div class="shopOrderInfo" id="shopOrderInfoItem">
+			<div class="list">
+				<!--<div class="li df cf jcb">-->
+					<!--<div class="img"><img src="file/1.jpg" alt=""></div>-->
+					<!--<div class="name flex ov-2d">AILISI 爱丽诗面包</div>-->
+					<!--<div class="ps df jcb">-->
+						<!--&lt;!&ndash; <div class="tag">#预售</div> &ndash;&gt;-->
+						<!--&lt;!&ndash; <div class="price flex">￥1600.00</div> &ndash;&gt;-->
+						<!--<div></div>-->
+						<!--<div class="num">x2</div>-->
+					<!--</div>-->
+				<!--</div>-->
+				<!--<div class="li df cf jcb">-->
+					<!--<div class="img"><img src="file/1.jpg" alt=""></div>-->
+					<!--<div class="name flex ov-2d">AILISI 爱丽诗面包</div>-->
+					<!--<div class="ps df jcb">-->
+						<!--&lt;!&ndash; <div class="tag">#预售</div> &ndash;&gt;-->
+						<!--&lt;!&ndash; <div class="price flex">￥1600.00</div> &ndash;&gt;-->
+						<!--<div></div>-->
+						<!--<div class="num">x2</div>-->
+					<!--</div>-->
+				<!--</div>-->
+			</div>
+			<div class="count df hao jcb">
+				<!--<span>共计2件商品</span>-->
+				<!--&lt;!&ndash; <em>合计：￥3200.00</em> &ndash;&gt;-->
+				<!--<div></div>-->
+			</div>
+		</div>
+
+		<div class="shopOrderReason" id="shopOrderReasonItem">
+			<div class="cap">退款原因</div>
+			<div class="textarea">
+				<textarea placeholder="请输入退款原因..." id="buyer_message"></textarea>
+			</div>
+		</div>
+
+		<div class="formBox">
+			<div class="formLine df hao jcb">
+				<div class="cap">退款金额</div>
+				<div class="txt orange" id="refund_amount">￥1600.00</div>
+			</div>
+		</div>
+
+		<div class="shopOrderReason" id="shopOrderReason2Item">
+			<div class="cap">上传凭证</div>
+			<div class="file">
+				<!--<div class="file-li"><img src="file/1.jpg" /></div>-->
+				<div class="upload-li"><input type="file" id="imgInput" /></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="webFoot df hao jcb" id="webFoot">
+		<div class="f-btn f-btn-blue">提交</div>
+	</div>
+</body>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/swiper-4.3.5.min.js"></script>
+<script type="text/javascript" src="js/ajaxfileupload.js"></script>
+<script type="text/javascript" src="js/public.js?v=20180912"></script>
+<script type="text/javascript">
+	var orderId = getUrlParam('orderid',0);
+	// 订单详情
+	var myorderDetails=null;
+	// 详情相关信息
+	function infoDetails(){
+		var shopOrderInfoItem_list='',shopOrderInfoItem_list_num=0,shopOrderInfoItem_allprice=0;
+		myorderDetails.goods_list.forEach(function(item,index){
+			shopOrderInfoItem_list_num=shopOrderInfoItem_list_num+Number(item.goods_num);
+			shopOrderInfoItem_allprice=shopOrderInfoItem_allprice+Number(item.goods_price)*Number(item.goods_num);
+			shopOrderInfoItem_list+='<div class="li df cf jcb">'+
+				'<div class="img"><img src="'+item.image_url+'" alt=""></div>'+
+				'<div class="name flex ov-2d">'+item.goods_name+'</div>'+
+				'<div class="ps df jcb">'+
+				'<!-- <div class="tag">#预售</div> -->'+
+				'<!--<div class="price flex">￥'+item.goods_price+'</div>-->'+
+				'<div></div>'+
+				'<div class="num">x'+item.goods_num+'</div>'+
+				'</div>'+
+				'</div>';
+		})
+		$("#shopOrderInfoItem .list").html(shopOrderInfoItem_list);
+		$("#shopOrderInfoItem .count").html('<span>共计'+shopOrderInfoItem_list_num+'件商品</span><div></div>');
+		$("#refund_amount").text("￥"+shopOrderInfoItem_allprice+"");
+	}
+	function orderDetails(){
+		ajax({
+			url: '@server/act=member_order&op=order_info&order_id='+orderId+'&key='+userLoginToken,
+			type:'get',
+			call: function(r){
+			   // cs(r);
+				myorderDetails=r.order_info;
+				infoDetails();
+			}
+		});
+	}
+	orderDetails();
+	$(function () {
+		var $imgInput=$("#imgInput");//上传凭证
+		var $webFoot=$("#webFoot");//提交
+		// 上传凭证
+		$imgInput.dmUploader({
+			url: 'http://aotesi.intexh.com/mobile/index.php?act=member_refund&op=upload_pic',//处理上传事件的脚本地址，可以通过get方式传参
+			maxFileSize: 3000000, // 文件上限 ，目前为3M
+			fieldName: 'refund_pic', // 上传字段名
+			extraData:{
+				key: userLoginToken,
+				order_id:orderId
+			},
+			auto:true, //是否为自动上传（即选择文件后是否自动上传），默认为true
+			multiple: false, //是否是多文件，默认为true，但是在IOS端设置为true的话上传相册会出问题，为了ios能够识别，建议设置为false
+			allowedTypes: "image/*", //允许的文件类型
+			// extFilter: ['jpeg','png','gif','jpg'], //允许的文件后缀名
+			onFileSizeError: function (file) { //当文件大小超出最大值时回调次函数
+				alerts({ txt: '大小不能超过30M', type: 'fail' });
+			},
+			onFileTypeError: function (file) { //当文件类型错误时回调次函数
+				alerts({ txt: '仅支持上传图片', type: 'fail' });
+			},
+			// onFileExtError: function (file) { //当文件后缀名错误时回调次函数
+			// 	alerts({ txt: '仅支持上传jpeg/png/gif/jpg格式图片', type: 'fail' });
+			// },
+			// onNewFile: function (id, file) { //选择新文件时回调此函数
+			// 	cs($(this)[0].files[0]);
+			// },
+			onUploadSuccess: function (id, data) {	//上传成功回调函数
+				// cs(data);
+				 var data=JSON.parse(data);
+				if(data.code==200){
+					$("#shopOrderReason2Item .file").prepend('<div class="file-li"><img src="'+data.datas.pic+'" /></div>');
+				}
+			},
+			onUploadError: function (id, xhr, status, message) {//上传出错回调函数
+				// cs(id, xhr, status, message)
+			}
+		});
+		$webFoot.click(function () {
+			var buyer_message_val=$("#buyer_message").val();
+			if($.trim(buyer_message_val)==''){
+				alerts({txt:'请输入退款原因',type:'info'});
+				return false;
+			}
+			ajax({
+				url: '@server/act=member_refund&op=refund_all_post',
+				param:{
+					order_id:orderId,
+					key:userLoginToken,
+					buyer_message:buyer_message_val
+				},
+				call: function(r){
+				   // cs(r);
+					if(r==1){
+						alerts({
+							txt:"提交成功！",
+							type:"success",
+							click:function(){
+							   // window.history.go(-1);
+							}
+						});
+					}
+				}
+			});
+		})
+	})
+</script>
+</html>

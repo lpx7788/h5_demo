@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+	<title>奥特斯</title>
+	<link rel="stylesheet" href="css/swiper-4.3.5.min.css" />
+	<link rel="stylesheet" href="css/public.css?v=20180910" />
+	<link rel="stylesheet" href="css/tourCar.css?v=20180910" />
+</head>
+<body class="hideFoot"> <!-- hideHead hideFoot -->
+	<div class="webHead df hao jcb" id="webHead">
+		<div class="h-btn h-btn-back" toLocation="back"></div>
+		<div class="flex h-txt">房车预定</div>
+		<div class="h-btn"></div>
+	</div>
+
+	<div class="webBody" id="webBody">
+		<div class="tourCar" id="tourCarItem"></div>
+	</div>
+
+	<div class="webFoot df hao jcb" id="webFoot"></div>
+</body>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/swiper-4.3.5.min.js"></script>
+<script type="text/javascript" src="js/public.js?v=20180912"></script>
+<script type="text/javascript">
+	// 房车预订
+	var tourCarArr = [
+		{ name: '大通C A类房车 大通C A类房车大通C A类房车 大通C A类房车大通C A类房车 大通C A类房车', img: 'file/1.jpg', price: 1600, num: 6, url: 'tourCarDetail.html' },
+		{ name: '大通C A类房车 大通C A类房车', img: 'file/1.jpg', price: 1600, num: 6, url: 'tourCarDetail.html' },
+		{ name: '大通C A类房车 大通C A类房车', img: 'file/1.jpg', price: 1600, num: 6, url: 'tourCarDetail.html' },
+		{ name: '大通C A类房车 大通C A类房车', img: 'file/1.jpg', price: 1600, num: 6, url: 'tourCarDetail.html' },
+	];
+	tourCarInit();
+	function tourCarInit(){
+		var html = html2 = html3 = '';
+		$.each(tourCarArr,function(a,b){
+			html += '<div class="tourCar-li df cf jcb" toLocation="tourCarDetail.html">'+
+						'<div class="img"><img src="'+b.img+'" alt=""></div>'+
+						'<div class="info df jcb">'+
+							'<div class="name flex ov-2d">'+b.name+'</div>'+
+						'</div>'+
+						'<div class="ps df jcb">'+
+							'<div class="price flex">￥'+b.price+'.00</div>'+
+							'<div class="num">建议'+b.num+'人出行使用</div>'+
+						'</div>'+
+					'</div>';
+		})
+		$('#tourCarItem').html(html);
+	}
+</script>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+	<title>奥特斯</title>
+	<link rel="stylesheet" href="css/swiper-4.3.5.min.css" />
+	<link rel="stylesheet" href="css/public.css?v=20180910" />
+	<link rel="stylesheet" href="css/notice.css?v=20180910" />
+</head>
+<style>
+	.notice a.li{
+		align-items: flex-start;
+		padding: 15px;
+		line-height: 150%;
+	}
+</style>
+<body class="hideFoot"> <!-- hideHead hideFoot -->
+	<div class="webHead df hao jcb" id="webHead">
+		<div class="h-btn h-btn-back" toLocation="back"></div>
+		<div class="flex h-txt">消息中心</div>
+		<div class="h-btn"></div>
+	</div>
+
+	<div class="webBody" id="webBody">
+		<div class="tenBg"></div>
+		<div class="notice" id="noticeItem"></div>
+	</div>
+
+	<div class="webFoot df hao jcb" id="webFoot"></div>
+</body>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/swiper-4.3.5.min.js"></script>
+<script type="text/javascript" src="js/public.js?v=20180912"></script>
+<script type="text/javascript">
+	// 初始化公告
+	var noticeArr = [
+//		{ title: '关于奥特斯庄园H5改版公告关于奥特斯庄园H5改版公告', url: '', date: '2018/08/26' },
+//		{ title: '奥特斯庄园会员全新升级', url: '', date: '2018/08/26' },
+//		{ title: '关于奥特斯庄园H5改版公告关于奥特斯庄园H5改版公告', url: '', date: '2018/08/26' },
+//		{ title: '奥特斯庄园会员全新升级', url: '', date: '2018/08/26' },
+	];
+
+	function noticeInit(){
+		var html = '';
+		$.each(noticeArr,function(a,b){
+//			html += '<a class="li df jcb hao" toLocation="noticeDetail.html">'+
+//						'<div class="cap ov-d flex">'+b.title+'</div>'+
+//						'<div class="date">'+b.date+'</div>'+
+//					'</a>';
+            html += '<a class="li df jcb hao">'+
+						'<div class="cap flex">'+b.title+'</div>'+
+						'<div class="date">'+b.date+'</div>'+
+					'</a>';
+		})
+		$('#noticeItem').html(html);
+	}
+	//系统信息列表
+	system_message_list();
+	function system_message_list(){
+		ajax({
+			url: '@server/act=member_index&op=system_message_list',
+			param: {
+				key: userLoginToken,
+			},
+			call: function(r){
+				var array=[];
+				r.forEach(function (t, number) {
+                    array.push({ title: t.message_body, url: '', date: t.message_time })
+				});
+                noticeArr=array;
+                noticeInit();
+			},
+			failCall: function(r) {
+				alerts({ txt: r.error, type: 'fail' });
+			}
+		});
+	}
+</script>
+</html>

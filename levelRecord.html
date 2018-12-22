@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+	<title>奥特斯</title>
+	<link rel="stylesheet" href="css/swiper-4.3.5.min.css" />
+	<link rel="stylesheet" href="css/public.css?v=20180910" />
+	<link rel="stylesheet" href="css/levelRecord.css?v=20180910" />
+</head>
+
+<body class="hideFoot"> <!-- hideHead hideFoot -->
+<div class="webHead df hao jcb" id="webHead">
+	<div class="h-btn h-btn-back" toLocation="back"></div>
+	<div class="flex h-txt">卡片记录</div>
+	<div class="h-btn"></div>
+</div>
+
+<div class="webBody" id="webBody">
+	<div class="cardRecord-body">
+		<div class="defCap df hao jcb">
+			<div class="cap">已激活</div>
+		</div>
+		<div class="tenBg"></div>
+		<div class="cardRecord-list" id="cardRecordList"></div>
+	</div>
+</div>
+
+<div class="webFoot df hao jcb" id="webFoot"></div>
+</body>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/swiper-4.3.5.min.js"></script>
+<script type="text/javascript" src="js/public.js?v=20180912"></script>
+<script type="text/javascript">
+	ajax({
+		url: '@server/act=travel&op=my_card',
+		param: {
+			key:sessionData('get','userLoginToken').token,
+		},
+		call: function(r){
+			// cs(r);
+			// state: [2 已激活] [1 未激活] [3 已绑定用户，但未激活]
+			var html = '';
+			$.each(r,function(a,b) {
+				var t = returnCard(b.card_type);
+				html += '<div class="cardRecord-li">'+
+							'<div class="li-head">卡片信息</div>'+
+							'<div class="li-body">'+
+								'<div class="li-line"><span class="type-txt">卡片类型</span><span class="name-txt">'+t.name+'</span></div>'+
+								'<div class="li-line"><span class="type-txt">激活时间</span><span class="name-txt">'+timestampToTime(b.active_time).replace(/-/g,'/')+'</span></div>'+
+								'<div class="li-img-list">'+
+									'<div class="li-img-li"><img src="'+t.img+'" alt=""/></div>'+
+								'</div>'+
+							'</div>'+
+							'<div class="li-foot tenBg"></div>'+
+						'</div>';
+			})
+			$('#cardRecordList').html(html);
+
+			function returnCard(s){
+				var img = name = '';
+				if(s==2){ // 金卡
+					img = 'image/card/s1.png';
+					name = '金卡';
+				}else if(s==3){ // 砖石卡
+					img = 'image/card/s2.png';
+					name = '钻石卡';
+				}else if(s==4){ // 七星卡1
+					img = 'image/card/s3.png';
+					name = '七星卡1';
+				}else if(s==5){ // 七星卡2
+					img = 'image/card/s3.png';
+					name = '七星卡2';
+				}
+				return { img: img, name: name };
+			}
+		}
+	});
+</script>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+	<title>奥特斯</title>
+	<link rel="stylesheet" href="css/swiper-4.3.5.min.css" />
+	<link rel="stylesheet" href="css/public.css?v=20180910" />
+	<link rel="stylesheet" href="css/shop.css?v=20180910" />
+</head>
+<body class="hideFoot"> <!-- hideHead hideFoot -->
+	<div class="webHead df hao jcb" id="webHead">
+		<div class="h-btn h-btn-back" toLocation="back"></div>
+		<div class="flex h-txt">新品推荐</div>
+		<div class="h-btn"></div>
+	</div>
+
+	<div class="webBody whiteBg" id="webBody">
+		<div class="newProduct" id="newProductItem">
+			<div class="list"></div>
+		</div>
+	</div>
+
+	<div class="webFoot df hao jcb" id="webFoot"></div>
+</body>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/swiper-4.3.5.min.js"></script>
+<script type="text/javascript" src="js/public.js?v=20180912"></script>
+<script type="text/javascript">
+	// 初始化新品推荐
+	var newProductArr = [];
+	function newProductInit(){
+		var html = '';
+		$.each(newProductArr,function(a,b){
+			html += '<a class="li" toLocation="shopDetail.html?oid='+b.goods_id+'">'+
+						'<div class="img"><img src="'+b.goods_cover_image+'" alt="" /></div>'+
+						'<span class="ov-d">'+b.goods_name+'</span>'+
+						'<div class="df hao jcb"><em class="price">'+b.goods_price+'</em><em class="view">'+b.goods_salenum+'</em></div>'+
+					'</a>';
+		})
+		$('#newProductItem .list').append(html);
+	}
+
+	var nowPage = 1;
+	var pageNum = 6;
+	ajax_shop();
+	function ajax_shop(s){
+		ajax({
+			url: '@server/act=index',
+			param: {
+				page: pageNum,
+				curpage: nowPage,
+			},
+			call: function(r){
+				// cs(r);
+				newProductArr = r.goods_list;
+				newProductInit();
+
+				if(s&&r.goods_list.length==pageNum){
+					bindScroll[s] = true;
+				}
+			}
+		});
+	}
+
+	bindScrollCall('#webBody',150,function(s){
+		nowPage++;
+		ajax_shop(s);
+	});
+</script>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+	<title>奥特斯</title>
+	<link rel="stylesheet" href="css/swiper-4.3.5.min.css" />
+	<link rel="stylesheet" href="css/public.css?v=20180910" />
+	<link rel="stylesheet" href="css/user.css?v=20180910" />
+</head>
+<body class="hideFoot"> <!-- hideHead hideFoot -->
+	<div class="webHead df hao jcb" id="webHead">
+		<div class="h-btn h-btn-back" toLocation="back"></div>
+		<div class="flex h-txt">我的收藏</div>
+		<div class="h-btn"></div>
+	</div>
+
+	<div class="webBody" id="webBody">
+		<div class="collect" id="collectItem"></div>
+	</div>
+
+	<div class="webFoot df hao jcb" id="webFoot"></div>
+</body>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/swiper-4.3.5.min.js"></script>
+<script type="text/javascript" src="js/public.js?v=20180912"></script>
+<script type="text/javascript">
+	// 初始化收藏
+	var collectArr = [
+		{ title: '标题标题标题', img: 'file/1.jpg', eva: 2112, view: 185 },
+		{ title: '标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题', img: 'file/1.jpg', eva: 2112, view: 185 },
+		{ title: '标题标题标题', img: 'file/1.jpg', eva: 2112, view: 185 },
+		{ title: '标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题', img: 'file/1.jpg', eva: 2112, view: 185 },
+	];
+	collectInit();
+	function collectInit(){
+		var html = '';
+		$.each(collectArr,function(a,b){
+			html += '<div class="collect-li df cf jcb" tolocation="">'+
+						'<div class="img"><img src="file/1.jpg" alt=""></div>'+
+						'<div class="info df jcb">'+
+							'<div class="name flex ov-2d">'+b.title+'</div>'+
+						'</div>'+
+						'<div class="ps df jcb">'+
+							'<div class="df hao flex">'+
+								'<em class="eva">'+b.eva+'</em>'+
+								'<em class="view">'+b.view+'</em>'+
+							'</div>'+
+							'<div class="remove"></div>'+
+						'</div>'+
+					'</div>';
+		})
+		$('#collectItem').html(html);
+	}
+</script>
+</html>

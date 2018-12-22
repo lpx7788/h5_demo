@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+	<title>奥特斯</title>
+	<link rel="stylesheet" href="css/swiper-4.3.5.min.css" />
+	<link rel="stylesheet" href="css/public.css?v=20180910" />
+	<link rel="stylesheet" href="css/user.css?v=20180910" />
+</head>
+<body> <!-- hideHead hideFoot -->
+	<div class="webHead df hao jcb" id="webHead">
+		<div class="h-btn h-btn-back" toLocation="back"></div>
+		<div class="flex h-txt">卡片激活</div>
+		<div class="h-btn"></div>
+	</div>
+
+	<div class="webBody" id="webBody">
+		<div class="formBox" style="background:#fff;">
+			<div class="formLine df hao jcb">
+				<div class="cap">卡号</div>
+				<div class="input"><input id="passport_num" type="text" placeholder="请输入"></div>
+			</div>
+			<div class="formLine df hao jcb">
+				<div class="cap">注册码</div>
+				<div class="input"><input id="passport_code" type="text" placeholder="请输入"></div>
+			</div>
+			<!--<div class="formLine df hao jcb">&lt;!&ndash; 七星卡需要录入银行卡号码 &ndash;&gt;-->
+				<!--<div class="cap">银行卡号码</div>-->
+				<!--<div class="input"><input type="text" placeholder="请输入"></div>-->
+			<!--</div>-->
+			<div class="formLine df hao jcb">
+				<div class="cap">姓名</div>
+				<div class="input"><input id="real_name" type="text" placeholder="请输入"></div>
+			</div>
+			<div class="formLine df hao jcb">
+				<div class="cap">手机号</div>
+				<div class="input"><input id="mobile" type="text" placeholder="请输入"></div>
+			</div>
+			<div class="formLine df hao jcb">
+				<div class="cap">身份证号</div>
+				<div class="input"><input id="id_number" type="text" placeholder="请输入"></div>
+			</div>
+			<div class="formLine df hao jcb">
+				<div class="cap">性别</div>
+				<div class="txt arrow" id="gender"></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="webFoot df hao jcb" id="webFoot">
+		<div class="f-btn f-btn-blue">激活</div>
+	</div>
+</body>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/swiper-4.3.5.min.js"></script>
+<script type="text/javascript" src="js/public.js?v=20180912"></script>
+<script type="text/javascript">
+    //    功能：根据身份证号获得性别
+    function Getsex(psidno){
+        var sexno,sex
+        if(psidno.length==18){
+            sexno=psidno.substring(16,17)
+        }else if(psidno.length==15){
+            sexno=psidno.substring(14,15)
+        }
+        var tempid=sexno%2;
+        if(tempid==0){
+            sex=2
+        }else{
+            sex=1
+        }
+        return sex;
+    }
+	$(function () {
+		var $webRoot=$("#webFoot");//激活
+		var $id_number=$("#id_number");//身份证input
+        var gender=0;//性别
+
+        $id_number.blur(function () {
+			var value=$(this).val();
+            if(IdentityCodeValid(value)){
+                gender=Getsex(value);
+                $("#gender").text(gender==1?"男":"女");
+			}
+        })
+
+		$webRoot.click(function () {
+		    var passport_num=$("#passport_num").val();//卡号
+            var passport_code=$("#passport_code").val();//注册码
+            var mobile=$("#mobile").val();//手机号
+            var real_name=$("#real_name").val();//真实姓名
+            var id_number=$("#id_number").val();//	身份证号
+
+			if($.trim(passport_num)==''){
+                alerts({txt:'请输入卡号！',type:'info'});
+                return;
+			}
+            if($.trim(passport_code)==''){
+                alerts({txt:'请输入注册码！',type:'info'});
+                return;
+            }
+            if($.trim(real_name)==''){
+                alerts({txt:'请输入姓名！',type:'info'});
+                return;
+            }
+            if($.trim(mobile)==''){
+                alerts({txt:'请输入手机号！',type:'info'});
+                return;
+            }
+            if(!checkPhone(mobile)){
+                return;
+            }
+            if($.trim(id_number)==''){
+                alerts({txt:'请输入身份证！',type:'info'});
+                return;
+            }
+            if(!IdentityCodeValid(id_number)){
+                return;
+            }
+            ajax({
+                url: '@server/act=travel&op=tour',
+                param: {
+                    key: userLoginToken,
+                    method:'bindTravelCard',
+                    mobile:mobile,
+                    passport_num:passport_num,
+                    passport_code:passport_code,
+                    real_name:real_name,
+                    id_number:id_number,
+                    gender:gender
+                },
+                call: function(r){
+//                     cs(r);
+                     window.location.href='payDone.html?type=1';
+                },
+                failCall: function(r) {
+                    alerts({ txt: r.error, type: 'fail' });
+                }
+            });
+        })
+    })
+</script>
+</html>

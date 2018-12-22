@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+	<title>奥特斯</title>
+	<link rel="stylesheet" href="css/swiper-4.3.5.min.css" />
+	<link rel="stylesheet" href="css/public.css?v=20180910" />
+	<link rel="stylesheet" href="css/user.css?v=20180910" />
+</head>
+
+<style>
+	.h-txt-right{
+		padding-left: 64px;
+	}
+	.h-btn-txt{
+		width: 100px;
+	}
+	.levelName{
+		top: 0;
+		margin-top: 0;
+	}
+</style>
+<body class="hideFoot"> <!-- hideHead hideFoot -->
+	<div class="webHead df hao jcb" id="webHead">
+		<div class="h-btn h-btn-back" toLocation="back"></div>
+		<div class="flex h-txt h-txt-right">会员卡</div>
+		<div class="h-btn h-btn-txt" toLocation="levelRecord.html"><span>卡片记录</span></div>
+	</div>
+
+	<div class="webBody whiteBg" id="webBody">
+		<div class="levelSwiper df hao wao" id="levelSwiperItem">
+			<div class="levelName"></div>
+			<div class="swiper-container">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide" onclick="toLevelDetail(2)" data-name="金卡"><img src="image/card/t1-d.png" /></div>
+					<div class="swiper-slide" onclick="toLevelDetail(3)" data-name="钻石卡"><img src="image/card/t2-d.png" /></div>
+					<div class="swiper-slide" onclick="toLevelDetail(4)" data-name="七星卡1"><img src="image/card/t3-d.png" /></div>
+					<div class="swiper-slide" onclick="toLevelDetail(5)" data-name="七星卡2"><img src="image/card/t3-d.png" /></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="webFoot df hao jcb" id="webFoot"></div>
+</body>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/swiper-4.3.5.min.js"></script>
+<script type="text/javascript" src="js/public.js?v=20180912"></script>
+<script type="text/javascript" src="js/vconsole.min.js"></script>
+<script type="text/javascript">
+	// var vconsole = new VConsole();
+	var cardArr = ['金卡', '钻石卡', '七星卡1', '七星卡2']
+	var levelSwiper = new Swiper('#levelSwiperItem .swiper-container', {
+		watchSlidesProgress: true,
+		slidesPerView: 'auto',
+		centeredSlides: true,
+		loop: true,
+		loopedSlides: 3,
+		on: {
+			progress: function(progress) {
+				for (i = 0; i < this.slides.length; i++) {
+					var slide = this.slides.eq(i);
+					var slideProgress = this.slides[i].progress;
+					modify = 1;
+					if (Math.abs(slideProgress) > 1) {
+						modify = (Math.abs(slideProgress) - 1) * 0.3 + 1;
+					}
+					// translate = slideProgress * modify * 140 + 'px';
+					translate = slideProgress * modify * 8 + 'px';
+					scale = 1 - Math.abs(slideProgress) / 5;
+					zIndex = 999 - Math.abs(Math.round(10 * slideProgress));
+					slide.transform('translateX(' + translate + ') scale(' + scale + ')');
+					slide.css('zIndex', zIndex);
+					slide.css('opacity', 1);
+					if (Math.abs(slideProgress) > 3) {
+						slide.css('opacity', 0);
+					}
+				}
+			},
+			setTransition: function(transition) {
+				for (var i = 0; i < this.slides.length; i++) {
+					var slide = this.slides.eq(i)
+					slide.transition(transition);
+				}
+			},
+			slideChangeTransitionStart: function(){
+				var name = cardArr[this.realIndex];
+				// var name = $(this.slides[this.realIndex]).attr('data-name');
+				$('#levelSwiperItem .levelName').text(name+' （预售）');
+			},
+		}
+	})
+
+	function toLevelDetail(n) {
+		ajax({
+			url: '@server/act=member_index&op=is_rightCard',
+			param: {
+				card_type: Number(n),
+				key: userLoginToken,
+			},
+			callSuccess: function(res){
+				if( res.code === 200 ) {
+					// state权益卡状态 1.未激活 2.已激活 3.已购买，未激活
+					if( res.datas.state == '3' || res.datas.state == '2'  ) {
+						window.location.href = 'levelDetail.html?level='+n;
+					}else{
+						alerts('未购买该权益卡，请移步至 “ 个人中心 ” 购买');
+					}
+				}else if( res.code === 400 && res.datas.error == '没有该权益包' ) {
+					alerts('未购买该权益卡，请移步至 “ 个人中心 ” 购买');
+				}
+				// if ( r.state == "3" || r.state == "2" ) {
+
+				// }else{
+
+				// }
+				// window.location.href = 'levelDetail.html?level='+n;
+			},
+		})
+	}
+</script>
+</html>

@@ -1,0 +1,328 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+	<title>奥特斯</title>
+	<link rel="stylesheet" href="css/swiper-4.3.5.min.css" />
+	<link rel="stylesheet" href="css/mobileSelect.css" />
+	<link rel="stylesheet" href="css/public.css?v=20180910" />
+	<link rel="stylesheet" href="css/address.css?v=20180910" />
+</head>
+<body class="hideFoot"> <!-- hideHead hideFoot -->
+	<div class="webHead df hao jcb" id="webHead">
+		<div class="h-btn h-btn-back" toLocation="back"></div>
+		<div class="flex h-txt">收货地址管理</div>
+		<div class="h-btn"></div>
+	</div>
+
+	<div class="webBody" id="webBody">
+		<div class="address" id="addressItem"></div>
+
+		<div class="addressAddBox" id="addressAddItem" style="display: none;">
+			<div class="formBox">
+				<div class="formLine df hao jcb username">
+					<div class="cap">姓名</div>
+					<div class="input"><input type="text" placeholder="请输入收货人姓名" /></div>
+				</div>
+				<div class="formLine df hao jcb phone">
+					<div class="cap">手机号码</div>
+					<div class="input"><input type="text" placeholder="请输入收货人手机号码" /></div>
+				</div>
+				<div class="formLine df hao jcb">
+					<div class="cap">所在地址</div>
+					<div class="txt arrow cityCont"></div>
+				</div>
+				<div class="textarea address">
+					<textarea placeholder="详细地址:如道路、门牌号、小区、楼栋号、单元室等"></textarea>
+				</div>
+			</div>
+
+			<div class="formBox defaultChoose">
+				<div class="formLine df hao jcb ">
+					<div class="cap">设为默认地址</div>
+					<div class="label" onclick="$(this).toggleClass('chooseLabel')"></div>
+				</div>
+			</div>
+			
+			<div class="formBox deleteAddress">
+				<div class="formLine df hao jcb">
+					<div class="cap red">删除收货地址</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="webFoot df hao jcb" id="webFoot"></div>
+</body>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/mobileSelect.min.js"></script>
+<script type="text/javascript" src="js/swiper-4.3.5.min.js"></script>
+<script type="text/javascript" src="js/public.js?v=20180912"></script>
+<script type="text/javascript">
+	// 初始化公告
+	var addressArr = [];
+	addressInit();
+	function addressInit(){
+		ajax({
+			url: '@server/act=member_address&op=address_list',
+			param: {
+				key: userLoginToken,
+			},
+			call: function(r){
+				// cs(r);
+				addressArr = r.address_list;
+				var html = '';
+				$.each(addressArr,function(a,b){
+					html += '<div class="addressLi">'+
+								'<div class="person">'+
+									'<span>'+b.true_name+'</span>'+
+									'<em>'+b.mob_phone+'</em>'+
+								'</div>'+
+								'<div class="address">'+b.area_info+' '+b.address+'</div>'+
+								'<div class="btn df cf wao hao">'+
+									'<div class="btn-li" onclick="tabAdeBox(\'edit\',\''+b.address_id+'\')">编辑</div>'+
+									'<div class="btn-li" onclick="deleteAddress(\''+b.address_id+'\')">删除</div>'+
+								'</div>'+
+							'</div>';
+				})
+				html = (html||'<div class="addressEmpty">暂无地址</div>')+'<div class="addressAdd df wao hao" onclick="tabAdeBox(\'add\')">+ 添加新地址</div>';
+				$('#addressItem').html(html);
+			}
+		})
+	}
+
+	var editAddressId = '';
+
+	// 初始化地址筛选
+	initAreaData();
+	var cityData = [];
+	var initChooseNodeObj = null;
+	var chooseArea = { id: '', name: '' };
+	var chooseCity = { id: '', name: '' };
+	function initAreaData() {
+		ajax({
+			url: '@server/act=area&op=area_list',
+			param: {
+				area_id: 0,
+			},
+			type: 'get',
+			call: function(r){
+				// cs(r);
+				var data = [];
+				$.each(r.area_list,function(a,b){
+					data.push({
+						id: b.area_id.toString(),
+						value: b.area_name,
+						childs: [ { id: '', value: '请选择城市' } ],
+					});
+				})
+				cityData = data;
+				initChooseNode();
+				initCityData();
+			}
+		})
+	}
+
+	function initCityData(aid){
+		$.each(cityData,function(g,h){
+			ajax({
+				url: '@server/act=area&op=area_list',
+				param: {
+					area_id: h.id,
+				},
+				type: 'get',
+				call: function(r){
+					// cs(r);
+					var data = [];
+					$.each(r.area_list,function(a,b){
+						data.push({
+							id: b.area_id.toString(),
+							value: b.area_name,
+						});
+					})
+					cityData[g].childs = data;
+					window.initChooseNodeObj.updateWheels(cityData);
+				}
+			})
+		})
+	}
+
+	function initChooseNode(){
+		window.initChooseNodeObj = new MobileSelect({
+			trigger: '#addressAddItem .cityCont',
+			title: '选择 省-市-区',
+			wheels: [{
+				data: cityData,
+			}],
+			position:[0,0],
+			// triggerDisplayData: false,
+			callback:function(indexArr, data){
+				// console.log(indexArr,data); //返回选中的json数据
+				chooseArea.id = data[0].id;
+				chooseArea.name = data[0].value;
+				chooseCity.id = data[1].id;
+				chooseCity.name = data[1].value;
+			} 
+		});
+	}
+
+
+	var nowType = '';
+	function tabAdeBox(t,aid) {
+		var headHtml = footHtml = '';
+		nowType = t;
+		if(t=='add'||t=='edit'){
+			$('#addressAddItem .deleteAddress').hide().removeAttr('onclick');
+			editAddressId = '';
+			$('#addressAddItem .username input').val('');
+			$('#addressAddItem .phone input').val('');
+			$('#addressAddItem .cityCont').empty();
+			$('#addressAddItem .address textarea').val('');
+			$('#addressAddItem .defaultChoose .label').removeClass('chooseLabel');
+			chooseArea = { id: '', name: '' };
+			chooseCity = { id: '', name: '' };
+
+			headHtml = '<div class="h-btn h-btn-back" onclick="tabAdeBox(\'list\')"></div>'+
+						'<div class="flex h-txt">'+(t=='add'?'添加':'修改')+'添加收货地址</div>'+
+						'<div class="h-btn"></div>';
+			footHtml = '<div class="f-btn f-btn-blue" onclick="keepAddress()">保存</div>';
+
+			if(t=='edit'){
+				$('#addressAddItem .deleteAddress').show().attr('onclick','deleteAddress(\''+aid+'\')');
+				toEditAddress(aid);
+			}
+			$('#addressAddItem').show().siblings().hide();
+		}else{
+			headHtml = '<div class="h-btn h-btn-back" toLocation="back"></div>'+
+						'<div class="flex h-txt">收货地址管理</div>'+
+						'<div class="h-btn"></div>';
+			$('#addressItem').show().siblings().hide();
+		}
+
+		$('#webHead').html(headHtml);
+		$('#webFoot').html(footHtml);
+		if(footHtml){
+			$('body').removeClass('hideFoot');
+		}else{
+			$('body').addClass('hideFoot');
+		}
+		addressInit();
+	}
+
+	// 编辑地址
+	function toEditAddress(aid){
+		ajax({
+			url: '@server/act=member_address&op=address_info',
+			param: {
+				key: userLoginToken,
+				address_id: aid,
+			},
+			call: function(r){
+				// cs(r);
+				editAddressId = aid;
+				var d = r.address_info;
+				$('#addressAddItem .username input').val(d.true_name);
+				$('#addressAddItem .phone input').val(d.mob_phone);
+				$('#addressAddItem .cityCont').html(d.area_info);
+				$('#addressAddItem .address textarea').val(d.address);
+				if(d.is_default==1){
+					$('#addressAddItem .defaultChoose .label').addClass('chooseLabel');	
+				}else{
+					$('#addressAddItem .defaultChoose .label').removeClass('chooseLabel');
+				}
+				chooseArea = { id: d.area_id, name: d.area_info.split(' ')[0] };
+				chooseCity = { id: d.city_id, name: d.area_info.split(' ')[1] };
+			}
+		})
+	}
+
+	// 保存地址(新增/修改)
+	function keepAddress(){
+		var username = $('#addressAddItem .username input').val();
+		var phone = $('#addressAddItem .phone input').val();
+		var address = $('#addressAddItem .address textarea').val();
+		var defaultChoose = ($('#addressAddItem .defaultChoose .label').hasClass('chooseLabel')?1:0);
+
+		if(!username){
+			alerts({
+				type: 'fail',
+				txt: '请输入收货人姓名',
+			})
+			return false;
+		}
+		if(!checkPhone(phone)){
+			return false;
+		}
+		if(chooseArea.id==''||chooseCity.id==''){
+			alerts({
+				type: 'fail',
+				txt: '请选择所在地址',
+			})
+			return false;
+		}
+		if(!address){
+			alerts({
+				type: 'fail',
+				txt: '请输入详细的地址信息',
+			})
+			return false;
+		}
+
+		var param = {
+			true_name: username,
+			area_info: chooseArea.name+' '+chooseCity.name,
+			address: address,
+			tel_phone: phone,
+			mob_phone: phone,
+			area_id: chooseArea.id,
+			city_id: chooseCity.id,
+			is_default: defaultChoose, // 是否默认地址 [1 默认] [0 不默认]
+			key: userLoginToken,
+		};
+		if(editAddressId){ // 修改地址
+			param.address_id = editAddressId;
+			var url = '@server/act=member_address&op=address_edit';
+		}else{ // 新增地址
+			var url = '@server/act=member_address&op=address_add';
+		}
+
+		ajax({
+			url: url,
+			param: param,
+			call: function(r){
+				// cs(r);
+				tabAdeBox('list');
+				smallAlert('保存成功');
+			},
+			failCall: function(r){
+				alerts({ txt: r.error });
+			}
+		})
+	}
+
+	// 删除地址
+	function deleteAddress(aid){
+		ajax({
+			url: '@server/act=member_address&op=address_del',
+			param: {
+				key: userLoginToken,
+				address_id: aid,
+			},
+			call: function(r){
+				// cs(r);
+				smallAlert('删除成功');
+				tabAdeBox('list');
+			},
+			failCall: function(r){
+				alerts({ txt: r.error });
+			}
+		})
+	}
+</script>
+</html>

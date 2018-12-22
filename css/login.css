@@ -1,0 +1,13 @@
+.logo{ height: 173px; }
+.logo img{ width: 180px; }
+
+.formLine{ padding: 0 15px; height: 50px; }
+.formLine.borBot{ border-bottom: 1px solid #e5e5e5; }
+.formLine .cap{ width: 86px; font-size: 16px; color: #030303; }
+.formLine .input{ }
+.formLine .input input{ width: 100%; font-size: 14px; color: #333; height: 24px; line-height: 24px; border: none; }
+.formLine .pushCode{ background: #002855; border-radius: 25px; width: 102px; height: 26px; line-height: 26px; font-size: 14px; color: #FFFFFF; text-align: center; margin-left: 10px; }
+.formLine .pushCode.notPush{ background: #a1a1a1; }
+.formLine .forgetPass{ font-size: 14px; color: #BBBBBB; line-height: 22px; }
+.formLine .wechatLogin{ font-size: 14px; color: #44ad4c; line-height: 22px; background: url(../image/wechat.png) left center no-repeat; background-size: 22px auto; padding-left: 28px; }
+.formLine .types{line-height: 50px;color: #BBBBBB;}

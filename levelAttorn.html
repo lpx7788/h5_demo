@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+	<title>奥特斯</title>
+	<link rel="stylesheet" href="css/swiper-4.3.5.min.css" />
+	<link rel="stylesheet" href="css/public.css?v=20180910" />
+	<link rel="stylesheet" href="css/user.css?v=20180910" />
+</head>
+<body> <!-- hideHead hideFoot -->
+	<div class="webHead df hao jcb" id="webHead">
+		<div class="h-btn h-btn-back" toLocation="back"></div>
+		<div class="flex h-txt">转让卡券</div>
+		<div class="h-btn"></div>
+	</div>
+
+	<div class="webBody" id="webBody">
+		<div class="formBox">
+			<div class="formLine df jcb hao">
+				<div class="cap">姓名</div>
+				<div class="input"><input type="text" placeholder="请输入对方姓名" /></div>
+			</div>
+			<div class="formLine df jcb hao">
+				<div class="cap">手机号码</div>
+				<div class="input"><input type="text" placeholder="请输入对方手机号码" /></div>
+			</div>
+		</div>
+		<div class="formBox">
+			<div class="formLine df jcb hao">
+				<div class="cap">银行卡号</div>
+				<div class="input"><input type="text" placeholder="请输入对方银行卡号" /></div>
+			</div>
+		</div>
+		<div class="formBox">
+			<div class="formLine formLine2">
+				<div class="cap">身份证照片</div>
+				<div class="file df hao">
+					<div class="flex upload"><div class="li"><img src="image/idcard.png" alt="" /><input type="file" accept="image/*" /><span>身份证正面</span></div></div>
+					<div class="flex upload"><div class="li"><img src="image/idcard2.png" alt="" /><input type="file" accept="image/*" /><span>身份证背面</span></div></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="webFoot df hao jcb" id="webFoot">
+		<div class="f-btn f-btn-blue" onclick="checkPhone()">提交</div>
+	</div>
+
+	<div class="checkPhone" id="checkPhoneItem">
+		<div class="etx">
+			<div class="top">
+				<div class="back" onclick="closeCheckPhone()"></div>
+				<span>验证手机</span>
+			</div>
+			<div class="content df cf wao hao">
+				<div class="info df hao">
+					<span>+86</span>
+					<div class="input flex"><input type="text" /></div>
+					<div class="check">验证</div>
+				</div>
+				<div class="submit" onclick="closeCheckPhone()">确定</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/swiper-4.3.5.min.js"></script>
+<script type="text/javascript" src="js/public.js?v=20180912"></script>
+<script type="text/javascript">
+	function checkPhone(){
+		$('#checkPhoneItem').show();
+	}
+
+	function closeCheckPhone(){
+		$('#checkPhoneItem').hide();
+	}
+</script>
+</html>

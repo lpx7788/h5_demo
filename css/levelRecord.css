@@ -1,0 +1,9 @@
+.cardRecord-body{ background-color: #FFFFFF; }
+.cardRecord-body .cardRecord-list .cardRecord-li .li-head{ font-size: 16px; color: #333333; padding: 10px 15px; border-bottom: 1px solid #F5F5F5; }
+.cardRecord-body .cardRecord-list .cardRecord-li .li-body{ padding: 15px 15px 0 15px; box-shadow: inset 0 0 0 0 #E5E5E5; }
+.cardRecord-body .cardRecord-list .cardRecord-li .li-body .li-line{ display: flex; display: -webkit-flex; justify-content: space-between; }
+.cardRecord-body .cardRecord-list .cardRecord-li .li-body .li-line{ display: flex; display: -webkit-flex; justify-content: space-between; font-size: 14px; color: #333333; margin-bottom: 15px; }
+.cardRecord-body .cardRecord-list .cardRecord-li .li-body .li-line .name-txt{ color: #999999; }
+.cardRecord-body .cardRecord-list .cardRecord-li .li-body .li-img-list{ display: flex; display: -webkit-flex; flex-wrap: wrap; justify-content: space-between; }
+.cardRecord-body .cardRecord-list .cardRecord-li .li-body .li-img-list .li-img-li{ display: block; margin-bottom: 15px; width: 150px; height: 94px; border-radius: 10px; overflow: hidden; }
+.cardRecord-body .cardRecord-list .cardRecord-li .li-body .li-img-list .li-img-li img{ width: 150px; height: 94px; }

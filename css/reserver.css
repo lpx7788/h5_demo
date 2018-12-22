@@ -1,0 +1,109 @@
+.reserveHouse{ }
+.reserveHouse .li{ margin-bottom: 10px; background: #fff; }
+.reserveHouse .li img{ width: 100%; min-height: 126px; }
+.reserveHouse .li .info{ padding: 4px 15px 14px 15px; }
+.reserveHouse .li .title{ font-size: 14px; color: #333333; line-height: 20px; padding: 4px 0; }
+.reserveHouse .li .score{ font-size: 12px; color: #666666; line-height: 22px; padding-left: 20px; background: url(../image/score.png) left center no-repeat; background-size: 14px auto; }
+.reserveHouse .li .price{ height: 26px; line-height: 26px; }
+.reserveHouse .li .price span{ font-size: 15px; color: #FFA826; }
+.reserveHouse .li .price .btn{ width: 60px; height: 26px; line-height: 26px; text-align: center; background: #002855; border-radius: 25px; font-size: 14px; color: #FFFFFF; }
+
+.searchBox{ padding: 0 15px; height: 44px; }
+.searchBox .search{ height: 28px; border-radius: 3px; overflow: hidden; background: #fff; position: relative; width: 100%; }
+.searchBox span{ padding-left: 21px; background: url(../image/h-2.png) left center no-repeat; background-size: 12px auto; font-size: 13px; color: #999999; line-height: 28px; }
+.searchBox .input{ position: absolute; top: 0; left: 0; right: 0; bottom: 0; padding: 4px 10px; }
+.searchBox .input input{ width:100%; height: 20px; line-height: 20px; border: none; background: transparent; }
+
+.reserveActive{ position: absolute; left: 0; right: 0; top: 44px; bottom: 0; overflow-y: auto; }
+.reserveActive .li{ background: #fff; margin-bottom: 10px; padding: 15px; }
+.reserveActive .li img{ width: 100%; min-height: 126px; }
+.reserveActive .li .title{ font-size: 14px; color: #333333; line-height: 20px; height: 60px; margin: 6px 0; }
+.reserveActive .li .date{ font-size: 12px; color: #666666; line-height: 12px; }
+.reserveActive .li .date em{ padding-left: 8px; }
+
+.house{ }
+.house-img{ height: 198px; background:#f3f3f3; }
+.house-img:empty::before{ content: '内容加载中'; line-height: 198px; text-align: center; font-size: 13px; color:#999; width: 100%; display: block; }
+.house-img .swiper-slide,.house-img a{ width: 100%; height: 100%; display: block; }
+.house-img .swiper-pagination-bullets .swiper-pagination-bullet{ width: 6px; height:2px; opacity: 0.4; background: #fff; border-radius: 14px; margin: 0 2px; }
+.house-img .swiper-pagination-bullets .swiper-pagination-bullet-active{ background: #fff; opacity: 1; }
+.house-info{ height: 92px; background: #fff; margin-bottom: 10px; padding: 0 15px; }
+.house-info .name{ font-size: 15px; color: #333333; line-height: 21px; padding: 4px 0; }
+.house-info .score{ font-size: 12px; color: #666666; line-height: 22px; padding-left: 20px; background: url(../image/score.png) left center no-repeat; background-size: 14px auto; }
+.house-info .price{ height: 26px; line-height: 26px; font-size: 15px; color: #FFA826; }
+.house-cap{ background: #fff; border-bottom: 1px solid #e5e5e5; }
+.house-set{ /*padding: 0 15px; */background: #fff; margin-bottom: 10px; }
+.house-set .li{ height: 102px; }
+.house-set .li i{ width: 24px; height: 24px; margin-bottom: 12px; }
+.house-set .li i.icon1{ background: url(../image/reserve1.png) center center no-repeat; background-size: 24px auto; }
+.house-set .li i.icon2{ background: url(../image/reserve2.png) center center no-repeat; background-size: 24px auto; }
+.house-set .li i.icon3{ background: url(../image/reserve3.png) center center no-repeat; background-size: 24px auto; }
+.house-set .li i.icon4{ background: url(../image/reserve4.png) center center no-repeat; background-size: 24px auto; }
+.house-set .li i.icon5{ background: url(../image/reserve5.png) center center no-repeat; background-size: 24px auto; }
+.house-set .li em{ font-size: 15px; color: #666666; line-height: 15px; }
+.house-set .li em::after{ content: attr(dw); }
+.house-content .defTabBox-top{ border-bottom: 1px solid #e5e5e5; }
+.house-content .defTabBox-content{ background: #fff; padding: 10px 15px; min-height: 200px; font-size: 14px; color: #999999; line-height: 24px; text-align: justify; }
+.house-content .defTabBox-content img{ max-width: 100%; margin: 8px 0; }
+
+.formBox{ background: #fff; margin-bottom: 10px; }
+.formBox .etBox:not(:last-child){ border-bottom: 1px solid #e5e5e5; }
+.formLine{ font-size: 15px; color: #333333; line-height: 50px; height: 50px; padding: 0 15px; }
+.formLine:not(:last-child){ border-bottom: 1px solid #e5e5e5; }
+.formLine .cap{ }
+.formLine .cap2{ color:#666; font-size: 14px; }
+.formLine .date{ font-size: 14px; }
+.formLine .date em{ width: 74px; text-align: center; color:#666; padding: 0 7px; }
+.formLine .date em:empty::before{ content: attr(bs); color:#bbb; }
+.formLine .date em:last-child{ margin-right: -7px; }
+.formLine .arrow{ background: url(../image/arrow.png) right center no-repeat; background-size: 8px auto; padding-right: 15px; }
+.formLine .txt{ color: #666; font-size: 14px; }
+.formLine .txt.arrow{ min-width: 120px; text-align: right; min-height: 50px; }
+.formLine .info{ color: #999; font-size: 14px; }
+.formLine .input{ width: 180px; }
+.formLine .smallInput{ width: 80px; }
+.formLine .input input{ width: 100%; border: none; text-align: right; font-size: 14px; color:#666; }
+.formLine2{ font-size: 14px; color: #333333; line-height: 20px; padding: 12px 15px 0 15px; }
+.formLine2 .txt{ color: #666; font-size: 14px; }
+.formLine2:last-child{ padding-bottom: 12px; }
+
+.houseWrite{ }
+.houseWrite-good{ line-height: 40px; height: 40px; background: #FFA826; font-size: 13px; color: #FFFFFF; padding: 0 15px; }
+.houseWrite-info{ padding: 15px 15px 15px 105px; height: 80px; display: block; position: relative; background: #fff; margin-bottom: 10px; margin-top: 10px; }
+.houseWrite-info img{ width: 80px; height: 80px; position:absolute; left: 15px; top: 15px; }
+.houseWrite-info span{ display: block; font-size: 14px; color: #333333; line-height: 20px; }
+.houseWrite-info em{ display: block; }
+.houseWrite-info em.price{ font-size: 15px; color: #FFA826; line-height: 15px; margin: 12px 0 15px 0; }
+.houseWrite-info em.price::before{ content: '￥'; }
+.houseWrite-info em.price::after{ content: '.00/晚'; }
+.houseWrite-info em.info{ font-size: 12px; color: #666666; line-height: 14px; padding-left: 20px; background: url(../image/score.png) left center no-repeat; background-size: 14px auto; }
+.houseWrite-info .reserve{ background: #002855; border-radius: 25px; width: 60px; height: 26px; text-align: center; font-size: 14px; color: #FFFFFF; line-height: 26px; position: absolute; right: 0; bottom: 18px; }
+.houseWrite-cap{ background: #fff; margin-bottom: 10px; }
+
+.active{ background: #fff; }
+.active-img{ }
+.active-img img{ width: 100%; min-height: 160px; }
+.active-title{ font-size: 17px; color: #333333; line-height: 25px; padding: 10px 15px; text-align: justify; }
+.active-content{ font-size: 14px; color: #666666; line-height: 28px; text-align: justify; padding: 8px 15px; }
+
+.chooseLevel{ position: fixed; left: 0; top: 0; right: 0; bottom: 0; z-index: 1005; background: rgba(0,0,0,0.4); display: none; }
+.chooseLevel .etx{ position: absolute; left: 0; bottom: 0; right: 0; height: 386px; background: #fff; }
+.chooseLevel .top{ height: 50px; position: relative; }
+.chooseLevel .top .back{ width: 56px; height: 50px; background: url(../image/h-5.png) center center no-repeat; background-size: 8px auto; position: absolute; left: 0; top: 0; }
+.chooseLevel .top span{ font-size: 17px; color: #333333; text-align: center; line-height: 50px; display: block; }
+.chooseLevel .content{ padding: 0 15px; }
+.chooseLevel .li{ font-size: 16px; color: #333; height:74px; border-bottom: 1px solid #e5e5e5; }
+.chooseLevel .li span{ }
+.chooseLevel .li em{ font-size: 12px; color: #999999; padding-top: 12px; }
+.chooseLevel .li.cur{ background:url(../image/gou.png) right center no-repeat; background-size: 23px auto; }
+.chooseLevel .li.cur,.chooseLevel .li.cur em{ color:#002855; }
+
+.choosePerson{ position: fixed; left: 0; top: 0; right: 0; bottom: 0; z-index: 1005; background: rgba(0,0,0,0.4); display: none; }
+.choosePerson .etx{ position: absolute; left: 0; bottom: 0; right: 0; background: #fff; }
+.choosePerson .top{ height: 50px; position: relative; }
+.choosePerson .top .back{ width: 56px; height: 50px; background: url(../image/h-5.png) center center no-repeat; background-size: 8px auto; position: absolute; left: 0; top: 0; }
+.choosePerson .top span{ font-size: 17px; color: #333333; text-align: center; line-height: 50px; display: block; }
+.choosePerson .content{ padding: 0 15px; }
+.choosePerson .li{ font-size: 15px; color: #333; height:40px; line-height:40px; border-bottom: 1px solid #e5e5e5; text-align: center; }
+.choosePerson .li.cur{ background:url(../image/gou.png) right center no-repeat; background-size: 23px auto; }
+.choosePerson .li.cur{ color:#002855; }

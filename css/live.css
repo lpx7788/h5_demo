@@ -1,0 +1,28 @@
+.live-top{ position: absolute; left: 0; top: 0; right: 0; height: 44px; z-index: 668; padding: 0 15px; }
+.live-top .person{ }
+.live-top .person img{ border: 1px solid #FFFFFF; width: 30px; height: 30px; border-radius: 50%; margin-right: 8px; }
+.live-top .person .name{ background: rgba(0,0,0,0.3); border-radius: 100px; height: 32px; line-height: 32px; font-size: 11px; padding: 0 10px; color: #FFFFFF; }
+.live-top .person .name em{ font-size: 13px; margin-right: 4px; }
+.live-top .tool .btn{ width: 32px; height: 32px; border-radius: 50%; margin-left: 16px; }
+.live-top .tool .btn.reload{ background: url(../image/live/live-1.png) center center no-repeat; background-size: 32px auto; }
+.live-top .tool .btn.screen{ background: url(../image/live/live-2.png) center center no-repeat; background-size: 32px auto; }
+.live-top .tool .btn.close{ background: url(../image/live/live-3.png) center center no-repeat; background-size: 32px auto; }
+
+.live-video{ position: absolute; left: 0; top: 0; right: 0; bottom: 0; z-index: 666; }
+
+.live-flow{ position: absolute; left: 0; top: 44px; right: 0; bottom: 64px; z-index: 667; }
+
+.live-bottom{ position: absolute; left: 0; right: 0; bottom: 0; height: 64px; z-index: 668; padding: 0 15px; }
+.live-bottom .input{ background: rgba(0,0,0,0.3); border-radius: 100px; height: 32px; padding: 0 38px 0 10px; overflow: hidden; position: relative; }
+.live-bottom .input input{ background: transparent; border: none; height: 31px; line-height: 31px; font-size: 13px; color: #FFFFFF; width: 100%; }
+.live-bottom .input .face{ width: 38px; height: 32px; position: absolute; right: 0; top: 0;background: url(../image/live/live-7.png) center center no-repeat; background-size: 20px auto; }
+.live-bottom .tool{ }
+.live-bottom .tool .btn{ width: 32px; height: 32px; border-radius: 50%; margin-left: 16px; }
+.live-bottom .tool .btn.shop{ background: url(../image/live/live-4.png) center center no-repeat; background-size: 32px auto; }
+.live-bottom .tool .btn.share{ background: url(../image/live/live-5.png) center center no-repeat; background-size: 32px auto; }
+.live-bottom .tool .btn.setting{ background: url(../image/live/live-6.png) center center no-repeat; background-size: 32px auto; }
+
+input::-webkit-input-placeholder{ color:#e1e1e1; }
+input::-moz-placeholder{ color:#e1e1e1; }
+input:-moz-placeholder{ color:#e1e1e1; }
+input:-ms-input-placeholder{ color:#e1e1e1; }

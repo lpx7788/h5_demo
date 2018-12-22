@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+	<title>奥特斯</title>
+	<link rel="stylesheet" href="css/swiper-4.3.5.min.css" />
+	<link rel="stylesheet" href="css/public.css?v=20180910" />
+	<link rel="stylesheet" href="css/reserver.css?v=20180910" />
+</head>
+<body> <!-- hideHead hideFoot -->
+	<div class="webHead df hao jcb" id="webHead">
+		<div class="h-btn h-btn-back" toLocation="back"></div>
+		<div class="flex h-txt">订单信息</div>
+		<div class="h-btn"></div>
+	</div>
+
+	<div class="webBody" id="webBody">
+		<div class="houseWrite" id="reserveHouseItem">
+			<div class="houseWrite-info">
+				<img src="file/1.jpg" alt="">
+				<span class="ov-d">天空花园套房</span>
+				<em class="price">1200</em>
+				<em class="info">积分抵扣100</em>
+			</div>
+
+			<div class="defCap df hao jcb houseWrite-cap">
+				<div class="cap">订单详情</div>
+			</div>
+	
+			<div class="formBox">
+				<div class="formLine df hao jcb">
+					<div class="cap">基础信息</div>
+				</div>
+				<div class="etBox">
+					<div class="formLine2 df hao jcb">
+						<div class="cap cap2">入住人1</div>
+						<div class="txt">艳阳天</div>
+					</div>
+					<div class="formLine2 df hao jcb">
+						<div class="cap cap2">手机号</div>
+						<div class="txt">123456789</div>
+					</div>
+				</div>
+				<div class="etBox">
+					<div class="formLine2 df hao jcb">
+						<div class="cap cap2">入住人2</div>
+						<div class="txt">艳阳天</div>
+					</div>
+					<div class="formLine2 df hao jcb">
+						<div class="cap cap2">手机号</div>
+						<div class="txt">123456789</div>
+					</div>
+				</div>
+			</div>
+	
+			<div class="formBox">
+				<div class="formLine df hao jcb">
+					<div class="cap">时间信息</div>
+				</div>
+				<div class="formLine2 df hao jcb">
+					<div class="cap cap2">付款时间</div>
+					<div class="txt">2018/07/21 11:20</div>
+				</div>
+				<div class="formLine2 df hao jcb">
+					<div class="cap cap2">入住时间</div>
+					<div class="txt">2018/07/21 11:20</div>
+				</div>
+				<div class="formLine2 df hao jcb">
+					<div class="cap cap2">离店时间</div>
+					<div class="txt">2018/07/21 11:20</div>
+				</div>
+			</div>
+	
+			<div class="formBox">
+				<div class="formLine df hao jcb">
+					<div class="cap">支付信息</div>
+				</div>
+				<div class="formLine2 df hao jcb">
+					<div class="cap cap2">支付方式</div>
+					<div class="txt">支付宝</div>
+				</div>
+				<div class="formLine2 df hao jcb">
+					<div class="cap cap2">房间费</div>
+					<div class="txt">5600.00</div>
+				</div>
+				<div class="formLine2 df hao jcb">
+					<div class="cap cap2">优惠减免</div>
+					<div class="txt">100.00</div>
+				</div>
+			</div>
+	
+			<div class="formBox">
+				<div class="formLine df hao jcb">
+					<div class="cap">入住房号</div>
+					<div class="txt">6670</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="webFoot df hao jcb" id="webFoot">
+		<div class="f-btn f-btn-blue flex">取消订单</div>
+	</div>
+</body>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/swiper-4.3.5.min.js"></script>
+<script type="text/javascript" src="js/public.js?v=20180912"></script>
+<script type="text/javascript">
+	// var reserveHouseArr = {
+	// 	img: [
+	// 		{ src: 'file/1.jpg' },
+	// 		{ src: 'file/1.jpg' },
+	// 		{ src: 'file/1.jpg' },
+	// 		{ src: 'file/1.jpg' },
+	// 		{ src: 'file/1.jpg' },
+	// 	],
+	// 	name: '欧洲简约风单人房',
+	// 	score: 100,
+	// 	price: 380,
+	// 	bk1: 2,
+	// 	bk2: 55,
+	// 	bk3: 2,
+	// 	bk4: 2,
+	// 	bk5: 2,
+
+	// 	ped: '<p>内容</p><img src="file/1.jpg" alt="" /><p>豪华的软垫床、写字台、衣橱及衣架、茶几、座椅或简易沙发、床头柜、床头灯、台灯、落地灯、全身镜、行李架等高级配套家具。</p>', // 房型详情
+	// 	ped2: '<p>1、客房结帐时间为中午12时，如需延住，请您提前通知总台接待员办理相关手续，延期退房，如无预先约定，延期时间要视宾馆客房安排情况由宾馆确定，请您谅解。<br></p><p>2、延期退房按如下标准收费：退房时间为第二天中午12:00，若超过12:00延续一小时加收10:00元。<br></p><p>3、当您入住客房时，请将随身携带的贵重物品等寄存到总台保险箱，否则如有丢失，宾馆概不负责。违禁品及珍贵艺术品、古董谢绝寄存。<br></p><p>4、退房后，请您勿忘将钥匙卡等到交还总服务台</p>', // 入住须知
+	// 	ped3: '<p>无内容</p>', // 温馨提示
+	// };
+	// reserveHouseInit();
+	// function reserveHouseInit(){
+	// 	var html = '';
+	// 	$.each(reserveHouseArr.img,function(a,b){
+	// 		html += '<div class="swiper-slide"><a style="background: url(\''+b.src+'\') center center no-repeat;background-size: cover;" /></a></div>';
+	// 	})
+	// 	$('#houseImg').html('<div class="swiper-wrapper">'+html+'</div><div class="swiper-pagination"></div>');
+	// 	var bannerCont = new Swiper('#houseImg', {
+	// 		autoplay: true,
+	// 		loop : true,
+	// 		pagination: {
+	// 			el: '#houseImg .swiper-pagination',
+	// 		},
+	// 	})
+
+	// 	$('#reserveHouseItem .house-info .name').text(reserveHouseArr.name);
+	// 	$('#reserveHouseItem .house-info .score em').text(reserveHouseArr.score);
+	// 	$('#reserveHouseItem .house-info .price em').text(reserveHouseArr.price);
+	// 	$('#reserveHouseItem .house-set .li:eq(0) em').text(reserveHouseArr.bk1);
+	// 	$('#reserveHouseItem .house-set .li:eq(1) em').text(reserveHouseArr.bk2);
+	// 	$('#reserveHouseItem .house-set .li:eq(2) em').text(reserveHouseArr.bk3);
+	// 	$('#reserveHouseItem .house-set .li:eq(3) em').text(reserveHouseArr.bk4);
+	// 	$('#reserveHouseItem .house-set .li:eq(4) em').text(reserveHouseArr.bk5);
+
+	// 	$('#pedItem').html(reserveHouseArr.ped);
+	// 	$('#ped2Item').html(reserveHouseArr.ped2);
+	// 	$('#ped3Item').html(reserveHouseArr.ped3);
+	// }
+</script>
+</html>

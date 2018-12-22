@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+	<title>奥特斯</title>
+	<link rel="stylesheet" href="css/swiper-4.3.5.min.css" />
+	<link rel="stylesheet" href="css/public.css?v=20180910" />
+	<link rel="stylesheet" href="css/user.css?v=20180910" />
+</head>
+<body> <!-- hideHead hideFoot -->
+	<div class="webHead df hao jcb" id="webHead">
+		<div class="h-btn h-btn-back" toLocation="back"></div>
+		<div class="flex h-txt">提现</div>
+		<div class="h-btn"></div>
+	</div>
+
+	<div class="webBody" id="webBody">
+		<div class="catBox">
+			<div class="line borBot df hao">
+				<div class="cap">金额</div>
+				<div class="flex input"><input id="pdc_amount" type="text" placeholder="请输入提现金额" /></div>
+			</div>
+			<div class="line borBot df hao">
+				<div class="cap">卡号</div>
+				<div class="flex input"><input id="pdc_bank_no" type="text" placeholder="请输入卡号" /></div>
+			</div>
+			<div class="line borBot df hao">
+				<div class="cap">银行卡</div>
+				<div class="flex input"><input id="pdc_bank_name" type="text" placeholder="请输入银行卡" /></div>
+			</div>
+			<div class="line borBot df hao">
+				<div class="cap">开户名</div>
+				<div class="flex input"><input id="pdc_bank_user" type="text" placeholder="请输入开户名" /></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="webFoot df hao jcb" id="webFoot">
+		<div class="f-btn f-btn-blue" onclick="toCash()">确定提现</div>
+	</div>
+</body>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/swiper-4.3.5.min.js"></script>
+<script type="text/javascript" src="js/public.js?v=20180912"></script>
+<script type="text/javascript">
+	function toCash(){
+		var pdc_amount = $("#pdc_amount").val();
+		var pdc_bank_name = $("#pdc_bank_name").val();
+		var pdc_bank_no = $("#pdc_bank_no").val();
+		var pdc_bank_user = $("#pdc_bank_user").val();
+		if($.trim(pdc_amount)==''){
+			alerts({ txt: '请输入金额！', type: 'fail' });
+			return;
+		}
+		if($.trim(pdc_bank_no)==''){
+			alerts({ txt: '请输入卡号！', type: 'fail' });
+			return;
+		}
+		if($.trim(pdc_bank_name)==''){
+			alerts({ txt: '请输入银行卡！', type: 'fail' });
+			return;
+		}
+		if($.trim(pdc_bank_user)==''){
+			alerts({ txt: '请输入开户名！', type: 'fail' });
+			return;
+		}
+		ajax({
+			url: '@server/act=member_cash&op=apply_cash',
+			param: {
+				key: userLoginToken,
+				pdc_amount: pdc_amount,
+				pdc_bank_name: pdc_bank_name,
+				pdc_bank_no: pdc_bank_no,
+				pdc_bank_user: pdc_bank_user
+			},
+			call: function(r){
+				alerts({ txt: '提现已提交！', type: 'success' });
+			},
+			failCall: function(r) {
+				alerts({ txt: r.error, type: 'fail' });
+			}
+		});
+	}
+</script>
+</html>

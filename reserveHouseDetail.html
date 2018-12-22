@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+	<title>奥特斯</title>
+	<link rel="stylesheet" href="css/swiper-4.3.5.min.css" />
+	<link rel="stylesheet" href="css/public.css?v=20180910" />
+	<link rel="stylesheet" href="css/reserver.css?v=20180910" />
+</head>
+<body> <!-- hideHead hideFoot -->
+	<div class="webHead df hao jcb" id="webHead">
+		<div class="h-btn h-btn-back" toLocation="back"></div>
+		<div class="flex h-txt">房型预订</div>
+		<div class="h-btn"></div>
+	</div>
+
+	<div class="webBody" id="webBody">
+		<div class="house" id="reserveHouseItem">
+			<div class="swiper-container house-img" id="houseImg"></div>
+			<div class="house-info df cf wao">
+				<div class="name">--</div>
+				<div class="score">积分抵扣<em>0</em></div>
+				<div class="price">￥<em>0</em>.00/晚</div>
+			</div>
+			<div class="defCap df hao jcb house-cap">
+				<div class="cap">房间配置</div>
+			</div>
+			<div class="house-set df hao">
+				<div class="flex li df cf hao wao"><i class="icon1"></i><em dw="人">0</em></div>
+				<div class="flex li df cf hao wao"><i class="icon2"></i><em dw="m²">0</em></div>
+				<div class="flex li df cf hao wao"><i class="icon3"></i><em dw="床">0</em></div>
+				<div class="flex li df cf hao wao"><i class="icon4"></i><em dw="室">0</em></div>
+				<div class="flex li df cf hao wao"><i class="icon5"></i><em dw="卫">0</em></div>
+			</div>
+			<div class="defTabBox noFixed house-content">
+				<div class="defTabBox-top df hao">
+					<div class="flex li cur" et="房型详情">房型详情</div>
+					<div class="flex li" et="入住须知">入住须知</div>
+					<div class="flex li" et="温馨提示">温馨提示</div>
+				</div>
+				<div class="defTabBox-content active cur" et="房型详情" id="pedItem"></div>
+				<div class="defTabBox-content active" et="入住须知" id="ped2Item"></div>
+				<div class="defTabBox-content active" et="温馨提示" id="ped3tem"></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="webFoot df hao jcb" id="webFoot">
+		<div class="df hao" style="padding: 0 12px;">
+			<div class="f-btn f-btn-diy f-btn-custom" toLocation="service.html">客服</div>
+			<div class="f-btn f-btn-diy f-btn-share">分享</div>
+		</div>
+		<div class="f-btn f-btn-blue flex" onclick="buyHouse()">立即预定</div>
+	</div>
+</body>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/swiper-4.3.5.min.js"></script>
+<script type="text/javascript" src="js/public.js?v=20180912"></script>
+<script type="text/javascript">
+	var oid = getUrlParam('oid','');
+	if(oid){
+		var reserveHouseArr = {};
+		reserveHouseInit();
+		function reserveHouseInit(){
+			ajax({
+				url: '@server/act=store&op=store_detail',
+				param: {
+					store_id: oid,
+				},
+				call: function(r){
+					// cs(r);
+					reserveHouseArr = r[0];
+					var html = '';
+					$.each(reserveHouseArr.store_pic,function(a,b){
+						html += '<div class="swiper-slide"><a style="background: url(\''+b+'\') center center no-repeat;background-size: cover;" /></a></div>';
+					})
+					$('#houseImg').html('<div class="swiper-wrapper">'+html+'</div><div class="swiper-pagination"></div>');
+					var bannerCont = new Swiper('#houseImg', {
+						autoplay: true,
+						loop : true,
+						pagination: {
+							el: '#houseImg .swiper-pagination',
+						},
+					})
+
+					$('#reserveHouseItem .house-info .name').text(reserveHouseArr.store_name);
+					$('#reserveHouseItem .house-info .score em').text(reserveHouseArr.deduct_points);
+					$('#reserveHouseItem .house-info .price em').text(reserveHouseArr.price);
+					$('#reserveHouseItem .house-set .li:eq(0) em').text(reserveHouseArr.room_number);
+					$('#reserveHouseItem .house-set .li:eq(1) em').text(reserveHouseArr.room_area);
+					$('#reserveHouseItem .house-set .li:eq(2) em').text(reserveHouseArr.bed_num);
+					$('#reserveHouseItem .house-set .li:eq(3) em').text(reserveHouseArr.room_num);
+					$('#reserveHouseItem .house-set .li:eq(4) em').text(reserveHouseArr.toilet);
+
+					$('#pedItem').html(reserveHouseArr.store_detail); // 房型详情
+					$('#ped2Item').html(reserveHouseArr.store_buy_notes); // 入住须知
+					$('#ped3Item').html(reserveHouseArr.store_include_cost); // 温馨提示
+				}
+			});
+		}
+
+		function buyHouse(){
+			window.location.href = 'reserveHouseTake.html?oid='+oid;
+		}
+	}else{
+		alerts('参数错误');
+	}
+</script>
+</html>

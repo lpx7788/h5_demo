@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+	<title>奥特斯</title>
+	<link rel="stylesheet" href="css/swiper-4.3.5.min.css" />
+	<link rel="stylesheet" href="css/public.css?v=20180910" />
+	<link rel="stylesheet" href="css/user.css?v=20180910" />
+</head>
+<body class="hideFoot"> <!-- hideHead hideFoot -->
+	<div class="webHead df hao jcb" id="webHead">
+		<div class="h-btn h-btn-back" toLocation="back"></div>
+		<div class="flex h-txt">我的团队</div>
+		<div class="h-btn"></div>
+	</div>
+
+	<div class="webBody" id="webBody">
+		<div class="sinfo">转让只支持七星卡，且只允许转让一次</div>
+
+		<div class="mineLevelCount df hao" id="mineLevelCountItem">
+			<div class="flex li" dw="总卡数">总卡数：<em>0</em></div>
+			<div class="flex li df wao" dw="已激活">已激活：<em>0</em></div>
+			<div class="flex li df war" dw="未激活">未激活：<em>0</em></div>
+		</div>
+
+		<div class="e-table e-table-fixed mineLevelList" id="mineLevelListItem">
+			<div class="e-thead df hao">
+				<div class="e-th left" style="width: 50px;">卡号</div>
+				<div class="e-th" style="width: 80px;">状态</div>
+				<div class="e-th flex">时间</div>
+				<div class="e-th flex" style="width: 80px;">类型</div>
+				<div class="e-th" style="width: 56px;padding: 0;"></div>
+			</div>
+			<div class="e-tbody"></div>
+		</div>
+	</div>
+
+	<div class="webFoot df hao jcb" id="webFoot"></div>
+</body>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/swiper-4.3.5.min.js"></script>
+<script type="text/javascript" src="js/public.js?v=20180912"></script>
+<script type="text/javascript">
+	// 初始化人员
+	var mineLevelArr = {
+		count1: 3,
+		count2: 2,
+		count3: 1,
+		list: [
+			{ no: '440502...', state: '转让', date: '2018/07/24', et: '审核中', card: '钻石卡' },
+			{ no: '440502...', state: '未激活', date: '2018/07/24', et: '分享', card: '七星卡' },
+			{ no: '440502...', state: '已激活', date: '2018/07/24', et: '转让', card: '钻石卡' },
+			{ no: '440502...', state: '转让', date: '2018/07/24', et: '受让', card: '钻石卡' },
+		],
+	};
+	ajax({
+		url: '@server/act=member_index&op=my_card',
+		param: {
+			key: userLoginToken,
+			page:1,
+			page_size:20
+		},
+		call: function(r){
+			cs(r);
+			var list=[];
+			if(r.list.length!=0){
+				r.list.forEach(function(item,index){
+					list.push()
+				})
+			}
+		}
+	});
+	mineLevelInit();
+	function mineLevelInit(arr,obj){
+		$('#mineLevelCountItem .li[dw="总卡数"] em').text(mineLevelArr.count1);
+		$('#mineLevelCountItem .li[dw="已激活"] em').text(mineLevelArr.count2);
+		$('#mineLevelCountItem .li[dw="未激活"] em').text(mineLevelArr.count3);
+		
+		var html = '';
+		$.each(mineLevelArr.list,function(a,b){
+			html += '<div class="e-tr df hao">'+
+						'<div class="e-td left head" style="width: 50px;">'+b.no+'</div>'+
+						'<div class="e-td" style="width: 80px;">'+b.state+'</div>'+
+						'<div class="e-td flex">'+b.date+'</div>'+
+						'<div class="e-td" style="width: 80px;">'+b.card+'</div>'+
+						'<div class="e-td df wao" style="width: 56px;padding: 0;">'+returnValue(b.state,b.et)+'</div>'+
+					'</div>';
+		})
+		$('#mineLevelListItem .e-tbody').html(html);
+
+		function returnValue(state,et){
+			var s = '';
+			if(et=='审核中'){
+				s = '<div class="ubtn ubtn-gray">审核中</div>';
+			}else if(et=='转让'){
+				s = '<div class="ubtn" toLocation="levelAttorn.html">转让</div>';
+			}else{
+				s = '<div class="ubtn">'+et+'</div>';
+			}
+			return s;
+		}
+	}
+</script>
+</html>

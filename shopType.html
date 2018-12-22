@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+	<title>奥特斯</title>
+	<link rel="stylesheet" href="css/swiper-4.3.5.min.css" />
+	<link rel="stylesheet" href="css/public.css?v=20180910" />
+	<link rel="stylesheet" href="css/shop.css?v=20180910" />
+</head>
+<body class="hideFoot"> <!-- hideHead hideFoot -->
+	<div class="webHead df hao jcb" id="webHead">
+		<div class="h-btn h-btn-back" toLocation="back"></div>
+		<div class="flex h-txt">分类</div>
+		<div class="h-btn"></div>
+	</div>
+
+	<div class="webBody whiteBg" id="webBody">
+		<div class="shopType" id="shopTypeItem">
+			<div class="gleft"></div>
+			<div class="gright"></div>
+		</div>
+	</div>
+
+	<div class="webFoot df hao jcb" id="webFoot"></div>
+</body>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/swiper-4.3.5.min.js"></script>
+<script type="text/javascript" src="js/public.js?v=20180912"></script>
+<script type="text/javascript">
+	var cur_oid = 0;
+	var cur_et = 0;
+	var shopTypeArr = [];
+	shopTypeInit();
+	function shopTypeInit(){
+		var leftHtml = rightHtml = '';
+		$.each(shopTypeArr,function(a,b){
+			leftHtml += '<div class="li ov-d '+(a==0?'cur':'')+'" et="'+b.gc_name+'" oid="'+b.gc_id+'" onclick="chooseType(this)">'+b.gc_name+'</div>';
+			rightHtml += '<div class="list '+(a==0?'show':'')+'" et="'+b.gc_name+'"></div>';
+		})
+		$('#shopTypeItem .gleft').html(leftHtml);
+		$('#shopTypeItem .gright').html(rightHtml);
+		chooseType($('#shopTypeItem .gleft .li:eq(0)'));
+	}
+	
+	ajax({
+		url: '@server/act=index&op=category',
+		param: {},
+		call: function(r){
+			// cs(r);
+			shopTypeArr = r;
+			shopTypeInit();
+		}
+	});
+
+	var nowPage = 1;
+	var pageNum = 30;
+	function ajax_shop(s){
+		ajax({
+			url: '@server/act=goods&op=goods_list',
+			param: {
+				page: pageNum,
+				curpage: nowPage,
+				gc_id: cur_oid,
+			},
+			type: 'get',
+			call: function(r){
+				// cs(r);
+				var rightHtml = '';
+				$.each(r.goods_list,function(c,d){
+					rightHtml += '<div class="li" toLocation="shopDetail.html?oid='+d.goods_id+'">'+
+									'<div class="cont">'+
+										'<div class="img"><img src="'+d.goods_image_url+'" alt="" /></div>'+
+										'<div class="name ov-d">'+d.goods_name+'</div>'+
+									'</div>'+
+								'</div>';
+				})
+				$('#shopTypeItem .gright .list[et="'+cur_et+'"]').html(rightHtml);
+
+				if(s&&r.goods_list.length==pageNum){
+					bindScroll[s] = true;
+				}
+			}
+		});
+	}
+
+	bindScrollCall('#shopTypeItem .gright',150,function(s){
+		nowPage++;
+		ajax_shop(s);
+	});
+
+	function chooseType(obj){
+		$(obj).addClass('cur').siblings('.li').removeClass('cur');
+		$('#shopTypeItem .gright .list[et="'+$(obj).attr('et')+'"]').empty().addClass('show').siblings('.list').removeClass('show');
+		nowPage = 1;
+		cur_oid = $(obj).attr('oid');
+		cur_et = $(obj).attr('et');
+		ajax_shop();
+	}
+</script>
+</html>

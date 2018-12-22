@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+	<title>奥特斯</title>
+	<link rel="stylesheet" href="css/swiper-4.3.5.min.css" />
+	<link rel="stylesheet" href="css/public.css?v=20180910" />
+	<link rel="stylesheet" href="css/shop.css?v=20180910" />
+</head>
+<body class="hideFoot"> <!-- hideHead hideFoot -->
+	<div class="webHead df hao jcb" id="webHead">
+		<div class="h-btn h-btn-back" toLocation="back"></div>
+		<div class="flex h-txt">--</div>
+		<div class="h-btn"></div>
+	</div>
+
+	<div class="webBody" id="webBody">
+		<div class="payInfo" id="payInfoItem">
+			<div class="oneLine	df cf hao wao"></div>
+			<div class="twoLine df hao jcb"></div>
+		</div>
+
+		<!-- 新品推荐 -->
+		<div class="newProduct" id="newProductItem">
+			<div class="defCap df hao jcb">
+				<div class="cap">新品推荐</div>
+				<a class="more" toLocation="moreShop.html">查看更多</a>
+			</div>
+			<div class="list"></div>
+		</div>
+	</div>
+
+	<div class="webFoot df hao jcb" id="webFoot"></div>
+</body>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/swiper-4.3.5.min.js"></script>
+<script type="text/javascript" src="js/public.js?v=20180912"></script>
+<script type="text/javascript">
+	var stype = getUrlParam('type',1); // [1 会员卡激活完成] [2 酒店、房车预订完成] [3 会员卡预售支付成功] [4 普通商品支付成功]
+	var payMoney = getUrlParam('money',0); // 金额
+	var payDateBetween = getUrlParam('dateBetween','0000/00/00-0000/00/00'); // 时间
+	var titleTxt = '';
+	var payOneHtml = payTwoHtml = '';
+	if(stype==1){
+		titleTxt = '激活完成';
+		payOneHtml = '<div class="doneCoin">激活完成</div>';
+		// payTwoHtml = '<div class="btn" toLocation="index.html">返回首页</div><div class="btn" toLocation="mineOrder.html">查看订单</div>';
+		payTwoHtml = '<div class="btn" toLocation="index.html">返回首页</div>';
+		$('#payInfoItem .twoLine').removeClass('jcb').addClass('wao');
+	}else if(stype==2){
+		titleTxt = '预订完成';
+		payOneHtml = '<div class="doneCoin">预订完成</div><div class="price">￥'+payMoney+'</div>';
+		payTwoHtml = '<div class="btn" toLocation="index.html">返回首页</div><div class="btn" toLocation="mineOrder.html">查看订单</div>';
+	}else if(stype==3){
+		titleTxt = '支付成功';
+		payOneHtml = '<div class="doneCoin">支付成功</div><div class="price">￥'+payMoney+'</div><div class="date">支付尾款时间 '+payDateBetween+'</div>';
+		payTwoHtml = '<div class="btn" toLocation="index.html">返回首页</div><div class="btn" toLocation="mineOrder.html">查看订单</div>';
+	}else if(stype==4){
+		titleTxt = '支付成功';
+		payOneHtml = '<div class="doneCoin">支付成功</div><div class="price">￥'+payMoney+'</div>';
+		payTwoHtml = '<div class="btn" toLocation="index.html">返回首页</div><div class="btn" toLocation="mineOrder.html">查看订单</div>';
+	}
+	$('#webHead .h-txt').text(titleTxt);
+	$('#payInfoItem .oneLine').html(payOneHtml);
+	$('#payInfoItem .twoLine').html(payTwoHtml);
+
+	// 初始化新品推荐
+	var newProductArr = [
+		{ title: '商品名1', url: '', img: 'file/1.jpg', price: '20', view: '20' },
+		{ title: '商品名2', url: '', img: 'file/1.jpg', price: '12', view: '12' },
+		{ title: '商品名3', url: '', img: 'file/1.jpg', price: '20', view: '20' },
+		{ title: '商品名4', url: '', img: 'file/1.jpg', price: '12', view: '12' },
+	];
+	newProductInit();
+	function newProductInit(){
+		var html = '';
+		var l = newProductArr.length;
+		$.each(newProductArr,function(a,b){
+			html += '<a class="li" href="'+b.url+'">'+
+						'<div class="img"><img src="'+b.img+'" alt="" /></div>'+
+						'<span class="ov-d">'+b.title+'</span>'+
+						'<div class="df hao jcb"><em class="price">'+b.price+'</em><em class="view">'+b.view+'</em></div>'+
+					'</a>';
+		})
+		$('#newProductItem .list').html(html);
+	}
+</script>
+</html>

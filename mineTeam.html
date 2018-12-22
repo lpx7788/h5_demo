@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+	<title>奥特斯</title>
+	<link rel="stylesheet" href="css/swiper-4.3.5.min.css" />
+	<link rel="stylesheet" href="css/public.css?v=20180910" />
+	<link rel="stylesheet" href="css/user.css?v=20180910" />
+</head>
+<body class="hideFoot"> <!-- hideHead hideFoot -->
+	<div class="webHead df hao jcb" id="webHead">
+		<div class="h-btn h-btn-back" toLocation="back"></div>
+		<div class="flex h-txt">我的团队</div>
+		<div class="h-btn"></div>
+	</div>
+
+	<div class="webBody" id="webBody">
+		<div class="defTabBox">
+			<div class="defTabBox-top df hao">
+				<div class="flex li cur" et="推荐会员">推荐会员</div>
+				<div class="flex li" et="团队会员">团队会员</div>
+			</div>
+			<div class="defTabBox-content cur" et="推荐会员" id="catVipItem">
+				<div class="e-table e-table-fixed">
+					<div class="e-thead df hao">
+						<div class="e-th left" style="width: 80px;">头像</div>
+						<div class="e-th left" style="width: 90px;">用户名</div>
+						<div class="e-th flex left">邀请码</div>
+					</div>
+					<div class="e-tbody"></div>
+				</div>
+			</div>
+			<div class="defTabBox-content" et="团队会员" id="teamVipItem">
+				<div class="e-table">
+					<div class="e-thead df hao">
+						<div class="e-th left" style="width: 80px;">头像</div>
+						<div class="e-th left" style="width: 90px;">用户名</div>
+						<div class="e-th flex left">邀请码</div>
+					</div>
+					<div class="e-tbody"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="webFoot df hao jcb" id="webFoot"></div>
+</body>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/swiper-4.3.5.min.js"></script>
+<script type="text/javascript" src="js/public.js?v=20180912"></script>
+<script type="text/javascript">
+	// 初始化人员
+	var catVipArr = [],teamVipArr=[];
+	ajax({
+		url: '@server/act=member_index&op=my_team&key='+userLoginToken,
+		type: 'get',
+		call: function(r){
+			// cs(r);
+			var catVipArr = [],teamVipArr=[];
+			if(r.invite_one.length!=0){
+				r.invite_one.forEach(function(item,index){
+					catVipArr.push({ name: item.member_name, head: item.member_avatar, code: 'DJIYTU66520' })
+				})
+			}
+			if(r.invite_two.length!=0){
+				r.invite_two.forEach(function(item,index){
+					teamVipArr.push({ name: item.member_name, head: item.member_avatar, code: 'DJIYTU66520' })
+				})
+			}
+			catVipArr = catVipArr;
+			teamVipArr = teamVipArr;
+			catVipInit(catVipArr,$('#catVipItem'));
+			catVipInit(teamVipArr,$('#teamVipItem'));
+		}
+	});
+	function catVipInit(arr,obj){
+		var html = '';
+		$.each(arr,function(a,b){
+			html += '<div class="e-tr df hao">'+
+						'<div class="e-td left head" style="width: 80px;"><img src="'+b.head+'" alt="" /></div>'+
+						'<div class="e-td left" style="width: 90px;">'+b.name+'</div>'+
+						'<div class="e-td flex left">'+b.code+'</div>'+
+					'</div>';
+		})
+		obj.find('.e-tbody').html(html);
+	}
+</script>
+</html>

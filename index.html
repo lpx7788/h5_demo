@@ -1,0 +1,636 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+	<title>奥特斯</title>
+	<link rel="stylesheet" href="css/swiper-4.3.5.min.css" />
+	<link rel="stylesheet" href="css/public.css?v=20180910" />
+	<link rel="stylesheet" href="css/index.css?v=20180910" name="publicCss" />
+	<style type="text/css">
+		.newIndexBody .newProduct2{ padding: 0 15px; }
+		.newIndexBody .newProduct2 a.li{ width: auto; float: none; }
+		.newIndexBody .newProduct2 a.li .img{ width: auto; height: auto; padding-bottom: 0; }
+		.newIndexBody .newProduct2 a.li .img img { height: auto; position: static; left: auto; top: auto; min-height: auto; max-height: none; }
+		.newProduct2 a.li em.price{ width: 110px; text-align: left; }
+	</style>
+</head>
+<body class="newIndexBody"> <!-- hideHead hideFoot -->
+	<!--<div class="webHead" id="webHead">
+		<div class="webTabHead df hao jcb pr-15 show" et="首页">
+			<div class="h-btn h-btn-tp"></div>
+			<div class="flex h-search" toLocation="search.html?type=shop"><input type="text" placeholder="搜索相关内容" readonly="readonly" /></div>
+			&lt;!&ndash; <div class="h-btn">搜索</div> &ndash;&gt;
+		</div>
+
+		<div class="webTabHead df hao jcb pl-15" et="庄园商城">
+			<div class="flex h-search" toLocation="search.html?type=shop"><input type="text" placeholder="搜索相关内容" readonly="readonly" /></div>
+			<div class="h-btn h-btn-notice" toLocation="mineNotice.html"></div>
+		</div>
+
+		<div class="webTabHead df hao pl-15 pr-15 jcb" et="庄园预定">
+			&lt;!&ndash; <div class="h-btn h-btn-scan"></div> &ndash;&gt;
+			<div class="flex h-search" toLocation="search.html?type=reserve"><input type="text" placeholder="搜索相关内容" readonly="readonly" /></div>
+			&lt;!&ndash; <div class="h-btn">搜索</div> &ndash;&gt;
+		</div>
+
+		<div class="webTabHead df hao pr-15 jcb pl-15" et="庄园直播">
+			<div class="flex h-search" toLocation="search.html?type=live"><input type="text" placeholder="搜索你喜欢的直播吧！" /></div>
+			&lt;!&ndash; <div class="h-btn">搜索</div> &ndash;&gt;
+		</div>
+
+		<div class="webTabHead df hao jcb" et="我的">
+			<div class="flex h-txt">我的</div>
+		</div>
+	</div>-->
+
+	<div class="webBody whiteBg" id="webBody">
+		<div class="webTabCont show" et="首页">
+			<!-- banner -->
+			<div class="swiper-container banner" id="bannerItem"></div>
+	
+			<!-- 公告 -->
+			<!--<div class="notice notice2 df hao" id="noticeItem">
+				<div class="cap">公告</div>
+				<div class="list flex"></div>
+				<a class="more" toLocation="notice.html">更多公告</a>
+			</div>-->
+			<div class="tenBg"></div>
+			
+			<!-- 新品推荐 -->
+			<div class="defCap df hao jcb">
+				<div class="cap">新品推荐</div>
+				<!--<a class="more" toLocation="moreShop.html">查看更多</a>-->
+			</div>
+			<div class="newProduct" id="newProductItem"></div>
+			<div class="tenBg"></div>
+
+			<!-- 会员入口 -->
+			<div class="defCap df hao jcb">
+				<div class="cap">权益卡入口</div>
+			</div>
+			<!--toLocation="level.html"-->
+			<div class="levelEntry"><img src="image/levelEntry.png" alt="" /></div>
+
+			<!-- 房车入口 -->
+			<!--<div class="defCap df hao jcb">-->
+				<!--<div class="cap">房车入口</div>-->
+			<!--</div>-->
+			<!--<div class="tourCar" toLocation="tourCar.html"><img src="image/tourCar.png" alt="" /></div>-->
+
+			<!-- 最新资讯 -->
+			<div class="defCap df hao jcb">
+				<div class="cap">最新资讯</div>
+				<a toLocation="moreNews.html" class="more">查看更多</a>
+			</div>
+			<div class="news" id="newsItem"></div>
+		</div>
+
+		<div class="webTabCont" et="庄园商城">
+			<!-- banner -->
+			<div class="swiper-container banner" id="bannerItem2"></div>
+
+			<!-- 商店公告 -->
+			<!--<div class="notice notice2 df hao" id="noticeItem2">
+				<div class="cap">商店公告</div>
+				<div class="list flex"></div>
+				<a class="more" toLocation="shopNotice.html">更多公告</a>
+			</div>
+			<div class="tenBg"></div>-->
+
+			<!-- 新品推荐 -->
+			<div class="defCap df hao jcb">
+				<div class="cap">新品推荐</div>
+				<a class="more" toLocation="moreShop.html">查看更多</a>
+			</div>
+			<div class="newProduct2" id="newProductItem3"></div>
+		</div>
+
+		<div class="webTabCont" et="庄园预定">
+			<!-- banner -->
+			<div class="swiper-container banner" id="bannerItem3"></div>
+
+			<!-- 预定房型 -->
+			<div class="defCap df hao jcb">
+				<div class="cap">预定房型</div>
+				<a class="more" toLocation="moreReserveHouse.html">查看更多</a>
+			</div>
+			<div class="reserveHouse" id="reserveHouseItem"></div>
+			<div class="tenBg"></div>
+
+			<!-- 最新活动 -->
+			<div class="defCap df hao jcb">
+				<div class="cap">最新活动</div>
+				<a class="more" toLocation="moreReserveActive.html">查看更多</a>
+			</div>
+			<div class="newActive" id="newActiveItem"></div>
+		</div>
+
+		<div class="webTabCont" et="庄园直播">
+			<div class="live" id="liveItem"></div>
+		</div>
+
+		<div class="webTabCont" et="我的">
+			<!-- 用户信息 -->
+			<div class="personBox" style="background: url('image/bg3.png') center center no-repeat;background-size:cover;" id="personBoxItem">
+				<div class="personInfo df">
+					<div class="head"><img src="" alt="" /></div>
+					<div class="flex df cf jcb" style="overflow: hidden">
+						<span class="name ov-d">--</span>
+						<span class="level">--</span>
+						<span class="code">邀请码<em>--</em></span>
+					</div>
+					<div class="btn" toLocation="userInfo.html">个人信息</div>
+				</div>
+				<div class="personMoney df war hao">
+					<!--<div class="money">余额：<em>0</em></div>-->
+					<!--<div class="toCash" toLocation="toCash.html">提现</div>-->
+				</div>
+				<div class="personCount df hao">
+					<!--<div class="li df cf hao wao money"><span>0</span><em>余额</em></div>-->
+					<div class="li df cf hao wao score"><span>0</span><em>积分</em></div>
+					<!--<div class="li df cf hao wao wallet" toLocation="mineWallet.html"><em>我的钱包</em></div>-->
+				</div>
+			</div>
+
+			<!-- nav -->
+			<div class="nav2 df hao">
+				<div class="li flex df hao wao kep"><a toLocation=""><div class="icon vip"></div><span>会员中心</span></a></div>
+				<div class="li flex df hao wao"><a toLocation="mineOrder.html"><div class="icon order"></div><span>订单中心</span></a></div>
+				<div class="li flex df hao wao"><a toLocation="shopcar.html"><div class="icon shopcar"></div><span>购物车</span></a></div>
+				<div class="li flex df hao wao"><a toLocation="mineNotice.html"><div class="icon notice"></div><span>消息中心</span></a></div>
+			</div>
+
+			<!-- 当前身份 -->
+			<div class="defCap df hao jcb">
+				<div class="cap">当前身份</div>
+			</div>
+			<div class="userLevel" id="userLevelItem"></div>
+			<div class="tenBg"></div>
+
+			<!-- 菜单 -->
+			<div class="main" id="mainItem"></div>
+		</div>
+	</div>
+
+	<div class="webFoot df hao jcb" id="webFoot">
+		<div class="flex df cf wao hao webTabLi cur" et="首页"><div class="f-icon f-icon-home"></div><em>首页</em></div>
+		<!--<div class="flex df cf wao hao webTabLi" et="庄园商城"><div class="f-icon f-icon-shop"></div><em>庄园商城</em></div>-->
+		<!--<div class="flex df cf wao hao webTabLi" et="庄园预定"><div class="f-icon f-icon-reserve"></div><em>庄园预定</em></div>-->
+		<!--<div class="flex df cf wao hao webTabLi" et="庄园直播"><div class="f-icon f-icon-live"></div><em>庄园直播</em></div>-->
+		<div class="flex df cf wao hao webTabLi" et="我的"><div class="f-icon f-icon-mine"></div><em>我的</em></div>
+	</div>
+</body>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/swiper-4.3.5.min.js"></script>
+<script type="text/javascript" src="js/public.js?v=34"></script>
+<script type="text/javascript">
+	//使用微信登录时，key值来源于链接的key值
+	if(getUrlParam("key")){
+		window.userLoginToken = getUrlParam("key");
+		sessionData('set','userLoginToken',{ token: getUrlParam("key")});
+	}
+    // tabCall('首页');
+	function tabCall(et) {
+        if(et=='首页'){
+			// 初始化banner
+			var bannerArr = [];
+			function bannerInit () {
+				var html = '';
+				$.each(bannerArr,function(a,b){
+					html += '<div class="swiper-slide"><a toLocation="'+b.url+'" style="background: url(\''+b.pic+'\') center center no-repeat;background-size: cover;" /></a></div>';
+				})
+				$('#bannerItem').html('<div class="swiper-wrapper">'+html+'</div><div class="swiper-pagination"></div>');
+				var bannerCont = new Swiper('#bannerItem', {
+					autoplay: true,
+					loop : true,
+					pagination: {
+						el: '#bannerItem .swiper-pagination',
+					},
+				})
+			}
+
+			// 初始化公告
+			var noticeArr = [];
+			function noticeInit(){
+				var html = '';
+				$.each(noticeArr,function(a,b){
+					html += '<a class="li ov-d" toLocation="noticeDetail.html?oid='+b.article_id+'">'+b.article_title+'</a>';
+				})
+				$('#noticeItem .list').html('<div class="move" now="1">'+html+'</div>');
+				if(noticeArr.length>1){
+					if(window.noticeSet){ clearInterval(window.noticeSet); }
+					window.noticeSet = setInterval(function(){
+						var s = Number($('#noticeItem .list .move').attr('now'));
+						if(s==noticeArr.length){
+							s = 0;
+						}
+						$('#noticeItem .list .move').attr('now',s+1).css('top',-56*s);
+					},2000)
+				}
+			}
+
+			// 初始化新品推荐
+			var newProductArr = [];
+			function newProductInit(){
+				var html = '';
+				var l = newProductArr.length;
+				$.each(newProductArr,function(a,b){
+                // @server/tourism_detail.html?store_id=
+					html += '<a class="li" toLocation="@server/tourism_detail.html?store_id='+b.store_id+'">'+
+								'<img src="'+b.store_pic+'" alt="" />'+
+								'<span class="ov-d">'+b.store_name+'</span>'+
+								'<em>'+b.price+'</em>'+
+							'</a>';
+				})
+				$('#newProductItem').html('<div class="drap">'+html+'</div>');
+                // style="width: '+(138*l)+'px;"
+			}
+
+			// 初始化最新资讯
+			var newsArr = [];
+			function newsInit(){
+				var html = '';
+				console.log(newsArr);
+				$.each(newsArr,function(a,b){
+					html += '<a class="li" toLocation="newsDetail.html?oid='+b.id+'">'+
+								'<img src="'+b.cover+'" alt="" />'+
+								'<span class="ov-2d">'+b.title+'</span>'+
+								'<div class="df hao"><em class="eva">'+b.comment_count+'</em><em class="view">'+b.read_num+'</em></div>'+
+							'</a>';
+				})
+				$('#newsItem').append(html);
+			}
+
+			ajax_home();
+            ajax_home_list('sid2');
+            var nowPage = 0;
+			function ajax_home(s){
+
+				ajax({
+					url: '@server/act=index&op=travelIndex',
+					param: {},
+					call: function(r){
+						// cs(r);
+
+							bannerArr = r.slide_list;
+							bannerInit();
+
+							// 公告
+							// noticeArr = r.article_list;
+							// noticeInit();
+
+							newProductArr = r.is_hot;
+							newProductInit();
+					}
+				});
+			}
+
+			function ajax_home_list(s){
+                ajax({
+                    url: '@server/act=information&op=list',
+                    param: {
+                        page: nowPage,
+                        key:sessionData('get','userLoginToken').token
+                    },
+                    call: function(r){
+                        // cs(r);
+
+                        newsArr = r.list;
+                        newsInit();
+
+                        if(s&&r.list.length === 4){
+                        	bindScroll[s] = true;
+                        }
+                    }
+                });
+			}
+
+			bindScrollCall('#webBody .webTabCont[et="首页"]',150,function(s){
+				nowPage++;
+				console.log(nowPage,s);
+                ajax_home_list(s);
+			});
+		}else if(et=='庄园商城'){
+			// 初始化banner
+			var bannerArr2 = []
+			function bannerInit2 () {
+				var html = '';
+				$.each(bannerArr2,function(a,b){
+					html += '<div class="swiper-slide"><a toLocation="'+b.url+'" style="background: url(\''+b.pic+'\') center center no-repeat;background-size: cover;" /></a></div>';
+				})
+				$('#bannerItem2').html('<div class="swiper-wrapper">'+html+'</div><div class="swiper-pagination"></div>');
+				var bannerCont = new Swiper('#bannerItem2', {
+					autoplay: true,
+					loop : true,
+					pagination: {
+						el: '#bannerItem2 .swiper-pagination',
+					},
+				})
+			}
+
+			// 初始化公告
+			var noticeArr2 = [];
+			function noticeInit2(){
+				var html = '';
+				$.each(noticeArr2,function(a,b){
+					html += '<a class="li ov-d" toLocation="shopNoticeDetail.html?oid='+b.article_id+'">'+b.article_title+'</a>';
+				})
+				$('#noticeItem2 .list').html('<div class="move" now="1">'+html+'</div>');
+				if(noticeArr2.length>1){
+					if(window.noticeSet2){ clearInterval(window.noticeSet2); }
+					window.noticeSet2 = setInterval(function(){
+						var s = Number($('#noticeItem2 .list .move').attr('now'));
+						if(s==noticeArr2.length){
+							s = 0;
+						}
+						$('#noticeItem2 .list .move').attr('now',s+1).css('top',-56*s);
+					},2000)
+				}
+			}
+
+			// 初始化新品推荐
+			var newProductArr3 = [];
+			newProductInit3();
+			function newProductInit3(){
+				var html = '';
+				$.each(newProductArr3,function(a,b){
+					html += '<a class="li" toLocation="shopDetail.html?oid='+b.goods_id+'">'+
+								'<div class="img"><img src="'+b.goods_cover_image+'" alt="" /></div>'+
+								'<span class="ov-d">'+b.goods_name+'</span>'+
+								'<div class="df hao"><em class="price">'+b.goods_price+'</em><em class="view">'+b.goods_salenum+'</em></div>'+
+							'</a>';
+				})
+				$('#newProductItem3').append(html);
+			}
+
+			var nowPage = 1;
+			var pageNum = 4;
+			function ajax_shop2(s){
+				ajax({
+					url: '@server/act=index',
+					param: {
+						page: pageNum,
+						curpage: nowPage,
+					},
+					call: function(r){
+						// cs(r);
+						if(nowPage==1){
+							bannerArr2 = r.slide_list;
+							bannerInit2();
+
+							noticeArr2 = r.article_list;
+							noticeInit2();
+						}
+
+						newProductArr3 = r.goods_list;
+						newProductInit3();
+
+						if(s&&r.goods_list.length==pageNum){
+							bindScroll[s] = true;
+						}
+					}
+				});
+			}
+			ajax_shop2();
+			bindScrollCall('#webBody .webTabCont[et="庄园商城"]',150,function(s){
+				nowPage++;
+				ajax_shop2(s);
+			});
+		}else if(et=='庄园预定'){
+			// 初始化banner
+			var bannerArr3 = [];
+			function bannerInit3(){
+				var html = '';
+				$.each(bannerArr3,function(a,b){
+					html += '<div class="swiper-slide"><a toLocation="'+b.url+'" style="background: url(\''+b.pic+'\') center center no-repeat;background-size: cover;" /></a></div>';
+				})
+				$('#bannerItem3').html('<div class="swiper-wrapper">'+html+'</div><div class="swiper-pagination"></div>');
+				var bannerCont = new Swiper('#bannerItem3', {
+					autoplay: true,
+					loop : true,
+					pagination: {
+						el: '#bannerItem3 .swiper-pagination',
+					},
+				})
+			}
+
+			// 初始化预定房型
+			var reserveHouseArr = [];
+			function reserveHouseInit(){
+				var html = '';
+				$.each(reserveHouseArr,function(a,b){
+					html += '<a class="li" toLocation="reserveHouseDetail.html?oid='+b.store_id+'">'+
+									'<img src="'+b.store_pic+'" alt="" />'+
+									'<span class="ov-d">'+b.store_name+'</span>'+
+									'<em class="price">'+b.price+'</em>'+
+									'<em class="info">积分抵扣'+b.deduct_points+'</em>'+
+									'<div class="reserve">预定</div>'+
+								'</a>';
+				})
+				$('#reserveHouseItem').html(html);
+			}
+
+			ajax({
+				url: '@server/act=index&op=travelIndex',
+				param: {
+					page: 4,
+					curpage: 1,
+				},
+				call: function(r){
+					// cs(r);
+					bannerArr3 = r.slide_list;
+					bannerInit3();
+
+					reserveHouseArr = r.store_list;
+					reserveHouseInit();
+				}
+			});
+
+
+			// 初始化最新活动
+			var newActiveArr = [];
+			function newActiveInit(){
+				var html = '';
+				$.each(newActiveArr,function(a,b){
+					html += '<a class="li" toLocation="reserveActiveDetail.html?oid='+b.activity_id+'">'+
+									'<img src="'+b.activity_banner+'" alt="" />'+
+									'<span class="ov-3d">'+b.activity_title+'</span>'+
+									'<em class="date">'+b.activity_date+'</em>'+
+								'</a>';
+				})
+				$('#newActiveItem').append(html);
+			}
+
+			var nowPage = 1;
+			var pageNum = 4;
+			ajax_shop();
+			function ajax_shop(s){
+				ajax({
+					url: '@server/act=activity&op=activity_list',
+					param: {
+						page: pageNum,
+						curpage: nowPage,
+					},
+					call: function(r){
+						// cs(r);
+						newActiveArr = r;
+						newActiveInit();
+
+						if(s&&r.length==pageNum){
+							bindScroll[s] = true;
+						}
+					}
+				});
+			}
+
+			bindScrollCall('#webBody .webTabCont[et="庄园预定"]',150,function(s){
+				nowPage++;
+				ajax_shop(s);
+			});
+		}else if(et=='庄园直播'){
+			// 初始化直播列表
+			var liveArr = [
+				{ title: '直播标题直播标题1', url: 'live.html', img: 'file/1.jpg', name: '艳阳天', num: 15000, type: 0 },
+				{ title: '直播标题直播标题2', url: 'live.html', img: 'file/1.jpg', name: '艳阳天', num: 13000, type: 1 },
+			];
+			liveInit();
+			function liveInit(){
+				var html = '';
+				$.each(liveArr,function(a,b){
+					html += '<div class="li">'+
+									'<a toLocation="'+b.url+'">'+
+										'<div class="type type-'+b.type+'"></div>'+
+										'<img src="'+b.img+'" alt="" />'+
+										'<span class="ov-d">'+b.title+'</span>'+
+										'<div class="other df hao jcb"><em class="name">'+b.name+'</em><em class="num">'+countPersonToCha(b.num)+'</em></div>'+
+									'</a>'+
+								'</div>';
+				})
+				$('#liveItem').html(html);
+			}
+		}else if(et=='我的'){
+			// 初始化用户信息
+			var userInfo = {};
+			ajax({
+				url: '@server/act=member_index',
+				param: {
+					key:userLoginToken,
+				},
+				call: function(r){
+					// cs(r);
+					userInfo = {
+						head: r.member_info.avatar,
+						name: r.member_info.user_name,
+						level: r.member_info.member_grade_name,
+						code: r.member_info.member_unique, // 邀请码
+						money: r.member_info.available_predeposit, // 余额
+						score: r.member_info.member_points, // 积分
+					};
+					personBoxInit();
+				}
+			});
+			function personBoxInit () {
+				$('#personBoxItem .personInfo .head img').attr('src',userInfo.head);
+				$('#personBoxItem .personInfo .name').text(userInfo.name);
+				$('#personBoxItem .personInfo .level').text(userInfo.level);
+				$('#personBoxItem .personInfo .code em').text(userInfo.code);
+				$('#personBoxItem .personMoney .money em').text(userInfo.money);
+				$('#personBoxItem .personCount .money span').text(userInfo.money);
+				$('#personBoxItem .personCount .score span').text(userInfo.score);
+			}
+
+			// 初始化当前身份
+            var userLevelArr = [
+                {
+                    title: '金卡',
+					// url: 'levelDetail.html?level=2'
+				},
+                {
+                    title: '钻石卡',
+					// url: 'levelDetail.html?level=3'
+				},
+                {
+                    title: '小七星卡',
+					// url: 'levelDetail.html?level=4'
+				},
+                {
+                    title: '大七星卡',
+					// url: 'levelDetail.html?level=5'
+				},
+            ];
+			userLevelInit();
+			function userLevelInit(){
+				var html = '';
+				var l = userLevelArr.length;
+                // toLocation="'+b.url+'"
+				$.each(userLevelArr,function(a,b){
+					html += '<a class="li df cf wao hao '+(a==0?'choose':'')+'">'+
+								returnCard(b.title)+
+								'<span class="ov-d">'+b.title+'</span>'+
+							'</a>';
+				})
+				$('#userLevelItem').html('<div class="drap" style="width: '+(135*l+30)+'px;">'+html+'</div>');
+
+				function returnCard(s){
+					if(s=='金卡'){
+						return '<img src="image/card/s1.png" class="small" /><img src="image/card/s1-d.png" class="big" />';
+					}else if(s=='钻石卡'){
+						return '<img src="image/card/s2.png" class="small" /><img src="image/card/s2-d.png" class="big" />';
+					}else if(s=='小七星卡'){
+						return '<img src="image/card/s3.png" class="small" /><img src="image/card/s3-d.png" class="big" />';
+					}else if(s=='大七星卡'){
+                        return '<img src="image/card/s3.png" class="small" /><img src="image/card/s3-d.png" class="big" />';
+                    }else{
+						return '';
+					}
+				}
+			}
+
+			// 初始化菜单
+			var mainArr = [
+				[
+					{ title: '我的团队',
+						// url: 'mineTeam.html',
+						icon: 'title-1'
+					},
+					// { title: '我的卡库', url: 'mineLevel.html', icon: 'title-2' },
+					{ title: '我的名片',
+						// url: 'mineIdCode.html',
+						icon: 'title-3'
+					},
+					{ title: '我的活动',
+						// url: 'mineActive.html',
+						icon: 'title-4' },
+					{ title: '我的地址',
+						// url: 'mineAddress.html',
+						icon: 'title-7' },
+					// { title: '我的收藏', url: 'mineCollect.html', icon: 'title-8' },
+				],
+				[
+					{ title: '意见反馈', url: 'feedback.html', icon: 'title-5' },
+					{ title: '关于我们', url: 'aboutUs.html', icon: 'title-6' },
+				],
+			];
+			mainInit();
+			function mainInit(){
+				var html = '';
+				$.each(mainArr,function(a,b){
+					$.each(b,function(c,d){
+						html += '<a class="li df jcb hao '+(c!=b.length-1?'borBot':'')+'" toLocation="'+d.url+'">'+
+									'<div class="title '+d.icon+'">'+d.title+'</div>'+
+								'</a>';
+					})
+					html += '<div class="tenBg"></div>';
+				})
+				$('#mainItem').html(html);
+			}
+		}
+	}
+</script>
+</html>

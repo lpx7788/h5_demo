@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+	<title>奥特斯</title>
+	<link rel="stylesheet" href="css/swiper-4.3.5.min.css" />
+	<link rel="stylesheet" href="css/public.css?v=20180910" />
+	<link rel="stylesheet" href="css/shop.css?v=20180910" />
+</head>
+<body> <!-- hideHead hideFoot -->
+	<div class="webHead df hao jcb" id="webHead">
+		<div class="h-btn h-btn-back" toLocation="back"></div>
+		<div class="flex h-txt ov-d">购物车</div>
+		<div class="h-btn"></div>
+	</div>
+
+	<div class="webBody" id="webBody">
+		<div class="shopcar" id="shopcarItem"></div>
+	</div>
+
+	<div class="webFoot df hao jcb" id="webFoot">
+		<div class="f-shopCount3 df hao jcb flex">
+			<div class="chooseByAll" chooseAll="0" onclick="chooseByAllClick(this)"></div>
+			<span>合计：<i>￥0.00</i></span>
+		</div>
+		<div class="f-btn f-btn-blue" style="width: 126px;" onclick="balance()">结算(<em>0</em>)</div>
+	</div>
+</body>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/swiper-4.3.5.min.js"></script>
+<script type="text/javascript" src="js/public.js?v=20180912"></script>
+<script type="text/javascript">
+	// 商品详情
+	var catShopArr = [
+		{
+			shop: '随行科技',
+			list: [
+				{ name: 'AILISI 爱丽诗最新款玫瑰补水保湿型面膜', img: 'file/1.jpg', price: 1600, num: 2 },
+				{ name: 'AILISI 爱丽诗面包', img: 'file/1.jpg', price: 1600, num: 1 },
+			],
+		},
+		{
+			shop: '随行科技2',
+			list: [
+				{ name: 'AILISI 爱丽诗最新款', img: 'file/1.jpg', price: 1600, num: 2 },
+			],
+		},
+	];
+		
+	catShopInit();
+	function catShopInit(){
+		ajax({
+			url: '@server/act=member_cart&op=cart_list',
+			param: {
+				key: userLoginToken,
+			},
+			type: 'get',
+			call: function(r){
+				// cs(r);
+				catShopArr = r.cart_list;
+				var html = '';
+				$.each(catShopArr,function(a,b){
+					var ph = '';
+					$.each(b.goods,function(c,d){
+						ph += '<div class="shopcar-li-pdli df cf jcb" toLocation="shopDetail.html?oid='+d.goods_id+'" allPrice="'+(d.goods_price*d.goods_num)+'" price="'+d.goods_price+'" num="'+d.goods_num+'" cart-id="'+d.cart_id+'" data-score="'+d.integral_limit+'">'+
+									'<div class="chooseByLi" chooseLi="0" onclick="chooseByLiClick(this)"></div>'+
+									'<div class="img"><img src="'+d.goods_image_url+'" alt=""></div>'+
+									'<div class="info df jcb">'+
+										'<div class="name flex ov-2d">'+d.goods_name+'</div>'+
+										'<div class="remove" onclick="deleteShopCar(this,\''+d.cart_id+'\')"></div>'+
+									'</div>'+
+									'<div class="ps df jcb">'+
+										'<div class="price flex">￥'+d.goods_price+'</div>'+
+										'<div class="num">x'+d.goods_num+'</div>'+
+									'</div>'+
+								'</div>';
+					})
+					html += '<div class="shopcar-li">'+
+								'<div class="shopcar-li-top df hao jcb chooseByShop" chooseShop="0" onclick="chooseByShopClick(this)">'+
+									'<div class="shop">'+b.store_name+'</div>'+
+								'</div>'+
+								'<div class="shopcar-li-pdlist">'+ph+'</div>'+
+							'</div>';
+				})
+				$('#shopcarItem').html(html);
+			}
+		});
+	}
+
+	function chooseByLiClick(obj){
+		event.stopPropagation();
+		var newPit = ($(obj).attr('chooseLi')==1?0:1);
+		$(obj).attr('chooseLi',newPit);
+		checkShowIcon();
+	}
+
+	function chooseByShopClick(obj){
+		event.stopPropagation();
+		var newPit = ($(obj).attr('chooseShop')==1?0:1);
+		$(obj).siblings('.shopcar-li-pdlist').find('.chooseByLi').attr('chooseLi',newPit);
+		checkShowIcon();
+	}
+
+	function chooseByAllClick(obj){
+		event.stopPropagation();
+		var newPit = ($(obj).attr('chooseAll')==1?0:1);
+		$('#shopcarItem .chooseByLi').attr('chooseLi',newPit);
+		checkShowIcon();
+	}
+
+	function checkShowIcon(){
+		$('#shopcarItem .shopcar-li').each(function(){
+			var count = $(this).find('.shopcar-li-pdlist .chooseByLi[chooseli]').length;
+			var countChoose = $(this).find('.shopcar-li-pdlist .chooseByLi[chooseli="1"]').length;
+			if(count==countChoose){
+				$(this).find('.chooseByShop').attr('chooseShop',1);
+			}else{
+				$(this).find('.chooseByShop').attr('chooseShop',0);
+			}
+		})
+		var allCount = $('#shopcarItem .chooseByShop[chooseshop]').length;
+		var allCountChoose = $('#shopcarItem .chooseByShop[chooseshop="1"]').length;
+		if(allCount==allCountChoose){
+			$('#webFoot .chooseByAll').attr('chooseAll',1);
+		}else{
+			$('#webFoot .chooseByAll').attr('chooseAll',0);
+		}
+		countMoney();
+	}
+
+	// 计算合计金额
+	function countMoney(){
+		var count = 0;
+		var num = 0;
+		$('#shopcarItem .chooseByLi[chooseli="1"]').each(function(){
+			count += Number($(this).closest('.shopcar-li-pdli').attr('allprice'));
+			num ++;
+		})
+		$('#webFoot .f-shopCount3 span i').text('￥'+count+'');
+		$('#webFoot .f-btn-blue em').text(num);
+	}
+
+	// 删除购物车商品
+	function deleteShopCar(obj,rid) {
+		event.stopPropagation();
+		alerts({
+			txt: '确认删除？',
+			btn: '取消',
+			btn2: '确定',
+			click2: function() {
+				ajax({
+					url: '@server/act=member_cart&op=cart_del',
+					param: {
+						cart_id: rid,
+						key: userLoginToken,
+					},
+					call: function(r){
+						// cs(r);
+						$(obj).closest('.shopcar-li-pdli').remove();
+						smallAlert('删除成功');
+					}
+				});
+			},
+		})
+	}
+
+	// 结算
+	function balance(){
+		var chooseProduct = [];
+		var choosePdAndNum = [];
+		var scoreArr = []; // 积分数组
+		$('#shopcarItem .chooseByLi[chooseli="1"]').each(function(){
+			var cid = $(this).closest('.shopcar-li-pdli').attr('cart-id');
+			chooseProduct.push(cid);
+			choosePdAndNum.push(cid+'|'+$(this).closest('.shopcar-li-pdli').find('.num').text().replace(/x/g,''));
+			scoreArr.push($(this).closest('.shopcar-li-pdli').attr('data-score'));
+		})
+		// window.location.href = 'shopConfirmOrder.html?last=shopCar&oid='+chooseProduct.join(',');
+
+		ajax({
+			url: '@server/act=member_buy&op=buy_step1',
+			param: {
+				cart_id: choosePdAndNum.toString(),
+				integral_limit: scoreArr.toString(),
+				key: userLoginToken,
+				ifcart: 1,
+			},
+			call: function(r){
+				window.location.href = 'shopConfirmOrder.html?last=shopCar&oid='+chooseProduct.join(',')+'&vat_hash='+r.vat_hash+'&offpay_hash='+r.address_api.offpay_hash+'&offpay_hash_batch='+r.address_api.offpay_hash_batch;
+			},
+			failCall: function(r) {
+				alerts({ txt: r.error, type: 'fail' });
+			}
+		});
+	}
+</script>
+</html>

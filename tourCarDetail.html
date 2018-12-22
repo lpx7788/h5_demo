@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+	<title>奥特斯</title>
+	<link rel="stylesheet" href="css/swiper-4.3.5.min.css" />
+	<link rel="stylesheet" href="css/public.css?v=20180910" />
+	<link rel="stylesheet" href="css/tourCar.css?v=20180910" />
+</head>
+<body> <!-- hideHead hideFoot -->
+	<div class="webHead df hao jcb" id="webHead">
+		<div class="h-btn h-btn-back" toLocation="back"></div>
+		<div class="flex h-txt">房车预定</div>
+		<div class="h-btn"></div>
+	</div>
+
+	<div class="webBody" id="webBody">
+		<div class="tourCarImg" id="tourCarImgItem"><img src="" alt="" /></div>
+		<div class="tourCarInfo" id="tourCarInfoItem">
+			<div class="line df hao jcb">
+				<div class="name ov-d flex">--</div>
+				<div class="discount">折扣抵扣<em>0</em></div>
+			</div>
+			<div class="line df hao jcb">
+				<div class="price">￥<em>0</em>.00/天</div>
+				<div class="num">建议<em>0</em>人出行使用</div>
+			</div>
+			<div class="tag"></div>
+			<div class="condition"></div>
+		</div>
+	
+		<div class="formBox">
+			<div class="formLine df hao jcb tourCarGuide" id="tourCarGuideItem">
+				<div class="cap">取车指南</div>
+				<div class="txt arrow">查看详情</div>
+			</div>
+		</div>
+
+		<div class="tourCarRule">
+			<div class="cap">退改规则</div>
+			<div class="list">
+				<div class="li df"><em>1.</em><div class="flex">于预订取车时间前6小时以内取消预订；</div></div>
+				<div class="li df"><em>2.</em><div class="flex">超出预订取车时间取消预订；</div></div>
+				<div class="li df"><em>3.</em><div class="flex">未前往一嗨租车办理车辆提取手续，均须扣除相应积分。</div></div>
+				<div class="li df"><em>4.</em><div class="flex">客户多次取消预订，一嗨租车有权暂停客户会员资格并冻结会员储值卡中全部款项。（除预付订单外）</div></div>
+			</div>
+		</div>
+
+		<div class="tourCarRule">
+			<div class="cap">注意事项</div>
+			<div class="list">
+				<div class="li df"><em>1.</em><div class="flex">于预订取车时间前6小时以内取消预订；</div></div>
+				<div class="li df"><em>2.</em><div class="flex">超出预订取车时间取消预订；</div></div>
+				<div class="li df"><em>3.</em><div class="flex">未前往一嗨租车办理车辆提取手续，均须扣除相应积分。</div></div>
+				<div class="li df"><em>4.</em><div class="flex">客户多次取消预订，一嗨租车有权暂停客户会员资格并冻结会员储值卡中全部款项。（除预付订单外）</div></div>
+			</div>
+		</div>
+	
+		<div class="formBox">
+			<div class="formLine df hao jcb tourCarAddress" id="tourCarAddressItem">
+				<div class="cap">门店地址</div>
+				<div class="txt arrow">请选择</div>
+			</div>
+		</div>
+	
+		<div class="formBox">
+			<div class="formLine df hao jcb tourCarCall" id="tourCarCallItem">
+				<div class="cap">联系电话</div>
+				<div class="txt">4405-6682-4480</div>
+			</div>
+		</div>
+
+		<div class="tourCarContent" id="tourCarContentItem">
+			<div class="cap">房东详情</div>
+			<div class="content"></div>
+		</div>
+	</div>
+
+	<div class="webFoot df hao jcb" id="webFoot">
+		<div class="df hao" style="padding: 0 12px;">
+			<div class="f-btn f-btn-diy f-btn-custom" toLocation="service.html">客服</div>
+		</div>
+		<div class="f-btn f-btn-blue flex" tolocation="tourCarOrder.html">预约房车</div>
+	</div>
+</body>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/swiper-4.3.5.min.js"></script>
+<script type="text/javascript" src="js/public.js?v=20180912"></script>
+<script type="text/javascript">
+	// 房车预订
+	var tourCarArr = {
+		img: 'file/1.jpg',
+		name: '大通C',
+		discount: 100, // 折扣抵扣值
+		price: 100,	
+		num: 5, // 建议出行人数	
+		tag: [ 'C照', '柴油' ],
+		condition: [ '电视', '空调', '卫生间' ], // 房车条件
+		content: '<img src="file/1.jpg" alt="" /><p>一个色彩缤纷的早上，推荐这个牌子的饮料，甜而不腻，稀饭~</p><img src="file/1.jpg" alt="" /><p>一个色彩缤纷的早上，推荐这个牌子的饮料，甜而不腻，稀饭~</p>', // 房东详情
+	};
+	tourCarInit();
+	function tourCarInit(){
+		$('#tourCarImgItem img').attr('src',tourCarArr.img);
+		$('#tourCarInfoItem .name').text(tourCarArr.name);
+		$('#tourCarInfoItem .discount em').text(tourCarArr.discount);
+		$('#tourCarInfoItem .price em').text(tourCarArr.price);
+		$('#tourCarInfoItem .num em').text(tourCarArr.num);
+
+		var html = '';
+		$.each(tourCarArr.tag,function(a,b){
+			html += '<div class="tag-li">'+b+'</div>';
+		})
+		$('#tourCarInfoItem .tag').html(html);
+
+		var html = '';
+		$.each(tourCarArr.condition,function(a,b){
+			html += '<div class="condition-li">'+b+'</div>';
+		})
+		$('#tourCarInfoItem .condition').html(html);
+		$('#tourCarContentItem .content').html(tourCarArr.content);
+	}
+</script>
+</html>

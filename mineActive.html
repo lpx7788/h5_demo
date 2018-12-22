@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+	<title>奥特斯</title>
+	<link rel="stylesheet" href="css/swiper-4.3.5.min.css" />
+	<link rel="stylesheet" href="css/public.css?v=20180910" />
+	<link rel="stylesheet" href="css/user.css?v=20180910" />
+</head>
+<body class="hideFoot"> <!-- hideHead hideFoot -->
+	<div class="webHead df hao jcb" id="webHead">
+		<div class="h-btn h-btn-back" toLocation="back"></div>
+		<div class="flex h-txt">我的活动</div>
+		<div class="h-btn"></div>
+	</div>
+
+	<div class="webBody" id="webBody">
+		<div class="defTabBox">
+			<div class="defTabBox-top df hao">
+				<div class="flex li cur" et="全部">全部</div>
+				<div class="flex li" et="待付款">待付款</div>
+				<div class="flex li" et="待使用">待使用</div>
+			</div>
+			<div class="defTabBox-content active cur" et="全部" id="allItem"></div>
+			<div class="defTabBox-content active" et="待付款" id="waitPayItem"></div>
+			<div class="defTabBox-content active" et="待使用" id="waitUseItem"></div>
+		</div>
+	</div>
+
+	<div class="webFoot df hao jcb" id="webFoot"></div>
+</body>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/swiper-4.3.5.min.js"></script>
+<script type="text/javascript" src="js/public.js?v=20180912"></script>
+<script type="text/javascript">
+	var allArr = [
+		{ title: '狂欢夜酒会', img: 'file/1.jpg', price: 5600, date: '2018/05/15', state: '待付款' },
+		{ title: '狂欢夜酒会', img: 'file/1.jpg', price: 5600, date: '2018/05/15', state: '已取消' },
+		{ title: '狂欢夜酒会', img: 'file/1.jpg', price: 5600, date: '2018/05/15', state: '待使用' },
+	];
+	var waitPayArr = [];
+	var waitUseArr = [];
+	catOrderInit(allArr,$('#allItem'));
+	catOrderInit(waitPayArr,$('#waitPayItem'));
+	catOrderInit(waitUseArr,$('#waitUseItem'));
+	function catOrderInit(arr,obj){
+		var html = '';
+		$.each(arr,function(a,b){
+			var s = returnValue(b.state);
+			html += '<div class="li">'+
+						'<a class="df hao">'+
+							'<img src="'+b.img+'" alt="" />'+
+							'<div class="info flex">'+
+								'<div class="title">'+b.title+'</div>'+
+								'<div class="price">￥'+b.price+'</div>'+
+								'<div class="date">待使用时间<em>'+b.date+'</em></div>'+
+							'</div>'+
+							s.stateHtml+
+						'</a>'+
+						'<div class="tool df hao war">'+s.toolHtml+'</div>'+
+					'</div>';
+		})
+		obj.html(html);
+
+		function returnValue(state){
+			var stateClass = '';
+			var tool = '';
+			if(state=='待付款'){
+				stateClass = 'orange';
+				tool = '<div class="btn btn-gray">取消订单</div><div class="btn btn-blue">确认付款</div>';
+			}else if(state=='已取消'){
+				tool = '<div class="btn btn-blue">再次购买</div>';
+			}else if(state=='待使用'){
+				tool = '<div class="btn btn-blue">查看票号</div>';
+			}
+			return {
+				stateHtml: '<div class="state '+stateClass+'">'+state+'</div>',
+				toolHtml: tool,
+			}
+		}
+	}
+</script>
+</html>

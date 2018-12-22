@@ -1,0 +1,204 @@
+.sinfo{ font-size: 12px; color: #999999; line-height: 42px; padding: 0 15px; }
+
+.catBox{ background: #fff; margin-bottom: 10px; }
+.catBox .line{ height: 50px; line-height: 50px; padding: 0 15px; }
+.catBox .line:not(:last-child){ border-bottom: 1px solid #e5e5e5; }
+.catBox .cap{ font-size: 15px; color: #030303; width: 86px; }
+.catBox .fileHead{ position: relative; }
+.catBox .fileHead img{ width: 40px; height: 40px; border-radius: 50px; }
+.catBox .fileHead input.headInput{ position: absolute; width: 40px; height: 40px; opacity: 0; top: 0; left: 0; }
+.catBox .txt{ font-size: 14px; color: #666666; }
+.catBox .txt em{ color:#a1a1a1; }
+.catBox .arrow{ background: url(../image/arrow.png) right center no-repeat; background-size: 8px auto; padding-right: 15px; }
+.catBox .input{ }
+.catBox .input input{ width: 100%; font-size: 14px; color: #333; height: 24px; line-height: 24px; border: none; text-align: right; }
+.catBox .pushCode{ background: #002855; border-radius: 25px; width: 102px; height: 26px; line-height: 26px; font-size: 14px; color: #FFFFFF; text-align: center; margin-left: 10px; }
+.catBox .pushCode.notPush{ background: #a1a1a1; }
+
+.textarea{ margin-top: 10px; background: #fff; }
+.textarea textarea{ width: 100%; border: none; padding: 10px 15px; line-height: 20px; font-size: 13px; color:#333; height: 140px; box-sizing: border-box; resize: none; }
+
+.aboutUs{ }
+.aboutUs img{ width: 100%; margin-bottom: 20px; }
+.aboutUs .cap{ font-size: 15px; color: #333333; line-height: 15px; position: relative; margin: 0 15px 12px 15px; padding-left: 13px; }
+.aboutUs .cap::before{ content: ''; width: 4px; height: 10px; background: #002855; position: absolute; left: 0; top: 50%; margin-top: -5px; }
+.aboutUs .info{ font-size: 15px; color: #666666; line-height: 30px; padding: 0 15px; text-align: justify; text-indent: 2em; }
+
+.walletCount{ position: relative; }
+.walletCount img{ width: 100%; }
+.walletCount .price{ position: absolute; left: 0; top: 0; bottom: 41px; right: 0; }
+.walletCount .price span{ font-size: 30px; color: #FFFFFF; line-height: 30px; }
+.walletCount .price em{ font-size: 13px; color: #FFFFFF; line-height: 13px; padding-top: 15px; }
+.walletCount .toCash{ font-size: 12px; color: #002855; text-align: center; background: #FFFFFF; border-radius: 25px; line-height: 24px; height:24px; width: 80px; position: absolute; bottom: 17px; left: 50%; margin-left: -40px; }
+
+.walletTool{ font-size: 12px; padding: 0 15px; color: #FFFFFF; line-height: 52px; height: 52px; background: #002855; }
+.walletTool em{ font-size: 18px; padding-left: 12px; }
+
+.walletBet{ font-size: 18px; line-height: 18px; color: #002855; height: 110px; background: #fff; margin-bottom: 10px; }
+.walletBet .li{ position: relative; height: 100%; }
+.walletBet .li em{ font-size: 12px; line-height: 12px; padding-top: 22px; }
+.walletBet .li.cur::before{ position: absolute; left: 50%; margin-left: -24px; width: 48px; height: 3px; background:#002855; bottom: 0; content: ''; }
+
+.walletFlow{ background: #fff; margin-bottom: 10px; }
+.walletFlow .cap{ font-size: 14px; color: #333333; line-height: 50px; padding: 0 15px; border-bottom: 0; background: url(../image/arrow.png) right 15px center no-repeat; background-size: 8px auto; }
+.walletFlow .list{ padding: 5px 15px; display: none; }
+.walletFlow .list:empty::before{ content: '暂无流水明细'; display: block; font-size: 14px; color:#a1a1a1; text-align: center; line-height: 100px; }
+.walletFlow.showList .cap{ background: url(../image/arrow3.png) right 15px center no-repeat; background-size: auto 8px; border-bottom:  1px solid #e5e5e5; }
+.walletFlow.showList .list{ display: block; }
+.walletFlow .li{ line-height: 30px; }
+.walletFlow .li span{ font-size: 15px; color: #030303; }
+.walletFlow .li em{ font-size: 13px; color: #666666; }
+
+.walletInfo{ background: #fff; margin-bottom: 10px; }
+.walletInfo .cap{ font-size: 14px; color: #333333; line-height: 50px; padding: 0 15px; border-bottom: 0; background: url(../image/arrow.png) right 15px center no-repeat; background-size: 8px auto; }
+.walletInfo .list{ padding: 5px 15px; display: none; }
+.walletInfo.showList .cap{ background: url(../image/arrow3.png) right 15px center no-repeat; background-size: auto 8px; border-bottom:  1px solid #e5e5e5; }
+.walletInfo.showList .list{ display: block; }
+.walletInfo .li{ line-height: 30px; font-size: 14px; color: #666; }
+.walletInfo .li em{ width: 20px; }
+
+.idCode{ width: 294px; height: 420px; background: #fff; position: absolute; left: 50%; top: 46%; margin-left: -147px; margin-top: -210px; }
+.idCode .person{ padding: 16px 15px 24px 15px; height: 60px; }
+.idCode .person img{ width: 60px; height: 60px; border-radius: 50%; margin-right: 8px; }
+.idCode .info{ }
+.idCode .info span{ font-size: 15px; color: #030303; line-height: 15px; }
+.idCode .info em{ font-size: 13px; color: #999999; line-height: 13px; padding-top: 11px; }
+.idCode .codeImg{ width: 216px; height: 216px; margin: 0 auto; }
+.idCode .codeImg img{ width: 100%; height: 100%; }
+.idCode .code{ font-size: 15px; color: #333333; text-align: center; line-height: 55px; }
+.idCode .keep{ margin: 0 auto; font-size: 12px; color: #FFFFFF; text-align: center; background: #002855; border-radius: 25px; width: 72px; line-height: 26px; height: 26px; }
+.idCode .keep a{ color:#fff; }
+
+.active{ }
+.active .li{ margin-bottom: 10px; background: #fff; }
+.active .li a{ padding: 0 15px; height: 110px; }
+.active .li img{ width: 80px; height: 80px; margin-right: 13px; }
+.active .li .info{ }
+.active .li .title{ font-size: 14px; line-height: 14px; color: #333333; }
+.active .li .price{ font-size: 15px; line-height: 15px; color: #FFA826; padding: 16px 0; }
+.active .li .date{ font-size: 12px; line-height: 12px; color: #666666; }
+.active .li .date em{ padding-left: 8px; }
+.active .li .state{ font-size: 12px; color: #999999; line-height: 12px; padding-bottom: 58px; }
+.active .li .state.orange{ color: #FF9900; }
+.active .li .tool{ border-top: 1px solid #e5e5e5; height: 50px; padding: 0 15px; }
+.active .li .btn{ width: 88px; height: 26px; background: #BBBBBB; border-radius: 25px; font-size: 14px; color: #FFFFFF; line-height: 26px; text-align: center; margin-left: 8px; }
+.active .li .btn-gray{ }
+.active .li .btn-blue{ background: #002855; }
+
+.levelImg{ height: 500px; border-bottom: 1px solid #e5e5e5; }
+.levelImg img{ width: 272px; height: 448px; box-shadow: 0 0 12px #999; border-radius: 16px; }
+
+.levelPackge{ padding: 0 15px 16px 15px; margin-top: -10px; }
+.levelPackge .cap{ font-size: 13px; color: #333333; }
+.levelPackge .price{ }
+.levelPackge .price span{ font-size: 16px; color: #333333; }
+.levelPackge .price em{ font-size: 17px; color: #FFA826; margin-left: 2px; }
+.levelPackge .price em::before{ content: '￥'; }
+.levelPackge .price i{ font-size: 13px; color: #bbb; margin-left: 10px; text-decoration: line-through; }
+.levelPackge .price i::before{ content: '￥'; }
+
+.levelInfo{ padding: 5px 15px; }
+.levelInfo .li{ line-height: 30px; font-size: 14px; color: #666; }
+.levelInfo .li em{ width: 20px; }
+
+.mineLevelCount{ height: 50px; padding: 0 15px; background: #fff; margin-bottom: 10px; }
+.mineLevelCount .li{ width: 33.33%; font-size: 14px; color: #333333; line-height: 50px; }
+
+.mineLevelList{ position: absolute; left: 0; right: 0; top: 102px; bottom: 0; }
+
+.formBox{ background: #fff; margin-bottom: 10px; }
+.formLine{ font-size: 15px; color: #333333; line-height: 50px; height: 50px; padding: 0 15px; }
+.formLine:not(:last-child){ border-bottom: 1px solid #e5e5e5; }
+.formLine .cap{ }
+.formLine .cap2{ color:#666; font-size: 14px; }
+.formLine .date{ font-size: 14px; }
+.formLine .date em{ width: 74px; text-align: center; color:#666; padding: 0 7px; }
+.formLine .date em:empty::before{ content: attr(bs); color:#bbb; }
+.formLine .date em:last-child{ margin-right: -7px; }
+.formLine .txt{ color: #666; font-size: 14px; }
+.formLine .arrow { background: url(../image/arrow.png) right center no-repeat; background-size: 8px auto; padding-right: 15px; }
+.formLine .txt.arrow { min-width: 120px; text-align: right; min-height: 50px; color:#999; }
+.formLine .info{ color: #999; font-size: 14px; }
+.formLine .input{ width: 180px; }
+.formLine .smallInput{ width: 80px; }
+.formLine .input input{ width: 100%; border: none; text-align: right; font-size: 14px; color:#666; }
+.formLine .file{ margin-left: -15px; padding-bottom: 10px; }
+.formLine .file .upload{ width: 50%; padding-left: 15px; box-sizing: border-box; }
+.formLine .file .upload .li{ width: 100%; position: relative; }
+.formLine .file .upload img{ width: 100%; }
+.formLine .file .upload input{ position: absolute; left: 0; right: 0; top: 0; bottom: 0; width: 100%; height: 100%; opacity: 0; }
+.formLine .file .upload span{ display: block; font-size: 13px; line-height: 27px; text-align: center; color:#666; }
+.formLine2{ height: auto; }
+.formLine3{ font-size: 14px; color: #a1a1a1; line-height: 20px; padding: 12px 15px 0 15px; }
+.formLine3 .txt{ font-size: 14px; }
+.formLine3:last-child{ padding-bottom: 12px; }
+.formLine4{ font-size: 15px; color: #333333; line-height: 50px; height: 50px; padding: 0 15px 24px 15px; border-top: 1px solid #e5e5e5; border-bottom: 1px solid #e5e5e5; margin-top: 12px; position: relative; }
+.formLine4 em{ font-size: 13px; color: #999999; line-height: 13px; position: absolute; left: 0; top: 44px; padding: 0 15px; }
+
+.checkPhone{ position: fixed; left: 0; top: 0; right: 0; bottom: 0; z-index: 1005; background: rgba(0,0,0,0.4); display: none; }
+.checkPhone .etx{ position: absolute; left: 50%; top: 50%; width: 326px; height: 220px; border-radius: 8px; background: #fff; margin-left: -163px; margin-top: -110px; }
+.checkPhone .top{ height: 50px; position: relative; }
+.checkPhone .top .back{ width: 56px; height: 50px; background: url(../image/h-5.png) center center no-repeat; background-size: 8px auto; position: absolute; left: 0; top: 0; }
+.checkPhone .top span{ font-size: 17px; color: #333333; text-align: center; line-height: 50px; display: block; }
+.checkPhone .content{ padding: 0 15px; height: 170px; }
+.checkPhone .info{ background: #F4F4F4; border-radius: 8px; height: 50px; width: 100%; overflow: hidden; }
+.checkPhone .info span{ font-size: 15px; color: #333333; width: 60px; text-align: center; border-right: 1px solid #BBBBBB; line-height: 19px; height: 19px; }
+.checkPhone .info .input{ padding: 0 10px; }
+.checkPhone .info .input input{ width: 100%; border: none; height: 23px; line-height: 23px; font-size: 15px; color:#333; background:transparent; }
+.checkPhone .info .check{ width: 76px; font-size: 16px; color: #fff; line-height: 50px; height:50px; text-align: center; background: #002855; }
+.checkPhone .submit{ background: #002855; border-radius: 8px; width: 140px; height: 39px; line-height: 39px; font-size: 17px; color: #FFFFFF; text-align: center; margin-top: 28px; }
+
+.levelOrderUser{ background:#fff; margin-bottom: 10px; }
+.levelOrderUser .userAddress:empty::before{content: '还没选择收货地址，点击进行选择';font-size: 14px;text-align: center;line-height: 83px;display: block;color:#666;}
+.levelOrderUser .person{ font-size: 15px; color: #666666; line-height: 15px; padding: 16px 15px 0 15px; }
+.levelOrderUser .person span{ }
+.levelOrderUser .person em{ padding-left: 50px; }
+.levelOrderUser .address{ font-size: 14px; color: #666666; line-height: 22px; padding: 10px 15px 20px 15px; text-align: justify; }
+
+.levelOrderInfo{ background:#fff; margin-bottom: 10px; }
+.levelOrderInfo .list{ padding: 16px 15px 0 15px; }
+.levelOrderInfo .li{ position: relative; padding-left: 100px; height: 92px; margin-bottom: 16px; }
+.levelOrderInfo .img{ width: 92px; height: 92px; border-radius: 8px; overflow: hidden; position: absolute; left: 0; top: 50%; margin-top: -46px; }
+.levelOrderInfo .img img{ width: 100%; height: 100%; }
+.levelOrderInfo .name{ font-size: 14px; color: #666666; line-height: 20px; margin-right: 34px; text-align: justify; }
+.levelOrderInfo .ps{ line-height: 19px; position: relative; height: 19px; }
+.levelOrderInfo .tag{ font-size: 12px; color: #FFA826; position: absolute; left: 0; top: -22px; line-height: 14px; }
+.levelOrderInfo .price{ font-size: 15px; color: #FFA826; }
+.levelOrderInfo .num{ font-size: 13px; color: #6A6A6A; }
+.levelOrderInfo .count{ border-top: 1px solid #e5e5e5; margin: 0 15px; height: 50px; font-size: 14px; color: #666666; line-height: 14px; }
+.levelOrderInfo .count span{ }
+.levelOrderInfo .count em{ color:#FF9900; }
+
+.levelSwiper{ height: 100%; }
+.levelSwiper .swiper-slide { width: 272px; height: 468px; }
+.levelSwiper .swiper-slide img{ display:block; width: 272px; height: 448px; box-shadow: 0 0 12px #999; margin-top: 10px; border-radius: 16px; }
+.levelName{ font-size: 22px; color: #333333; line-height: 40px; padding-bottom: 20px; position: absolute; left: 50%; top: 50%; margin-top: -278px; width: 272px; margin-left: -136px; }
+
+
+.collect{ background: #fff; } 
+.collect-li{ position: relative; height: 92px; padding:18px 15px 18px 115px; }
+.collect-li:not(:first-child){ border-top: 1px solid #e5e5e5; }
+.collect-li .img{ width: 92px; height: 92px; border-radius: 8px; overflow: hidden; position: absolute; left: 15px; top: 50%; margin-top: -46px; }
+.collect-li .img img{ width: 100%; height: 100%; }
+.collect-li .info{ }
+.collect-li .name{ font-size: 14px; color: #666666; line-height: 20px; text-align: justify; }
+.collect-li .ps{ line-height: 19px; position: relative; height: 19px; }
+.collect-li em{ font-size: 13px; color: #666666; line-height: 19px; height: 19px; padding-left: 27px; width: 60px; }
+.collect-li em.eva{ background: url(../image/eva.png) left center no-repeat; background-size: 19px auto; }
+.collect-li em.view{ background: url(../image/view.png) left center no-repeat; background-size: 19px auto; }
+.collect-li .remove { width: 24px; height: 24px; background: url(../image/remove.png) center center no-repeat; background-size: 20px auto; margin-top: -2px; margin-right: -2px; }
+
+.chooseAddress{ position: fixed; left: 0; top: 0; right: 0; bottom: 0; z-index: 1005; background: rgba(0,0,0,0.4); display: none; }
+.chooseAddress .etx{ position: absolute; left: 0; bottom: 0; right: 0; background: #fff; }
+.chooseAddress .top{ height: 50px; position: relative; border-bottom: 1px solid #e5e5e5; }
+.chooseAddress .top .back{ width: 56px; height: 50px; background: url(../image/h-5.png) center center no-repeat; background-size: 8px auto; position: absolute; left: 0; top: 0; }
+.chooseAddress .top span{ font-size: 17px; color: #333333; text-align: center; line-height: 50px; display: block; }
+.chooseAddress .top .manage{ font-size: 15px; color: #888; text-align: center; line-height: 50px;  position: absolute; width: 56px; height: 50px; right: 0; top: 0; }
+.chooseAddress .content{ max-height: 480px; overflow-y: auto; }
+.chooseAddress .li{ border-bottom: 1px solid #e5e5e5; padding-left: 40px; }
+.chooseAddress .li .person{ font-size: 15px; color: #666666; line-height: 15px; padding: 12px 15px 0 15px; }
+.chooseAddress .li .person span{ }
+.chooseAddress .li .person em{ padding-left: 50px; }
+.chooseAddress .li .address{ font-size: 14px; color: #666666; line-height: 22px; padding: 10px 15px 10px 15px; text-align: justify; }
+.chooseAddress .li.cur{ background:url(../image/gou.png) 15px center no-repeat; background-size: 23px auto; }
+.chooseAddress .li.cur *{ color:#002855; }

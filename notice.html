@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+	<title>奥特斯</title>
+	<link rel="stylesheet" href="css/swiper-4.3.5.min.css" />
+	<link rel="stylesheet" href="css/public.css?v=20180910" />
+	<link rel="stylesheet" href="css/notice.css?v=20180910" />
+</head>
+<body class="hideFoot"> <!-- hideHead hideFoot -->
+	<div class="webHead df hao jcb" id="webHead">
+		<div class="h-btn h-btn-back" toLocation="back"></div>
+		<div class="flex h-txt">庄园公告</div>
+		<div class="h-btn"></div>
+	</div>
+
+	<div class="webBody" id="webBody">
+		<div class="tenBg"></div>
+		<div class="notice " id="noticeItem"></div>
+	</div>
+
+	<div class="webFoot df hao jcb" id="webFoot"></div>
+</body>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/swiper-4.3.5.min.js"></script>
+<script type="text/javascript" src="js/public.js?v=20180912"></script>
+<script type="text/javascript">
+	// 初始化公告
+	var noticeArr = [];
+	function noticeInit(){
+		var html = '';
+		$.each(noticeArr,function(a,b){
+			html += '<a class="li df jcb hao" toLocation="noticeDetail.html?oid='+b.article_id+'">'+
+						'<div class="cap cap2 ov-d flex">'+b.article_title+'</div>'+
+						// '<div class="date">'+b.date+'</div>'+
+					'</a>';
+		})
+		$('#noticeItem').html(html);
+	}
+
+	ajax({
+		url: '@server/act=index&op=aotesiIndex',
+		param: {
+			page: 1,
+			curpage: 1,
+		},
+		call: function(r){
+			// cs(r);
+			noticeArr = r.article_list;
+			noticeInit();
+		}
+	});
+</script>
+</html>

@@ -1,0 +1,143 @@
+index			首页
+login			登录
+register 		注册
+
+
+-------- 二级页面 --------
+search					搜索(通用)
+notice					首页-庄园公告
+noticeDetail			公告详情 / 消息中心-详情(通用)
+orderApplyRefund		订单申请退款(通用)
+payDone					支付完成(通用)
+service					客服(通用)
+level					首页-卡库列表
+levelRecord				首页-卡片记录
+moreNews				首页-更多资讯
+newsDetail				首页-资讯详情
+tourCar					首页-房车预定列表
+tourCarDetail			首页-房车预定详情
+tourCarOrder			首页-房车预定下单 / 首页-房车预定续租
+
+live					庄园直播-直播详情页
+
+mineNotice				我的-消息中心
+userInfo				我的-个人信息
+editPhone				我的-个人信息-修改手机号码
+toCash					我的-提现
+feedback				我的-意见反馈
+aboutUs					我的-关于我们
+mineTeam				我的-我的团队
+mineWallet				我的-我的钱包
+mineIdCode				我的-我的名片
+mineActive				我的-我的活动
+mineLevel				我的-我的卡库
+levelDetail				我的-会员卡详情
+levelOrder				我的-会员卡购买下单详情
+levelActivate			我的-会员卡激活页面
+levelAttorn				我的-我的卡库-会员卡转让
+mineOrder				我的-订单中心 / 庄园商城-我的订单
+mineAddress				我的-收货地址管理
+mineAddressAdd			我的-新增收货地址 / 我的-修改收货地址
+mineCollect				我的-我的收藏
+
+moreReserveHouse		庄园预定-预定房型查看更多
+moreReserveActive		庄园预定-最新活动查看更多
+reserveHouseDetail		庄园预定-预定房型详情
+reserveActiveDetail		庄园预定-最新活动详情
+reserveHouseTake		庄园预定-预定房型下单 / 庄园预定-酒店续住
+reserveActiveTake		庄园预定-最新活动下单
+reserveHouseOrder		庄园预定-预定房型订单详情(未支付)
+reserveHouseOrderDone	庄园预定-预定房型订单详情(已支付)
+
+shopType				庄园商城-分类
+shopNotice				庄园商城-商店头条
+shopNoticeDetail		庄园商城-商店头条详情
+shopOrder				庄园商城-商城订单详情
+moreShop				庄园商城-新品推荐查看更多 / 首页-新品推荐查看更多 / 支付完成(通用)-新品推荐查看更多
+shopDetail				庄园商城-商品详情
+shopConfirmOrder		庄园商城-商品下单确认
+shopcar					庄园商城-购物车
+
+
+
+
+
+
+
+initChooseDate({
+	title: '请选择取还车时间',
+	section: true, // 是否选择区间
+	initSection: { // 初始化日期区间 section为true时生效
+		start: '2018-03-09',
+		end: '2018-05-08',
+	},
+	initDate: '2018-02-04', // 初始化日期区间 section为false时生效
+	canChooseLast: true, // 是否可以选择过去的日期
+	call: function(j){
+		console.log(j);
+	}
+});
+
+
+ajax({
+	url: '@server/act=login&op=captchaLogin',
+	param: {
+		username: '',
+		password: '',
+		captcha: '',
+		client: '',
+	},
+	async: true,
+	type: 'post',
+	dataType: 'json',
+	call: function(r){
+		cs(r);
+	}
+});
+
+
+bindScrollCall('#webBody .webTabCont[et="首页"]',150,function(s){
+	nowPage++;
+	ajax_index_home(function(){
+		bindScroll[s] = true;
+	});
+});
+
+
+alerts({
+	type: 'default', // 弹框类型 [default 普通] [success 成功] [fail 失败] [info 警告]
+	title: '', // 弹框标题
+	txt: '', // 弹框内容
+	autoHide: 2, // 自动隐藏时间 btn存在时该项不生效
+	call: null, // 生成成功回调函数
+	btn: '关闭', // 按钮 空为不显示，会自动隐藏
+	click: null, // 按钮点击回调函数
+});
+// alerts({
+// 	type: 'default',
+// 	title: 'default',
+// 	txt: '内容0',
+// 	click: function() {
+// 		alerts({
+// 			type: 'info',
+// 			title: 'info',
+// 			txt: 'dd',
+// 			btn: '',
+// 		})
+// 	}
+// })
+// alerts({
+// 	type: 'info',
+// 	title: 'info',
+// 	txt: '内容1内容1内容1内容1',
+// })
+// alerts({
+// 	type: 'success',
+// 	title: 'success',
+// 	txt: '内容2内容2内容2内容2内容2内容2内容2',
+// })
+// alerts({
+// 	type: 'fail',
+// 	title: 'fail',
+// 	txt: '内容2内容2内容2内容2内容2内容2内容2',
+// })

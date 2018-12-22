@@ -1,0 +1,238 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+	<title>奥特斯</title>
+	<link rel="stylesheet" href="css/swiper-4.3.5.min.css" />
+	<link rel="stylesheet" href="css/public.css?v=20180910" />
+	<link rel="stylesheet" href="css/user.css?v=20180910" />
+</head>
+<body> <!-- hideHead hideFoot -->
+	<div class="webHead df hao jcb" id="webHead">
+		<div class="h-btn h-btn-back" toLocation="back"></div>
+		<div class="flex h-txt">个人信息</div>
+		<div class="h-btn"></div>
+	</div>
+
+	<div class="webBody" id="webBody">
+		<div class="userInfoTabBox">
+			<div class="catBox">
+				<div class="line df jcb hao">
+					<div class="cap">头像</div>
+					<div class="fileHead arrow">
+						<img id="header_img" src="" alt="" />
+						<input type="file" id="headInput" class="headInput" />
+					</div>
+				</div>
+			</div>
+			<div class="catBox">
+				<div class="line df jcb hao">
+					<div class="cap">昵称</div>
+					<!-- <div class="txt arrow">艳阳天</div> -->
+					<div class="input df"><input id="nameInput" type="text" placeholder="请输入昵称" /></div>
+				</div>
+				<!-- <div class="line df jcb hao">
+					<div class="cap">性别</div>
+					<div class="txt arrow">男</div>
+				</div> -->
+			</div>
+			<div class="catBox">
+				<div class="line df jcb hao">
+					<div class="cap">手机号码</div>
+					<div class="txt arrow" id="phoneInput" onclick="toEditPhone()"></div>
+				</div>
+			</div>
+		</div>
+		<div class="editPhoneTabBox" style="display: none;">
+			<div class="sinfo">更换手机后，登录可以直接使用手机号码登陆</div>
+			<div class="catBox">
+				<div class="line borBot df hao">
+					<div class="cap">手机号码</div>
+					<div class="flex input"><input type="text" placeholder="请输入手机号码" id="phoneNum" /></div>
+				</div>
+				<div class="line borBot df hao">
+					<div class="cap">验证码</div>
+					<div class="flex input"><input type="text" placeholder="请输入手机验证码" id="phoneCode" /></div>
+					<div class="pushCode" onclick="sendCode(this)">发送验证码</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="webFoot df hao jcb" id="webFoot">
+		<div class="f-btn f-btn-blue" onclick="submitInfo();">保存修改</div>
+	</div>
+</body>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/swiper-4.3.5.min.js"></script>
+<script type="text/javascript" src="js/ajaxfileupload.js"></script>
+<script type="text/javascript" src="js/public.js?v=20180912"></script>
+<script type="text/javascript">
+	var member_mobile;
+	// 初始化用户信息
+	personBoxInit();
+	function personBoxInit () {
+		ajax({
+			url: '@server/act=member_index',
+			param: {
+				key: userLoginToken,
+			},
+			call: function(r){
+				// cs(r);
+				var d = r.member_info;
+				member_mobile = (d.member_mobile?d.member_mobile:'');
+				$('#header_img').attr('src',d.avatar);
+				$('#nameInput').val(d.user_name);
+				$('#phoneInput').html(member_mobile||'<em>还未绑定手机，点击绑定</em>');
+			}
+			
+		});
+	}
+
+	// 进入修改手机号码
+	var oldHeadHtml = oldFootHtml = '';
+	function toEditPhone(){
+		$('#phoneNum').val('');
+		$('#phoneCode').val('');
+		oldHeadHtml = $('#webHead').html();
+		oldFootHtml = $('#webFoot').html();
+		$('#webHead').html('<div class="h-btn h-btn-back" onclick="backLastPage()"></div><div class="flex h-txt">修改手机号码</div><div class="h-btn"></div>');
+		$('#webFoot').html('<div class="f-btn f-btn-blue" onclick="bindPhone()">确定绑定</div>');
+		$('#webBody .editPhoneTabBox').show().siblings().hide();
+	}
+
+	// 发送验证码
+	function sendCode(obj){
+		if($(obj).hasClass('notPush')){
+			return false;
+		}
+		var phone = $('#phoneNum').val();
+		if(checkPhone(phone)){
+			sendPhoneCode({
+				do: '更换绑定手机验证',
+				phone: phone,
+				call: function(r){
+					// cs(r);
+					var times = Number(r.sms_time);
+					$(obj).text(times+'s可重新发送').addClass('notPush');
+					var s = setInterval(function(){
+						if(times==0){
+							clearInterval(s);
+							$(obj).text('发送验证码').removeClass('notPush');
+							return false;
+						}
+						$(obj).text(times+'s可重新发送');
+						times--;
+					},1000)
+				},
+				failCall: function(r){
+					alerts({ txt: r.error, type: 'fail' });
+				}
+			});
+		}
+	}
+
+	// 新手机绑定
+	function bindPhone() {
+		var phone = $('#phoneNum').val();
+		var code = $('#phoneCode').val();
+		if(checkPhone(phone)){
+			if(!code){
+				alerts({
+					type: 'fail',
+					title: '验证错误',
+					txt: '请输入验证码',
+				});
+				return false;
+			}
+			ajax({
+				url: '@server/act=connect&op=change_phone',
+				param: {
+					key: userLoginToken,
+					old_phone: member_mobile,
+					phone: phone,
+					captcha: code,
+				},
+				call: function(r){
+					// cs(r);
+					alerts('修改成功');
+					$('#phoneInput').text(phone);
+					backLastPage();
+				},
+				failCall: function(r){
+					alerts({ txt: r.error, type: 'fail' });
+				}
+			});
+		}
+	}
+
+	function backLastPage(){
+		$('#webHead').html(oldHeadHtml);
+		$('#webFoot').html(oldFootHtml);
+		$('#webBody .userInfoTabBox').show().siblings().hide();
+	}
+
+	// 修改头像
+	$('#headInput').dmUploader({
+		url: 'http://aotesi.intexh.com/mobile/index.php?act=connect&op=change_headimg',//处理上传事件的脚本地址，可以通过get方式传参
+		maxFileSize: 3000000, // 文件上限 ，目前为3M
+		fieldName: 'headimg', // 上传字段名
+		extraData:{
+			key: userLoginToken,
+		},
+		auto:true, //是否为自动上传（即选择文件后是否自动上传），默认为true
+		multiple: false, //是否是多文件，默认为true，但是在IOS端设置为true的话上传相册会出问题，为了ios能够识别，建议设置为false
+		allowedTypes: "image/*", //允许的文件类型
+		// extFilter: ['jpeg','png','gif','jpg'], //允许的文件后缀名
+		onFileSizeError: function (file) { //当文件大小超出最大值时回调次函数
+			alerts({ txt: '大小不能超过30M', type: 'fail' });
+		},
+		onFileTypeError: function (file) { //当文件类型错误时回调次函数
+			alerts({ txt: '仅支持上传图片', type: 'fail' });
+		},
+		// onFileExtError: function (file) { //当文件后缀名错误时回调次函数
+		// 	alerts({ txt: '仅支持上传jpeg/png/gif/jpg格式图片', type: 'fail' });
+		// },
+		// onNewFile: function (id, file) { //选择新文件时回调此函数
+		// 	console.log($(this)[0].files[0]);
+		// },
+		onUploadSuccess: function (id, data) {	//上传成功回调函数
+			// console.log(id,data);
+			data = eval('('+data+')');
+			$('#header_img').attr('src',data.datas);
+		},
+		onUploadError: function (id, xhr, status, message) {//上传出错回调函数
+			// console.log(id, xhr, status, message)
+		}
+	});
+	
+	// 提交修改信息
+	function submitInfo() {
+		var userName = $('#nameInput').val();
+		if(!userName){
+			alerts({ txt: '昵称不能为空', type: 'fail' });
+			return false;
+		}
+		ajax({
+			url: '@server/act=connect&op=change_nickname',
+			param: {
+				key: userLoginToken,
+				nickname: userName,
+			},
+			call: function(r){
+				// cs(r);
+				alerts('修改成功');
+				personBoxInit();
+			},
+			failCall: function(r){
+				alerts({ txt: r.error, type: 'fail' });
+			}
+		});
+	}
+</script>
+</html>

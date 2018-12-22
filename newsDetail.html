@@ -1,0 +1,329 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+	<title>奥特斯</title>
+	<link rel="stylesheet" href="css/swiper-4.3.5.min.css" />
+	<link rel="stylesheet" href="css/public.css?v=20180910" />
+	<link rel="stylesheet" href="css/notice.css?v=20180910" />
+	<style>
+		.content img {
+			max-width: 100%;
+			text-indent: 0;
+		}
+		.shopNoticeContent .content{
+			text-indent: 0;
+		}
+		.shopNoticeContent .content p{
+			text-indent: 2em;
+		}
+	</style>
+</head>
+<body> <!-- hideHead hideFoot -->
+	<div class="webHead df hao jcb" id="webHead">
+		<div class="h-btn h-btn-back" toLocation="back"></div>
+		<div class="flex h-txt">新闻资讯详情</div>
+		<div class="h-btn"></div>
+	</div>
+
+	<div class="webBody" id="webBody">
+		<div class="shopNoticeContent" id="shopNoticeContentItem"></div>
+		<div class="shopNoticeComment" id="shopNoticeCommentItem">
+			<div class="defCap df hao jcb">
+				<div class="cap">最新评论</div>
+			</div>
+			<div class="list"></div>
+		</div>
+	</div>
+
+	<div class="webFoot df hao jcb" id="webFoot">
+		<div class="f-comment-input flex"><input type="text" placeholder="输入想说的话吧" id="commentInput" /></div>
+		<div class="df hao" style="padding: 0 12px;">
+			<div class="f-btn f-btn-diy f-btn-collect" onclick="collect()">收藏</div>
+			<div class="f-btn f-btn-diy f-btn-share" onclick="shareFixed()">分享</div>
+			<div class="f-btn f-btn-white2 hide">发送</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/swiper-4.3.5.min.js"></script>
+<script type="text/javascript" src="js/public.js?v=20180912"></script>
+<script type="text/javascript">
+	$('#commentInput').focus(function(){
+		$('#webFoot .f-btn-white2').show().siblings('.f-btn').hide();
+	}).blur(function(){
+		// $('#webFoot .f-btn-white2').hide().siblings('.f-btn').show();
+	})
+	function specialDetail () {
+		ajax({
+			url: '@server/act=cms_special&op=cms_special_detail',
+			param: {
+				special_id: oid,
+				special_type: 1, // [1 首页] [2 庄园预定] [3 庄园特色]
+			},
+			call: function(r){
+				// cs(r);
+				shopNoticeArr = r;
+				shopNoticeInit();
+			}
+		});
+	}
+	$('#webFoot .f-btn-white2').click(sendEva)
+	var oid = getUrlParam('oid','');
+	if(oid){
+		// 初始化公告
+		var shopNoticeArr = {};
+		function shopNoticeInit(){
+			$('#webHead .h-txt').text(shopNoticeArr.special_title);
+
+			var imgHtml = '';
+			$.each(shopNoticeArr.special_image_all,function(a,b){
+				imgHtml += '<div class="swiper-slide"><a toLocation="" style="background: url(\''+b+'\') center center no-repeat;background-size: cover;" /></a></div>';
+			})
+			imgHtml = '<div class="swiper-wrapper">'+imgHtml+'</div><div class="swiper-pagination"></div>';
+
+			// var html = '<div class="img"><img src="'+shopNoticeArr.special_image+'" alt="" /></div>'+
+			var html = '<div class="swiper-container img2" id="shopNoticeContentImgItem">'+imgHtml+'</div>'+
+						'<div class="title">'+shopNoticeArr.special_stitle+'</div>'+
+						'<div class="content">'+
+							'<p>'+shopNoticeArr.special_content+'</p>'+
+						'</div>'+
+						'<div class="end df hao"><em class="eva">'+shopNoticeArr.comment_count+'</em><em class="view">'+shopNoticeArr.read_count+'</em></div>';
+			$('#shopNoticeContentItem').html(html);
+
+			var shopNoticeContentItemImgItemCont = new Swiper('#shopNoticeContentImgItem', {
+				autoplay: true,
+				loop : true,
+				pagination: {
+					el: '#shopNoticeContentImgItem .swiper-pagination',
+				},
+			})
+
+			// 查询是否收藏
+			ajax({
+				url: '@server/act=cms_special&op=is_collect',
+				param: {
+					id: oid,
+					target_type: 1, // [1 首页] [2 庄园预定] [3 庄园特色]
+					key: userLoginToken,
+				},
+				call: function(r){
+					// cs(r);
+					if(r.is_collect==1){
+						$('#webFoot .f-btn-collect').addClass('f-btn-collectDone');
+					}
+				}
+			});
+		}
+		specialDetail();
+		// ajax({
+		// 	url: '@server/act=cms_special&op=cms_special_detail',
+		// 	param: {
+		// 		special_id: oid,
+		// 		special_type: 1, // [1 首页] [2 庄园预定] [3 庄园特色]
+		// 	},
+		// 	call: function(r){
+		// 		// cs(r);
+		// 		shopNoticeArr = r;
+		// 		shopNoticeInit();
+		// 	}
+		// });
+
+		// 获取评论
+		var shopNoticeCommentArr = [];
+		function shopNoticeCommentInit(){
+			var html = '';
+			$.each(shopNoticeCommentArr,function(a,b){
+				html += '<div class="comment-li">'+
+							'<div class="info df hao jcb">'+
+								'<div class="head"><img src="'+b.head_pic+'" alt=""></div>'+
+								'<div class="person flex df cf wao"><span>'+b.name+'</span><em>'+b.create_time+'</em></div>'+
+								'<div class="likes '+(b.has_count?'likes-cur':'')+'" onclick="makeLikes(this)" rid="'+b.id+'">'+b.like_count+'</div>'+
+							'</div>'+
+							'<div class="content">'+b.content+'</div>'+
+						'</div>';
+			})
+			$('#shopNoticeCommentItem .list').append(html);
+		}
+
+		var nowPage = 1;
+		var pageNum = 5;
+		ajax_news();
+		function ajax_news(s){
+			ajax({
+				url: '@server/act=cms_special&op=comment_list',
+				param: {
+					id: oid,
+					page: nowPage,
+					page_size: pageNum,
+					type: 1, // [1 首页] [2 庄园预定] [3 庄园特色]
+					key: userLoginToken,
+				},
+				call: function(r){
+					// cs(r);
+					shopNoticeCommentArr = r;
+					shopNoticeCommentInit();
+
+					if(s&&r.length==pageNum){
+						bindScroll[s] = true;
+					}
+				}
+			});
+		}
+
+		bindScrollCall('#webBody',150,function(s){
+			nowPage++;
+			ajax_news(s);
+		});
+
+		// 记录浏览
+		if(userLoginToken){
+			ajax({
+				url: '@server/act=cms_special&op=add_action',
+				param: {
+					id: oid,
+					target_type: 1, // [1 首页] [2 庄园预定] [3 庄园特色]
+					type: 3, // [1 收藏] [3 阅读]
+					key: userLoginToken,
+				},
+				call: function(r){
+					specialDetail();
+					// cs(r);
+				}
+			});
+		}
+	}else{
+		alerts('参数错误');
+	}
+
+	// 点赞
+	function makeLikes(obj){
+		var rid = $(obj).attr('rid');
+		if($(obj).attr('make')==1){ // 防止网络慢重复点击
+			return false;
+		}
+		$(obj).attr('make',1);
+		if($(obj).hasClass('likes-cur')){ // 取消点赞
+			ajax({
+				url: '@server/act=cms_special&op=delete_action',
+				param: {
+					id: rid,
+					target_type: 1, // [1 首页] [2 庄园预定] [3 庄园特色]
+					type: 2, // [1 收藏] [2 点赞]
+					key: userLoginToken,
+				},
+				call: function(r){
+					// cs(r);
+					$(obj).removeClass('likes-cur').removeAttr('make');
+					$(obj).text( Number($(obj).text())-1 );
+					smallAlert('取消点赞成功');
+				},
+				failCall: function(){
+					smallAlert('取消点赞失败');
+				},
+			});
+		}else{
+			ajax({
+				url: '@server/act=cms_special&op=save_action',
+				param: {
+					comment_id: rid,
+					target_type: 1, // [1 首页] [2 庄园预定] [3 庄园特色]
+					type: 2,
+					key: userLoginToken,
+				},
+				call: function(r){
+					// cs(r);
+					$(obj).addClass('likes-cur').removeAttr('make');
+					$(obj).text( Number($(obj).text())+1 );
+					smallAlert('点赞成功');
+				},
+				failCall: function(){
+					smallAlert('点赞失败');
+				},
+			});
+		}
+	}
+
+	// 收藏
+	function collect(){
+		if($('#webFoot .f-btn-collect').hasClass('f-btn-collectDone')){ // 取消收藏
+			ajax({
+				url: '@server/act=cms_special&op=delete_action',
+				param: {
+					id: oid,
+					target_type: 1, // [1 首页] [2 庄园预定] [3 庄园特色]
+					type: 1, // [1 收藏] [2 点赞]
+					key: userLoginToken,
+				},
+				call: function(r){
+					smallAlert('取消收藏成功');
+					// cs(r);
+					$('#webFoot .f-btn-collect').removeClass('f-btn-collectDone');
+				}
+			});
+		}else{
+			ajax({
+				url: '@server/act=cms_special&op=add_action',
+				param: {
+					id: oid,
+					target_type: 1, // [1 首页] [2 庄园预定] [3 庄园特色]
+					type: 1, // [1 收藏] [3 阅读]
+					key: userLoginToken,
+				},
+				call: function(r){
+					smallAlert('收藏成功');
+					specialDetail();
+					// cs(r);
+					if(r.is_collect==0){ // 未收藏
+						$('#webFoot .f-btn-collect').removeClass('f-btn-collectDone');
+					}else{ // 已收藏
+						$('#webFoot .f-btn-collect').addClass('f-btn-collectDone');
+					}
+				}
+			});
+		}
+	}
+
+	// 评论
+	function sendEva(){
+		var txt = $('#commentInput').val();
+		if(txt){
+			$('#commentInput').val('');
+			ajax({
+				url: '@server/act=cms_special&op=add_comment',
+				param: {
+					id: oid,
+					type: 1, // [1 首页] [2 庄园预定] [3 庄园特色]
+					content: txt,
+					key: userLoginToken,
+				},
+				call: function(r){
+					// cs(r);
+					$('#commentInput').val();
+					smallAlert('评论成功');
+					if(shopNoticeCommentInit){
+						shopNoticeArr.comment_count ++;
+						$('#shopNoticeContentItem .end em.eva').text(shopNoticeArr.comment_count);
+
+						$('#shopNoticeCommentItem .list').empty();
+						shopNoticeCommentArr = [];
+						nowPage = 0;
+						shopNoticeCommentInit();
+					}
+				},
+				failCall: function(){
+					smallAlert('评论提交失败');
+				}
+			});
+		}else{
+			smallAlert('请输入评论内容');
+		}
+	}
+</script>
+</html>

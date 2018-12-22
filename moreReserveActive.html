@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+	<title>奥特斯</title>
+	<link rel="stylesheet" href="css/swiper-4.3.5.min.css" />
+	<link rel="stylesheet" href="css/public.css?v=20180910" />
+	<link rel="stylesheet" href="css/reserver.css?v=20180910" />
+</head>
+<body class="hideFoot"> <!-- hideHead hideFoot -->
+	<div class="webHead df hao jcb" id="webHead">
+		<div class="h-btn h-btn-back" toLocation="back"></div>
+		<div class="flex h-txt">最新活动</div>
+		<div class="h-btn"></div>
+	</div>
+
+	<div class="webBody" id="webBody">
+		<!-- <div class="searchBox df wao hao">
+			<div class="search df wao hao">
+				<span>搜索活动</span>
+				<div class="input df wao hao"><input type="text" onblur="blurInput()" onfocus="focusInput()" /></div>
+			</div>
+		</div> -->
+		<div class="reserveActive" id="reserveActiveItem" style="top: 0;"></div>
+	</div>
+
+	<div class="webFoot df hao jcb" id="webFoot"></div>
+</body>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/swiper-4.3.5.min.js"></script>
+<script type="text/javascript" src="js/public.js?v=20180912"></script>
+<script type="text/javascript">
+	var reserveActiveArr = [];
+	function reserveActiveInit(){
+		var html = '';
+		$.each(reserveActiveArr,function(a,b){
+			html += '<div class="li" toLocation="reserveActiveDetail.html?oid='+b.activity_id+'">'+
+						'<img src="'+b.activity_banner+'" alt="" />'+
+						'<div class="title ov-3d">'+b.activity_title+'</div>'+
+						'<div class="date">活动时间<em>'+b.activity_date+'</em></div>'+
+					'</div>';
+		})
+		$('#reserveActiveItem').append(html);
+	}
+
+	var nowPage = 1;
+	var pageNum = 4;
+	ajax_shop();
+	function ajax_shop(s){
+		ajax({
+			url: '@server/act=activity&op=activity_list',
+			param: {
+				page: pageNum,
+				curpage: nowPage,
+			},
+			call: function(r){
+				// cs(r);
+				reserveActiveArr = r;
+				reserveActiveInit();
+
+				if(s&&r.length==pageNum){
+					bindScroll[s] = true;
+				}
+			}
+		});
+	}
+
+	bindScrollCall('#reserveActiveItem',150,function(s){
+		nowPage++;
+		ajax_shop(s);
+	});
+
+	// function blurInput(){
+	// 	if($('.searchBox .search input').val()==''){
+	// 		$('.searchBox .search span').show();
+	// 	}
+	// }
+	// function focusInput(){
+	// 	$('.searchBox .search span').hide();
+	// }
+</script>
+</html>

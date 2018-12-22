@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+	<title>奥特斯</title>
+	<link rel="stylesheet" href="css/swiper-4.3.5.min.css" />
+	<link rel="stylesheet" href="css/public.css?v=20180910" />
+	<link rel="stylesheet" href="css/search.css?v=20180910" />
+</head>
+<body class="hideFoot"> <!-- hideHead hideFoot -->
+	<!-- <div class="webHead df hao jcb pr-15" id="webHead"> -->
+	<div class="webHead df hao jcb" id="webHead">
+		<div class="h-btn h-btn-back" toLocation="back"></div>
+		<div class="flex h-search"><input type="text" placeholder="搜索" /></div>
+		<div class="h-btn" onclick="search()">搜索</div>
+	</div>
+
+	<div class="webBody whiteBg" id="webBody">
+		<div class="searchHistory" id="searchHistoryItem">
+			<div class="tool df hao jcb">
+				<div class="cap">搜索历史</div>
+				<div class="remove" onclick="clearSearchHistory()"></div>
+			</div>
+			<div class="list"></div>
+		</div>
+		<div class="searchResult" id="searchResultItem"></div>
+	</div>
+
+	<div class="webFoot df hao jcb" id="webFoot"></div>
+</body>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/swiper-4.3.5.min.js"></script>
+<script type="text/javascript" src="js/public.js?v=20180912"></script>
+<script type="text/javascript">
+	var searchType = getUrlParam('type','shop'); // 搜索类型 [shop 庄园商城] [reserve 庄园预定] [live 庄园直播]
+
+	// 初始化搜索历史
+	var searchHistoryArr = localData('get','searchShop').historySearch||[];
+	initSearchHistory();
+	function initSearchHistory(){
+		var html = '';
+		$.each(searchHistoryArr,function(a,b){
+			html += '<div class="li ov-d" onclick="search(\''+b+'\')">'+b+'</div>';
+		})
+		$('#searchHistoryItem .list').html(html);
+	}
+
+	// 点击搜索
+	function search(str){
+		var v = str?str:$.trim($('#webHead .h-search input').val()||'');
+		if(v){
+			if(searchHistoryArr.indexOf(v)==-1){
+				searchHistoryArr.unshift(v);
+				localData('remove','searchShop');
+				localData('set','searchShop',{ historySearch: searchHistoryArr });
+				initSearchHistory();
+			}
+
+			$('#searchResultItem').addClass('show');
+			ajax({
+				url: '@server/act=index&op=search',
+				param: { keyword: v },
+				call: searchResultInit,
+			});
+		}
+	}
+
+	// 初始化搜索结果
+	function searchResultInit(r){
+		var html = '';
+		if(searchType=='shop'){
+			$.each(r,function(a,b){
+				html += '<a class="li" toLocation="shopDetail.html?oid='+b.goods_id+'">'+
+								'<div class="img"><img src="'+b.goods_cover_image+'" alt="" /></div>'+
+								'<span class="ov-d">'+b.goods_name+'</span>'+
+								'<div class="df hao jcb"><em class="price">'+b.goods_price+'</em><em class="view">'+b.goods_salenum+'</em></div>'+
+							'</a>';
+			})
+			html = '<div class="shopList">'+html+'</div>';
+		}else if(searchType=='reserve'){
+			var reserveHouseArr = [
+				{ title: '欧洲简约风单人房', img: 'file/1.jpg', price: 600, score: 888 },
+				{ title: '欧洲简约风单人房', img: 'file/1.jpg', price: 600, score: 888 },
+				{ title: '欧洲简约风单人房', img: 'file/1.jpg', price: 600, score: 888 },
+			];
+			$.each(reserveHouseArr,function(a,b){
+				html += '<div class="li" toLocation="reserveHouseDetail.html">'+
+							'<img src="'+b.img+'" alt="" />'+
+							'<div class="info">'+
+								'<div class="title">'+b.title+'</div>'+
+								'<div class="score">积分抵扣'+b.score+'</div>'+
+								'<div class="price df jcb hao">'+
+									'<span>￥'+b.price+'.00/晚</span>'+
+									'<div class="btn">预约</div>'+
+								'</div>'+
+							'</div>'+
+						'</div>';
+			})
+			html = '<div class="reserveList">'+html+'</div>';
+		}
+		$('#searchResultItem').html(html);
+	}
+
+	// 清空搜索结果
+	function clearSearchHistory() {
+		localData('remove','searchShop');
+		searchHistoryArr = [];
+		initSearchHistory()
+	}
+</script>
+</html>

@@ -1,0 +1,320 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+	<title>奥特斯</title>
+	<link rel="stylesheet" href="css/swiper-4.3.5.min.css" />
+	<link rel="stylesheet" href="css/public.css?v=20180910" />
+	<link rel="stylesheet" href="css/user.css?v=20180910" />
+</head>
+<body> <!-- hideHead hideFoot -->
+	<div class="webHead df hao jcb" id="webHead">
+		<div class="h-btn h-btn-back" toLocation="back"></div>
+		<div class="flex h-txt"></div>
+		<div class="h-btn"></div>
+	</div>
+
+	<div class="webBody whiteBg" id="webBody">
+		<div id="levelItem">
+			<div class="levelImg df hao wao"><img src="" alt="" /></div>
+			<div class="defCap df hao jcb levelUtde">
+				<div class="cap">金卡套餐<em></em></div>
+				<div class="txt orange">￥<em>0</em>.00</div>
+			</div>
+			<div class="tenBg"></div>
+			<div class="defCap df hao jcb borBot">
+				<div class="cap">金卡权益</div>
+			</div>
+			<div class="levelInfo">
+				<div class="li df"><em>a.</em><div class="flex">免费预定酒店10晚<br>可选房型(美镜木屋、会所、风情民宿）</div></div>
+				<div class="li df"><em>b.</em><div class="flex">赠送6800积分,积分可以在积分商城中兑换商品</div></div>
+				<div class="li df"><em>c.</em><div class="flex">全面免门票</div></div>
+				<div class="li df"><em>d.</em><div class="flex">购买商品9折优惠</div></div>
+				<div class="li df"><em>e.</em><div class="flex">推荐会员购买商品获得5%现金奖励</div></div>
+				<div class="li df"><em>f.</em><div class="flex">推荐会员购买套餐(年卡/回报卡)一次性获得套餐价值3%的奖励</div></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="webFoot df hao jcb" id="webFoot">
+		<div class="f-btn f-btn-blue"></div>
+	</div>
+</body>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/swiper-4.3.5.min.js"></script>
+<script type="text/javascript" src="js/public.js?v=20180912"></script>
+<script type="text/javascript" src="js/vconsole.min.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
+<script type="text/javascript">
+	var vconsole = new VConsole();
+	var envType = 1;
+	var ua = window.navigator.userAgent.toLowerCase();
+    if(ua.match(/MicroMessenger/i) == 'micromessenger'){    //判断是否是微信环境
+        //微信环境
+        wx.miniProgram.getEnv(function(res) {
+            if (res.miniprogram) {
+                // 小程序环境下逻辑 
+				envType = 2;
+            }else {
+                //非小程序环境下逻辑
+            }
+        })
+    }else{
+          //非微信环境逻辑
+    }
+	var level = getUrlParam('level',1);
+	// var levelArr = {
+	// 	// level: level, // [金卡：2/砖石卡:3/小七星卡:4/大七星卡:5]
+	// 	// price: 0,
+	// 	// state: 3, // 购买状态 1.未激活 2.已激活 3.已购买，未激活
+	// };
+	var levelArr = null;
+	let allLevel = [
+		{
+			level: "2", //金卡
+			data: {
+				level: level,
+				price: 6800,
+				state: 3,
+				name: '金卡',
+				imgUrl: "image/card/t1-d.png"
+			}
+		},
+		{
+			level: "3",  //钻石卡
+			data: {
+				level: level,
+				price: 11800,
+				state: 3,
+				name: '钻石卡',
+				imgUrl: "image/card/t2-d.png"
+			}
+		},
+		{
+			level: "4",  //七星卡1
+			data: {
+				level: level,
+				price: 98000,
+				state: 3,
+				name: '七星卡1',
+				imgUrl: "image/card/t3-d.png"
+			}
+		},
+		{
+			level: "5",  //七星卡2
+			data: {
+				level: level,
+				price: 188000,
+				state: 3,
+				name: '七星卡2',
+				imgUrl: "image/card/t3-d.png"
+			}
+		}
+	]
+	// switch (level){
+	// 	case '2':
+	// 		levelArr = {
+	// 			level: level,
+	// 			price: 6800,
+	// 			state: 3,
+	// 			name: '金卡',
+	// 		}
+	// 		break;
+	// 	case '3':
+	// 		levelArr = {
+	// 			level: level,
+	// 			price: 11800,
+	// 			state: 3,
+	// 			name: '砖石卡',
+	// 		}
+	// 		break;
+	// 	case '4':
+	// 		levelArr = {
+	// 			level: level,
+	// 			price: 98000,
+	// 			state: 3,
+	// 			name: '七星卡1',
+	// 		}
+	// 		break;
+	// 	case '5':
+	// 		levelArr = {
+	// 			level: level,
+	// 			price: 188000,
+	// 			state: 3,
+	// 			name: '七星卡2',
+	// 		}
+	// 		break;
+	// }
+	// 获取卡片状态
+	function getCard() {
+		ajax({
+			url: '@server/act=member_index&op=is_rightCard',
+			param: {
+				card_type: level,
+				key: userLoginToken,
+			},
+			callSuccess: function( res ){
+				let list = null;
+				allLevel.forEach ( (value, index) => {
+					if( value.level == level ) {
+						list = value.data
+					}
+				} )
+				
+				if( res.code === 200 ) {
+					list.state = res.datas.state
+				}else if( res.code === 400 && res.datas.error == '没有该权益包' ) {
+					list.state = "1"
+				}
+				levelInit(list)
+
+			},
+			
+		});
+	}
+	getCard()
+	//	卡片激活
+	function isPhone() {
+		//	检测是否绑定手机号
+		sencAdvance(function(data){
+			if(data.status!=1){
+				alerts({
+					txt:'您未绑定手机号，请前往绑定',
+					type:'info',
+					btn:'前往',
+					click:function () {
+						window.location.href="userInfo.html";
+					}
+				})
+			}else{
+				buyEmperor();
+			}
+		});
+	};
+	// 调用支付
+	function buyEmperor() {
+		if( envType == '1' ) {
+			ajax({
+				url: '@server/act=member_payment&op=buy_emperor',
+				param: {
+					id: level,
+					payment_code: 'wxpay_jsapi',
+					key: userLoginToken,
+					type: envType
+				},
+				call: function(r2){
+					
+					WeixinJSBridge.invoke('getBrandWCPayRequest', {
+						"appId":r2.appId,     //公众号名称，由商户传入
+						"timeStamp": r2.timeStamp,         //时间戳，自1970年以来的秒数
+						"nonceStr": r2.nonceStr, //随机串
+						"package":r2.package,
+						"signType":r2.signType,         //微信签名方式:
+						"paySign":r2.paySign //微信签名
+					},function(res){
+						if(res.err_msg == "get_brand_wcpay_request:ok"){
+							getCard(); //更新状态
+							alerts({
+								type: 'success', // 弹框类型 [default 普通] [success 成功] [fail 失败] [info 警告]
+								txt: '卡片购买成功！', // 弹框内容
+								btn: '取消', // 按钮 空为不显示，会自动隐藏
+								click: function(){
+									window.history.go(-1);
+								},
+								btn2: '激活', // 按钮 空为不显示，会自动隐藏
+								click2: function(){
+									window.location.href = 'levelActivate.html';
+								}, 
+							})
+						}else if(res.err_msg == "get_brand_wcpay_request:cancel"){
+							alerts({ txt: "取消支付!", type: 'fail' });
+						}else{
+							alerts({ txt: "支付失败!", type: 'fail' });
+						}
+					});
+				},
+				failCall: function(r2) {
+					alerts({ txt: r2.error, type: 'fail' });
+				}
+			});
+		} else if( envType == '2' ) {
+			wx.miniProgram.navigateTo({
+				url: "/pages/pay/pay?type=1&id="+ level +"&key=" + userLoginToken + "&url=" + window.location.href,
+				success: function(){
+					console.log('success')
+				},
+				fail: function(){
+					console.log('fail');
+				},
+				complete:function(res){
+					console.log(res);
+				}
+			});
+		}
+		
+	}
+	// 初始化
+	function levelInit (list) {
+		$('#levelItem .levelImg img').attr('src', list.imgUrl);
+		$('#levelItem .levelUtde .cap').html(list.name + '<em></em>');
+		$('#levelItem .levelUtde .txt em').text(list.price);
+		if( list.state == '1' ) {
+			$('#webHead .h-txt').text('权益卡-购买');
+			$('#webFoot .f-btn').text( '购买(￥' + Math.floor(list.price) + ')' ).attr('onclick','isPhone()');
+		} else if( list.state == '2' ){
+			$('#webHead .h-txt').text('权益卡');
+			$('#webFoot .f-btn').text( '已激活' ).attr('onclick','isPhone()');
+		} else if( list.state == '3' ) {
+			$('#webHead .h-txt').text('权益卡-激活');
+			$('#webFoot .f-btn').text( '激活' ).attr('toLocation','levelActivate.html')
+		}
+	} 
+	// levelInit();
+	// function levelInit(){
+	// 	$('#levelItem .levelImg img').attr('src',returnCard(levelArr.level));
+	// 	$('#levelItem .levelUtde .cap').html(levelArr.name+'<em></em>');
+	// 	$('#levelItem .levelUtde .txt em').text(levelArr.price);
+	// 	if(levelArr.state==0){
+	// 		$('#webFoot .f-btn').text('预收款支付(￥'+levelArr.price+'.00)').attr('toLocation','levelOrder.html?levelState=1');
+	// 		$('#webHead .h-txt').text('购买套餐');
+	// 	}else if(levelArr.state==1){
+	// 		$('#levelItem .levelUtde .cap em').text('(预售)');
+	// 		$('#webFoot').html('<div class="f-txt df cf wao hao"><span>支付尾款时间</span><em>2018/06/24/-2018/06/30</em></div>');
+	// 	}else if(levelArr.state==2){
+	// 		$('#webHead .h-txt').text('购买套餐');
+	// 		$('#levelItem .levelUtde .cap em').text('(预售)');
+	// 		// $('#webFoot .f-btn').text('立即购买(￥'+levelArr.price+'.00)').attr('toLocation','levelOrder.html?levelState=2');
+	// 		$('#webFoot .f-btn').text('立即购买').attr('toLocation','levelOrder.html?levelState=2');
+	// 		$('#webHead .h-txt').text('立即购买');
+	// 	}else if(levelArr.state==3){
+	// 		// $('#webFoot .f-btn').text('卡片激活').attr('toLocation','levelActivate.html');
+	// 		$('#webFoot .f-btn').text('卡片激活').attr('onclick','activation()');
+	// 		$('#webHead .h-txt').text('卡片激活');
+	// 	}else if(levelArr.state==4){
+	// 		// $('#webFoot').html('<div class="f-btn f-btn-white">已激活</div>');
+	// 		$('#webFoot').html('<div class="f-txt df cf wao hao">已激活</div>');
+	// 		$('#webHead .h-txt').text('权益卡');
+	// 	}
+
+	// 	function returnCard(s){
+	// 		var img = '';
+	// 		if(s==2){ // 金卡
+	// 			img = 'image/card/t1-d.png';
+	// 		}else if(s==3){ // 砖石卡
+	// 			img = 'image/card/t2-d.png';
+	// 		}else if(s==4){ // 七星卡1
+	// 			img = 'image/card/t3-d.png';
+	// 		}else if(s==5){ // 七星卡2
+	// 			img = 'image/card/t3-d.png';
+	// 		}
+	// 		return img;
+	// 	}
+	// }
+</script>
+</html>

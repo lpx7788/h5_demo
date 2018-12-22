@@ -1,0 +1,377 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+	<title>奥特斯</title>
+	<link rel="stylesheet" href="css/swiper-4.3.5.min.css" />
+	<link rel="stylesheet" href="css/public.css?v=20180910" />
+	<link rel="stylesheet" href="css/user.css?v=20180910" />
+</head>
+<body> <!-- hideHead hideFoot -->
+	<div class="webHead df hao jcb" id="webHead">
+		<div class="h-btn h-btn-back" toLocation="back"></div>
+		<div class="flex h-txt">确认订单</div>
+		<div class="h-btn"></div>
+	</div>
+
+	<div class="webBody" id="webBody">
+		<div class="levelOrderUser" id="levelOrderUserItem">
+			<div class="defCap df hao jcb borBot">
+				<div class="cap">买家信息</div>
+				<!-- <div class="txt arrow"></div> -->
+				<div class="txt"></div>
+			</div>
+			<div class="userAddress" onclick="chooseAddress()"></div>
+		</div>
+
+		<div class="levelOrderInfo" id="levelOrderInfoItem">
+			<div class="defCap df hao jcb borBot">
+				<div class="cap">商品列表</div>
+			</div>
+			<div class="list"></div>
+			<div class="count df hao jcb">
+				<span>共计0件商品</span>
+				<em>合计：￥0.00</em>
+			</div>
+		</div>
+
+		<div class="formBox" id="levelOrderMessageItem">
+			<div class="formLine df hao jcb">
+				<div class="cap" style="width: 100px;">留言</div>
+				<div class="input flex"><input type="text" placeholder="选填（建议50字以内）"></div>
+			</div>
+		</div>
+
+		<div id="levelOrderStageItem">
+			<div class="formBox"></div>
+		</div>
+
+		<!-- <div class="formBox">
+			<div class="formLine df hao jcb houseWrite-level" id="houseWriteLevelItem">
+				<div class="cap">预售活动规则</div>
+				<div class="txt arrow">查看详情</div>
+			</div>
+		</div> -->
+	</div>
+
+	<div class="webFoot df hao jcb" id="webFoot">
+		<div class="f-shopCount2 df cf wao flex"><span>实付全款：<i>￥0.00</i></span></div>
+		<div class="f-btn f-btn-blue" style="width: 154px;" onclick="createOrder()">立即付款</div>
+	</div>
+	
+	<div class="chooseAddress" id="chooseAddressItem">
+		<div class="etx">
+			<div class="top">
+				<div class="back" onclick="closeChooseAddress()"></div>
+				<span>选择收货地址</span>
+				<div class="manage" toLocation="mineAddress.html">管理</div>
+			</div>
+			<div class="content"></div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/swiper-4.3.5.min.js"></script>
+<script type="text/javascript" src="js/public.js?v=20180912"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
+<script type="text/javascript">
+	var envType = 1;
+	var ua = window.navigator.userAgent.toLowerCase();
+    if(ua.match(/MicroMessenger/i) == 'micromessenger'){    //判断是否是微信环境
+        //微信环境
+        wx.miniProgram.getEnv(function(res) {
+            if (res.miniprogram) {
+                // 小程序环境下逻辑 
+				envType = 2;
+            }else {
+                //非小程序环境下逻辑
+            }
+        })
+    }else{
+          //非微信环境逻辑
+    }
+	var lastDesc = getUrlParam('last','');
+	var oid = getUrlParam('oid','');
+	var num = getUrlParam('num','');
+	var allendMoney=0;//总金额
+
+	if(lastDesc){
+		var chooseAddressId = ''; // 选中的地址id
+		var endScore = 0; // 抵扣积分
+		var choosePd = ''; // 订单中的商品
+		chooseAddress('noShow');
+		// 选择收货地址
+		function chooseAddress(st){
+			if(st!='noShow'){ $('#chooseAddressItem').show(); }
+
+			if($('#chooseAddressItem .content').html()==''){
+				ajax({
+					url: '@server/act=member_address&op=address_list',
+					param: {
+						key: userLoginToken,
+					},
+					call: function(r){
+						// cs(r);
+						var defaultAddress = {};
+						var html = '';
+						$.each(r.address_list,function(a,b) {
+							if(b.is_default==1&&!defaultAddress.address_id){
+								defaultAddress = b;
+							}
+							html += '<div class="li" onclick="chooseAddressLi(this)" address-id="'+b.address_id+'">'+
+										'<div class="person">'+
+											'<span>'+b.true_name+'</span>'+
+											'<em>'+b.mob_phone+'</em>'+
+										'</div>'+
+										'<div class="address">'+b.area_info+' '+b.address+'</div>'+
+									'</div>';
+						})
+						$('#chooseAddressItem .content').html(html);
+
+						if(defaultAddress.address_id){ // 存在默认地址时显示默认地址
+							$('#chooseAddressItem .content .li[address-id="'+defaultAddress.address_id+'"]').click();
+						}
+					}
+				});
+			}
+		}
+		function closeChooseAddress(){
+			$('#chooseAddressItem').hide();
+		}
+		function chooseAddressLi(obj) {
+			$(obj).addClass('cur').siblings('.li').removeClass('cur');
+			$('#levelOrderUserItem .userAddress').html($(obj).html());
+			chooseAddressId = $(obj).attr('address-id');
+			closeChooseAddress();
+		}
+		
+		// cs(oid,num)
+		if(lastDesc=='shopDetail'){ // 立即购买
+			var productArr = [];
+			ajax({
+				url: '@server/act=goods&op=goods_detail',
+				param: {
+					goods_id: oid,
+					key: userLoginToken,
+				},
+				call: function(r){
+					// cs(r);
+					productArr = r.goods_info;
+					// cs(productArr);
+
+					if(num==''||num<=0){
+						num = 1;
+					}
+					var countMoney = Number(productArr.goods_price)*Number(num);
+					var shopLi = '<div class="li df cf jcb">'+
+									'<div class="img"><img src="'+productArr.body[0].img+'" alt=""></div>'+
+									'<div class="name flex ov-2d">'+productArr.goods_name+'</div>'+
+									'<div class="ps df jcb">'+
+										// '<div class="tag">#预售</div>'+
+										'<div class="price flex">￥'+productArr.goods_price+'</div>'+
+										'<div class="num">x'+num+'</div>'+
+									'</div>'+
+								'</div>';
+					$('#levelOrderInfoItem .list').html(shopLi);
+					$('#levelOrderInfoItem .count').html('<span>共计'+num+'件商品</span><em>合计：￥'+countMoney+'</em>');
+
+					stageHtml = '<div class="formLine df hao jcb">'+
+									'<div class="cap">商品总额</div>'+
+									'<div class="txt">￥'+countMoney+'</div>'+
+								'</div>'+
+								'<div class="formLine df hao jcb">'+
+									'<div class="cap">运费</div>'+
+									'<div class="txt">'+(productArr.goods_freight==0?'包邮':'￥'+productArr.goods_freight+'')+'</div>'+
+								'</div>'+
+								'<div class="formLine df hao jcb">'+
+									'<div class="cap">积分抵扣</div>'+
+									'<div class="txt">-￥'+productArr.integral_limit+'</div>'+
+								'</div>';
+					$('#levelOrderStageItem .formBox').html(stageHtml);
+					var endMoney = countMoney+Number(productArr.goods_freight)-Number(productArr.integral_limit);
+					allendMoney=endMoney;
+					$('#webFoot .f-shopCount2 i').text('￥'+endMoney+'');
+
+					endScore = Number(productArr.integral_limit);
+					choosePd = ''+productArr.goods_id+'|'+num+'';
+				}
+			});
+		}else if(lastDesc=='shopCar'){ // 购物车结算
+			var catShopArr = [];
+			ajax({
+				url: '@server/act=member_cart&op=cart_list',
+				param: {
+					key: userLoginToken,
+				},
+				call: function(r){
+					// cs(r);
+					catShopArr = r.cart_list;
+					var hasChoose = oid.split(',');
+					if(hasChoose.length==0){
+						return false;
+					}
+					var countMoney = 0;
+					var countPd = 0;
+					var countScore = 0; // 合计积分抵扣
+					var countFreight = 0; // 邮费（最大值）
+					var shopLi = '';
+					var shopPdAndNum = [];
+					$.each(catShopArr,function(a,b){
+						$.each(b.goods,function(c,d){
+							if(hasChoose.indexOf(d.cart_id.toString())>=0){
+								shopLi += '<div class="li df cf jcb">'+
+												'<div class="img"><img src="'+d.goods_image_url+'" alt=""></div>'+
+												'<div class="name flex ov-2d">'+d.goods_name+'</div>'+
+												'<div class="ps df jcb">'+
+													// '<div class="tag">#预售</div>'+
+													'<div class="price flex">￥'+d.goods_price+'</div>'+
+													'<div class="num">x'+d.goods_num+'</div>'+
+												'</div>'+
+											'</div>';
+								countMoney += Number(d.goods_price)*Number(d.goods_num);
+								countPd += Number(d.goods_num);
+								countScore += Number(d.integral_limit);
+								// if(countFreight<Number(d.goods_freight)){
+								// 	countFreight = Number(d.goods_freight);
+								// }
+								countFreight += Number(d.goods_freight);
+
+								// shopPdAndNum.push(d.goods_id+'|'+d.goods_num);
+								shopPdAndNum.push(d.cart_id+'|'+d.goods_num);
+							}
+						})
+					})
+					$('#levelOrderInfoItem .list').html(shopLi);
+					$('#levelOrderInfoItem .count').html('<span>共计'+countPd+'件商品</span><em>合计：￥'+countMoney+'</em>');
+
+					stageHtml = '<div class="formLine df hao jcb">'+
+									'<div class="cap">商品总额</div>'+
+									'<div class="txt">￥'+countMoney+'</div>'+
+								'</div>'+
+								'<div class="formLine df hao jcb">'+
+									'<div class="cap">运费</div>'+
+									'<div class="txt">'+(countFreight==0?'包邮':'￥'+countFreight+'')+'</div>'+
+								'</div>'+
+								'<div class="formLine df hao jcb">'+
+									'<div class="cap">积分抵扣</div>'+
+									'<div class="txt">-￥'+countScore+'</div>'+
+								'</div>';
+					$('#levelOrderStageItem .formBox').html(stageHtml);
+					var endMoney = countMoney+countFreight-countScore;
+					allendMoney=endMoney;
+					$('#webFoot .f-shopCount2 i').text('￥'+endMoney+'');
+					endScore = countScore;
+					choosePd = shopPdAndNum.toString();
+				}
+			});
+		}
+
+		// 生成订单
+		function createOrder () {
+			if(!chooseAddressId){
+				alerts({ type: 'fail', txt: '请选择收货地址' });
+				return false;
+			}
+			var vat_hash = getUrlParam('vat_hash','');
+			var offpay_hash = getUrlParam('offpay_hash','');
+			var offpay_hash_batch = getUrlParam('offpay_hash_batch','');
+			if(!vat_hash||!offpay_hash||!offpay_hash_batch){
+				alerts({ type: 'fail', txt: '参数错误' });
+				return false;
+			}
+			var message = $('#levelOrderMessageItem input').val()||'';
+			if(message.length>50){
+				alerts({ type: 'fail', txt: '留言不能超过50字' });
+				return false;
+			}
+
+			var param = {
+				key: userLoginToken,
+				ifcart: (lastDesc=='shopCar'?1:0), // 未知
+				cart_id: choosePd, // 商品id以及数量
+				address_id: chooseAddressId,
+				vat_hash: vat_hash,
+				offpay_hash: offpay_hash,
+				offpay_hash_batch: offpay_hash_batch,
+				pay_name: 'online', // 支付方式
+				invoice_id: 0, //发票信息id
+				rpt: '',
+				voucher: '', // 代金券
+				pay_message: message, // 店铺留言信息
+				pd_pay: 0,	
+				rcb_pay: 0,	
+				password: '',
+				fcode: '',
+				store_id: '', // 商家id
+				// is_integral: 1, // 1为商品积分，0不是
+				integral_limit: endScore, // 抵扣积分
+			};
+			ajax({
+				url: '@server/act=member_buy&op=buy_step2',
+				param: param,
+				call: function(r){
+					// cs(r);
+					// r.order_id
+					// 调用支付
+					if( envType == '1' ) {
+						ajax({
+							url: '@server/act=member_payment&op=payfee',
+							param: {
+								pay_sn: r.pay_sn,
+								payment_code: 'wxpay_jsapi',
+								key: userLoginToken,
+								type: envType
+							},
+							call: function(r2){
+								WeixinJSBridge.invoke('getBrandWCPayRequest', {
+									"appId":r2.appId, // 公众号名称，由商户传入     
+									"timeStamp":r2.timeStamp, // 时间戳，自1970年以来的秒数     
+									"nonceStr":r2.nonceStr, // 随机串
+									"package":r2.package,
+									"signType":r2.signType, // 微信签名方式:     
+									"paySign":r2.paySign // 微信签名 
+								},function(res){
+									if(res.err_msg == "get_brand_wcpay_request:ok"){  
+										window.location.href = 'payDone.html?type=4&money='+allendMoney;
+									}else if(res.err_msg == "get_brand_wcpay_request:cancel"){
+										alerts({ txt: "取消支付!", type: 'fail' });
+									}else{
+										alerts({ txt: "支付失败!", type: 'fail' });
+									}  
+								});
+							},
+							failCall: function(r2) {
+								alerts({ txt: r2.error, type: 'fail' });
+							}
+						});
+					} else if( envType == '2' ) {
+						wx.miniProgram.navigateTo({
+							url: "/pages/pay/pay?type=0&pay_sn=" + r.pay_sn + "&key=" + userLoginToken + "&url=" + window.location.href,
+							success: function(){
+								console.log('success')
+							},
+							fail: function(){
+								console.log('fail');
+							},
+							complete:function(res){
+								console.log(res);
+							}
+						});
+					}
+				},
+				failCall: function(r) {
+					alerts({ txt: r.error, type: 'fail' });
+				}
+			});
+			
+			
+		}
+	}
+</script>
+</html>

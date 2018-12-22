@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>奥特斯</title>
+    <link rel="stylesheet" href="css/swiper-4.3.5.min.css"/>
+    <link rel="stylesheet" href="css/public.css?v=20181010"/>
+    <link rel="stylesheet" href="css/login.css?v=20180910"/>
+</head>
+<body> <!-- hideHead hideFoot -->
+<div class="webHead df hao jcb" id="webHead">
+    <div class="h-btn h-btn-back" toLocation="back"></div>
+    <div class="flex h-txt">登录</div>
+    <div class="h-btn"></div>
+</div>
+
+<div class="webBody whiteBg" id="webBody">
+    <div class="logo df hao wao"><img src="image/logo.png" alt=""/></div>
+    <div class="formLine borBot df hao">
+        <div class="cap">手机号码</div>
+        <div class="flex input"><input type="text" placeholder="请输入手机号码" id="phoneNum"></div>
+    </div>
+    <div class="formLine borBot df hao">
+        <div class="cap">验证码</div>
+        <div class="flex input"><input type="text" placeholder="请输入手机验证码" id="phoneCode"></div>
+        <div class="pushCode" onclick="sendCode(this)">发送验证码</div>
+    </div>
+    <!-- <div class="formLine df war hao">
+        <div class="forgetPass">忘记密码？</div>
+    </div> -->
+    <!--<div class="formLine df war hao">-->
+    <!--<div class="wechatLogin" onclick="wechatLogin()">微信登录</div>-->
+    <!--</div>-->
+    <div class="formLine df war hao">
+        <div class="types" onclick="changeType()">注册账号</div>
+    </div>
+</div>
+
+<div class="webFoot df hao jcb" id="webFoot">
+    <div class="f-btn f-btn-blue" onclick="login()">登录</div>
+</div>
+</body>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/swiper-4.3.5.min.js"></script>
+<script type="text/javascript" src="js/public.js?v=20180912"></script>
+<script type="text/javascript">
+    var noCheckLogin = true;
+    var T = 0;
+
+    function sendCode(obj) {
+        if ($(obj).hasClass('notPush')) {
+            return false;
+        }
+        var phone = $('#phoneNum').val();
+        if (checkPhone(phone)) {
+            sendPhoneCode({
+                do: T===1?'注册':'登录',
+                phone: phone,
+                call: function (r) {
+                    // cs(r);
+                    var times = Number(r.sms_time);
+                    $(obj).text(times + 's可重新发送').addClass('notPush');
+                    var s = setInterval(function () {
+                        if (times == 0) {
+                            clearInterval(s);
+                            $(obj).text('发送验证码').removeClass('notPush');
+                            return false;
+                        }
+                        $(obj).text(times + 's可重新发送');
+                        times--;
+                    }, 1000)
+                },
+                failCall: function (r) {
+                    alerts(r.error);
+                }
+            });
+        }
+    }
+
+    function login() {
+        var phone = $('#phoneNum').val();
+        var code = $('#phoneCode').val();
+        if (checkPhone(phone)) {
+            if (!code) {
+                alerts({
+                    type: 'fail',
+                    title: '验证错误',
+                    txt: '请输入验证码',
+                });
+                return false;
+            }
+            if (T === 1) {
+                ajax({
+                    url: '@server/act=connect&op=sms_register',
+                    param: {
+                        phone: phone,
+                        client: '',
+                        captcha: code,
+                        inviter_id: '',
+                    },
+                    call: function (r) {
+                        // cs(r);
+                        window.userLoginToken = r.key;
+                        sessionData('set', 'userLoginToken', {token: r.key});
+
+                        window.location.href = 'index.html';
+                    },
+                    failCall: function (r) {
+                        alerts(r.error);
+                    },
+                });
+            }else{
+                ajax({
+                    url: '@server/act=connect&op=sms_register',
+                    param: {
+                        phone: phone,
+                        client: '',
+                        captcha: code,
+                        inviter_id: '',
+                    },
+                    call: function (r) {
+                        // cs(r);
+                        window.userLoginToken = r.key;
+                        sessionData('set', 'userLoginToken', {token: r.key});
+
+                        window.location.href = 'index.html';
+                    },
+                    failCall: function (r) {
+                        alerts(r.error);
+                    },
+                });
+            }
+        }
+    }
+
+    function wechatLogin() {
+        ajax({
+            url: '@server/act=login&op=weixin',
+            param: {},
+            call: function (r) {
+                window.userLoginToken = r.key;
+                sessionData('set', 'userLoginToken', {token: r.key});
+                window.location.href = r;
+            },
+            failCall: function (r) {
+                alerts(r.error);
+            },
+        });
+    }
+
+    function changeType() {
+        if (T === 0) {
+            T = 1;
+            $('.h-txt').text('注册');
+            $('.f-btn-blue').text('注册');
+        } else {
+            T = 0;
+            $('.h-txt').text('登录');
+            $('.f-btn-blue').text('登录');
+        }
+        $('#phoneCode').val("");
+    }
+</script>
+</html>

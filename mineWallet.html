@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+	<title>奥特斯</title>
+	<link rel="stylesheet" href="css/swiper-4.3.5.min.css" />
+	<link rel="stylesheet" href="css/public.css?v=20180910" />
+	<link rel="stylesheet" href="css/user.css?v=20180910" />
+</head>
+<body class="hideFoot"> <!-- hideHead hideFoot -->
+	<div class="webHead df hao jcb" id="webHead">
+		<div class="h-btn h-btn-back" toLocation="back"></div>
+		<div class="flex h-txt">我的钱包</div>
+		<div class="h-btn"></div>
+	</div>
+
+	<div class="webBody" id="webBody">
+		<div class="walletCount">
+			<img src="image/wallet-bg.png" alt="" />
+			<div class="price df cf hao wao">
+				<span id="jindou_num">00.00</span>
+				<em>金额</em>
+			</div>
+			<div class="toCash" onclick="toCash()">转为现金</div>
+		</div>
+		<div class="walletBet df hao">
+			<div class="flex li df cf wao hao cur"><span id="member_currency">0</span><em>金额</em></div>
+			<div class="flex li df cf wao hao"><span id="member_points">0</span><em>积分</em></div>
+		</div>
+		<div class="walletFlow showList" id="walletFlowItem">
+			<div class="cap" onclick="$('#walletFlowItem').toggleClass('showList')">金豆流水明细</div>
+			<div class="list"></div>
+		</div>
+		<div class="walletInfo showList" id="walletInfo">
+			<div class="cap" onclick="$('#walletInfo').toggleClass('showList')">金豆使用说明</div>
+			<div class="list">
+				<div class="li df"><em>a.</em><div class="flex">免费预定酒店10晚<br>可选房型(美镜木屋、会所、风情民宿）</div></div>
+				<div class="li df"><em>b.</em><div class="flex">赠送6800积分,积分可以在积分商城中兑换商品</div></div>
+				<div class="li df"><em>c.</em><div class="flex">全面免门票</div></div>
+				<div class="li df"><em>d.</em><div class="flex">购买商品9折优惠</div></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="webFoot df hao jcb" id="webFoot"></div>
+</body>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/swiper-4.3.5.min.js"></script>
+<script type="text/javascript" src="js/public.js?v=20180912"></script>
+<script type="text/javascript">	
+	// 初始化人员
+	var walletFlowArr = null;
+	function walletFlowInit(){
+		var html = '';
+		$.each(walletFlowArr,function(a,b){
+			html += '<div class="li df hao jcb"><span>'+(b.money>0?'+':'')+b.money+'</span><em>'+b.date+'</em></div>';
+		})
+		$('#walletFlowItem .list').html(html);
+	}
+	//详情
+	ajax({
+		url: '@server/act=member_cash&op=property',
+		param: {
+			key: userLoginToken
+		},
+		call: function(r){
+			$("#jindou_num").text(r.memebr_jindou);
+			$("#member_points").text(r.member_points);
+			$("#member_currency").text(r.member_currency);
+		},
+		failCall: function(r) {
+			alerts({ txt: r.error, type: 'fail' });
+		}
+	});
+
+	// 金豆流水明细
+	ajax({
+		url: '@server/act=member_cash&op=stream_log',
+		param: {
+			key: userLoginToken,
+			type:1
+		},
+		call: function(r){
+			var Arr = [];
+			r.stream_list.forEach(function(item,index){
+				Arr.push({ date: timestampToTime(item.time*1000), money: item.variation })
+			})
+			walletFlowArr = Arr;
+			walletFlowInit();
+		},
+		failCall: function(r) {
+			alerts({ txt: r.error, type: 'fail' });
+		}
+	});
+
+	// 金豆转化为现金
+	function toCash(){
+		var memebr_jindou = $("#jindou_num").text();
+		ajax({
+			url: '@server/act=member_cash&op=cash_jindou',
+			param: {
+				key: userLoginToken,
+				memebr_jindou: memebr_jindou,
+			},
+			call: function(r){
+				alerts({ txt: '提现已提交！', type: 'success' });
+			},
+			failCall: function(r) {
+				alerts({ txt: r.error, type: 'fail' });
+			}
+		});
+	}
+</script>
+</html>

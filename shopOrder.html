@@ -1,0 +1,332 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+	<title>奥特斯</title>
+	<link rel="stylesheet" href="css/swiper-4.3.5.min.css" />
+	<link rel="stylesheet" href="css/public.css?v=20180910" />
+	<link rel="stylesheet" href="css/shop.css?v=20180910" />
+</head>
+<body class="hideFoot"> <!-- hideHead hideFoot -->
+	<div class="webHead df hao jcb" id="webHead">
+		<div class="h-btn h-btn-back" toLocation="back"></div>
+		<div class="flex h-txt">订单详情</div>
+		<div class="h-btn"></div>
+	</div>
+
+	<div class="webBody" id="webBody">
+		<div class="shopOrderState" id="shopOrderStateItem"></div>
+
+		<div class="shopOrderLogis" id="shopOrderLogisItem"></div>
+
+		<div class="shopOrderUser" id="shopOrderUserItem">
+			<div class="defCap df hao jcb borBot">
+				<div class="cap">买家信息</div>
+				<div class="txt arrow"></div>
+			</div>
+			<div class="person">
+				<span>张三</span>
+				<em>1234567890</em>
+			</div>
+			<div class="address">广州市越秀区广州市越秀区广州市越秀区广州市越秀区188号</div>
+		</div>
+
+		<div class="shopOrderInfo" id="shopOrderInfoItem">
+			<div class="defCap df hao jcb borBot">
+				<div class="cap">商品列表</div>
+				<!-- <div class="txt orange">支付尾款后N天内发货</div> -->
+			</div>
+			<div class="list">
+				<!--<div class="li df cf jcb">-->
+					<!--<div class="img"><img src="file/1.jpg" alt=""></div>-->
+					<!--<div class="name flex ov-2d">AILISI 爱丽诗面包</div>-->
+					<!--<div class="ps df jcb">-->
+						<!--&lt;!&ndash; <div class="tag">#预售</div> &ndash;&gt;-->
+						<!--<div class="price flex">￥1600.00</div>-->
+						<!--<div class="num">x2</div>-->
+					<!--</div>-->
+				<!--</div>-->
+				<!--<div class="li df cf jcb">-->
+					<!--<div class="img"><img src="file/1.jpg" alt=""></div>-->
+					<!--<div class="name flex ov-2d">AILISI 爱丽诗面包</div>-->
+					<!--<div class="ps df jcb">-->
+						<!--&lt;!&ndash; <div class="tag">#预售</div> &ndash;&gt;-->
+						<!--<div class="price flex">￥1600.00</div>-->
+						<!--<div class="num">x2</div>-->
+					<!--</div>-->
+				<!--</div>-->
+			</div>
+			<div class="count df hao jcb">
+				<!--<span>共计2件商品</span>-->
+				<!--<em>合计：￥3200.00</em>-->
+			</div>
+		</div>
+
+		<div class="shopOrderDet" id="shopOrderDetItem">
+			<div class="defCap df hao jcb borBot">
+				<div class="cap">订单信息</div>
+			</div>
+			<div class="formBox"></div>
+		</div>
+
+		<div class="shopOrderCount formBox" id="shopOrderCountItem">
+			<!--<div class="formLine df hao jcb">-->
+				<!--<div class="cap">总计</div>-->
+				<!--<div class="txt orange">￥1600.00</div>-->
+			<!--</div>-->
+			<!--<div class="formLine df hao jcb">-->
+				<!--<div class="cap2">商品金额</div>-->
+				<!--<div class="txt">￥1600.00</div>-->
+			<!--</div>-->
+			<!--<div class="formLine df hao jcb">-->
+				<!--<div class="cap2">运费</div>-->
+				<!--<div class="txt">￥200.00</div>-->
+			<!--</div>-->
+			<!--<div class="formLine df hao jcb">-->
+				<!--<div class="cap2">积分抵扣</div>-->
+				<!--<div class="txt">-￥200.00</div>-->
+			<!--</div>-->
+		</div>
+	</div>
+
+	<div class="webFoot df hao jcb" id="webFoot"></div>
+</body>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/swiper-4.3.5.min.js"></script>
+<script type="text/javascript" src="js/public.js?v=20180912"></script>
+<script type="text/javascript" src="js/shopOrder.js?v=20180910"></script>
+<script type="text/javascript">
+	var webType = 'shopOrder';
+	var orderState = getUrlParam('type',1);
+	var orderId = getUrlParam('orderid',0);
+	var lock_state = getUrlParam('lock_state',0);
+	var orderStateTxt = '';
+	var orderLogisHtml = '';
+	var orderFootHtml = '';
+	var orderDetHtml = '';
+	// 订单详情
+	var myorderDetails=null;
+	function orderDetails(){
+		ajax({
+			url: '@server/act=member_order&op=order_info',
+			param: {
+				order_id: orderId,
+				key: userLoginToken,
+			},
+			type:'get',
+			call: function(r){
+				// cs(r);
+				myorderDetails=r.order_info;
+				orderDetails_html();
+			}
+		});
+	}
+	orderDetails();
+
+	// 页面详情相关信息
+	function infoDetails(){
+		$("#shopOrderUserItem").html('<div class="defCap df hao jcb borBot">'+
+											'<div class="cap">买家信息</div>'+
+											'<div class="txt arrow"></div>'+
+										'</div>'+
+										'<div class="person">'+
+											'<span>'+myorderDetails.reciver_name+'</span>'+
+											'<em>'+myorderDetails.reciver_phone+'</em>'+
+										'</div>'+
+										'<div class="address">'+myorderDetails.reciver_addr+'</div>');
+		var shopOrderInfoItem_list = '', shopOrderInfoItem_list_num = 0, shopOrderInfoItem_allprice = 0;
+		myorderDetails.goods_list.forEach(function(item,index){
+			shopOrderInfoItem_list_num = shopOrderInfoItem_list_num + Number(item.goods_num);
+			shopOrderInfoItem_allprice = shopOrderInfoItem_allprice + Number(item.goods_price)*Number(item.goods_num);
+			shopOrderInfoItem_list += '<div class="li df cf jcb">'+
+											'<div class="img"><img src="'+item.image_url+'" alt=""></div>'+
+											'<div class="name flex ov-2d">'+item.goods_name+'</div>'+
+											'<div class="ps df jcb">'+
+												'<!-- <div class="tag">#预售</div> -->'+
+												'<div class="price flex">￥'+item.goods_price+'</div>'+
+												'<div class="num">x'+item.goods_num+'</div>'+
+											'</div>'+
+										'</div>';
+		})
+		$("#shopOrderInfoItem .list").html(shopOrderInfoItem_list);
+		$("#shopOrderInfoItem .count").html('<span>共计'+shopOrderInfoItem_list_num+'件商品</span><em>合计：￥'+shopOrderInfoItem_allprice+'</em>');
+		$("#shopOrderCountItem").html('<div class="formLine df hao jcb">'+
+											'<div class="cap">总计</div>'+
+											'<div class="txt orange">￥'+myorderDetails.order_amount+'</div>'+
+										'</div>'+
+										'<div class="formLine df hao jcb">'+
+											'<div class="cap2">商品金额</div>'+
+											'<div class="txt">￥'+myorderDetails.order_amount+'</div>'+
+										'</div>'+
+										'<div class="formLine df hao jcb">'+
+											'<div class="cap2">运费</div>'+
+											'<div class="txt">￥'+myorderDetails.shipping_fee+'</div>'+
+										'</div>'+
+										'<div class="formLine df hao jcb">'+
+											'<div class="cap2">积分抵扣</div>'+
+											'<div class="txt">-￥'+myorderDetails.is_integral_order+'</div>'+
+										'</div>');
+	}
+
+	function orderDetails_html(){
+		if(orderState==1||orderState==6||orderState==8){
+			infoDetails();
+			orderStateTxt = '<img src="image/bg.png" alt="" /><span>待付款...</span>';
+			if(orderState==8){
+				orderFootHtml = '<div class="f-btn f-btn-blue" onclick="memberBuy(\''+myorderDetails.pay_sn+'\',\''+myorderDetails.order_amount+'\','+(orderState==6||orderState==8?3:4)+')">立即付款</div>';
+			}else{
+				// orderFootHtml = '<div class="f-btn-2 f-btn-white" onclick="orderCancel(\''+myorderDetails.order_id+'\')">取消订单</div>'+
+				orderFootHtml = '<div class="f-btn-2 f-btn-white" onclick="orderCancel(\''+orderId+'\')">取消订单</div>'+
+								'<div class="f-btn-2 f-btn-blue" onclick="memberBuy(\''+myorderDetails.pay_sn+'\',\''+myorderDetails.order_amount+'\','+(orderState==6||orderState==8?3:4)+')">立即付款</div>';
+			}
+			orderDetHtml = '<div class="formLine3 df hao jcb">'+
+								'<div class="cap">订单号</div>'+
+								'<div class="txt flex">'+myorderDetails.order_sn+'</div>'+
+							'</div>'+
+							'<div class="formLine3 df hao jcb">'+
+								'<div class="cap">创建时间</div>'+
+								'<div class="txt flex">'+myorderDetails.add_time+'</div>'+
+							'</div>';
+		}else if(orderState==2){
+			infoDetails();
+			orderStateTxt = '<img src="image/bg.png" alt="" /><span>待发货...</span>';
+			if(lock_state==1){
+				orderFootHtml = '<div class="f-btn f-btn-white" onclick="application_refund(\''+orderId+'\')">取消退款</div>';
+			}else{
+				orderFootHtml = '<div class="f-btn f-btn-white" toLocation="orderApplyRefund.html?orderid='+orderId+'">申请退款</div>';
+			}
+			orderDetHtml = '<div class="formLine3 df hao jcb">'+
+								'<div class="cap">订单号</div>'+
+								'<div class="txt flex">'+myorderDetails.order_sn+'</div>'+
+							'</div>'+
+							'<div class="formLine3 df hao jcb">'+
+								'<div class="cap">创建时间</div>'+
+								'<div class="txt flex">'+myorderDetails.add_time+'</div>'+
+							'</div>'+
+							'<div class="formLine3 df hao jcb">'+
+								'<div class="cap">付款时间</div>'+
+								'<div class="txt flex">'+myorderDetails.payment_time+'</div>'+
+							'</div>';
+		}else if(orderState==3){
+			infoDetails();
+			orderStateTxt = '<img src="image/bg.png" alt="" /><span>已取消...</span>';
+		}else if(orderState==4){
+			infoDetails();
+			orderStateTxt = '<img src="image/bg.png" alt="" /><span>待收货...</span>';
+			orderLogisHtml = get_current_deliver(orderId);
+			orderFootHtml = '<div class="f-btn f-btn-white" onclick="collect_goods(\''+orderId+'\')">确认收货</div>';
+			orderDetHtml = '<div class="formLine3 df hao jcb">'+
+								'<div class="cap">订单号</div>'+
+								'<div class="txt flex">'+myorderDetails.order_sn+'</div>'+
+							'</div>'+
+							'<div class="formLine3 df hao jcb">'+
+								'<div class="cap">创建时间</div>'+
+								'<div class="txt flex">'+myorderDetails.add_time+'</div>'+
+							'</div>'+
+							'<div class="formLine3 df hao jcb">'+
+								'<div class="cap">付款时间</div>'+
+								'<div class="txt flex">'+myorderDetails.payment_time+'</div>'+
+							'</div>'+
+							'<div class="formLine3 df hao jcb">'+
+								'<div class="cap">发货时间</div>'+
+								'<div class="txt flex">'+myorderDetails.shipping_time+'</div>'+
+							'</div>';
+		}else if(orderState==5){ // 交易完成
+			infoDetails();
+			orderStateTxt = '<img src="image/bg.png" alt="" /><span>已签收...</span>';
+			orderLogisHtml =  get_current_deliver(orderId);
+			// orderFootHtml = '<div class="f-btn f-btn-white" toLocation="orderApplyRefund.html?orderId='+orderId+'">申请退款</div>';
+			orderDetHtml = '<div class="formLine3 df hao jcb">'+
+								'<div class="cap">订单号</div>'+
+								'<div class="txt flex">'+myorderDetails.order_sn+'</div>'+
+							'</div>'+
+							'<div class="formLine3 df hao jcb">'+
+								'<div class="cap">创建时间</div>'+
+								'<div class="txt flex">'+myorderDetails.add_time+'</div>'+
+							'</div>'+
+							'<div class="formLine3 df hao jcb">'+
+								'<div class="cap">付款时间</div>'+
+								'<div class="txt flex">'+myorderDetails.payment_time+'</div>'+
+							'</div>'+
+							'<div class="formLine3 df hao jcb">'+
+								'<div class="cap">发货时间</div>'+
+								'<div class="txt flex">'+myorderDetails.shipping_time+'</div>'+
+							'</div>'+
+							'<div class="formLine3 df hao jcb">'+
+								'<div class="cap">成交时间</div>'+
+								'<div class="txt flex">'+myorderDetails.finnshed_time+'</div>'+
+							'</div>';
+		}else if(orderState==7){ // 定金 已付款
+			infoDetails();
+			orderStateTxt = '<img src="image/bg2.png" alt="" /><span class="lineTwo">支付尾款时间<br>2018/06/24/-2018/06/30</span>';
+			orderFootHtml = '<div class="f-txt df cf wao hao"><span>支付尾款时间</span><em>2018/06/24/-2018/06/30</em></div>';
+			orderDetHtml = '<div class="formLine3 df hao jcb">'+
+								'<div class="cap">订单号</div>'+
+								'<div class="txt flex">52525252525252</div>'+
+							'</div>'+
+							'<div class="formLine3 df hao jcb">'+
+								'<div class="cap">创建时间</div>'+
+								'<div class="txt flex">2018/06/12 12:12:00</div>'+
+							'</div>'+
+							'<div class="formLine3 df hao jcb">'+
+								'<div class="cap">支付定金时间</div>'+
+								'<div class="txt flex">2018/06/12 12:12:00</div>'+
+							'</div>';
+			$('#shopOrderCountItem').html('<div class="formLine df hao jcb">'+
+												'<div class="cap">总计</div>'+
+												'<div class="txt orange">￥1600.00</div>'+
+											'</div>'+
+											'<div class="formLine df hao jcb">'+
+												'<div class="cap2">权益卡定金</div>'+
+												'<div class="txt">￥1600.00</div>'+
+											'</div>');
+		}else if(orderState==9){ // 权益卡 交易完成
+			orderStateTxt = '<img src="image/bg.png" alt="" /><span>已完成...</span>';
+			// orderFootHtml = '<div class="f-btn f-btn-white" toLocation="orderApplyRefund.html">申请退款</div>';
+			orderDetHtml = '<div class="formLine3 df hao jcb">'+
+								'<div class="cap">订单号</div>'+
+								'<div class="txt flex">52525252525252</div>'+
+							'</div>'+
+							'<div class="formLine3 df hao jcb">'+
+								'<div class="cap">创建时间</div>'+
+								'<div class="txt flex">2018/06/12 12:12:00</div>'+
+							'</div>'+
+							'<div class="formLine3 df hao jcb">'+
+								'<div class="cap">支付定金时间</div>'+
+								'<div class="txt flex">2018/06/12 12:12:00</div>'+
+							'</div>'+
+							'<div class="formLine3 df hao jcb">'+
+								'<div class="cap">支付尾款时间</div>'+
+								'<div class="txt flex">2018/06/12 12:12:00</div>'+
+							'</div>';
+			$('#shopOrderCountItem').html('<div class="formLine df hao jcb">'+
+												'<div class="cap">总计</div>'+
+												'<div class="txt orange">￥1600.00</div>'+
+											'</div>'+
+											'<div class="formLine df hao jcb">'+
+												'<div class="cap2">权益卡定金</div>'+
+												'<div class="txt">￥1600.00</div>'+
+											'</div>'+
+											'<div class="formLine df hao jcb">'+
+												'<div class="cap2">权益卡尾款</div>'+
+												'<div class="txt">￥200.00</div>'+
+											'</div>');
+		}
+		$('#shopOrderStateItem').html(orderStateTxt);
+		if(orderLogisHtml){
+			$('#shopOrderLogisItem').show().text(orderLogisHtml);
+		}
+		$('#shopOrderDetItem .formBox').html(orderDetHtml);
+		if(orderFootHtml){
+			$('#webFoot').html(orderFootHtml);
+			$('body').removeClass('hideFoot');
+		}
+	}
+</script>
+</html>

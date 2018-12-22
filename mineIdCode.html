@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+	<title>奥特斯</title>
+	<link rel="stylesheet" href="css/swiper-4.3.5.min.css" />
+	<link rel="stylesheet" href="css/public.css?v=20180910" />
+	<link rel="stylesheet" href="css/user.css?v=20180910" />
+</head>
+<body class="hideFoot"> <!-- hideHead hideFoot -->
+	<div class="webHead df hao jcb" id="webHead">
+		<div class="h-btn h-btn-back" toLocation="back"></div>
+		<div class="flex h-txt">我的名片</div>
+		<div class="h-btn"></div>
+	</div>
+
+	<div class="webBody blueBg" id="webBody">
+		<div class="idCode" id="idCodeItem">
+			<div class="person df hao">
+				<img src="" alt="" />
+				<div class="info df cf wao">
+					<span>--</span>
+					<em>--</em>
+				</div>
+			</div>
+			<div class="codeImg"><img src="" alt="" /></div>
+			<div class="code">--</div>
+			<div class="keep"><a>保存图片</a></div>
+		</div>
+	</div>
+
+	<div class="webFoot df hao jcb" id="webFoot"></div>
+</body>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/swiper-4.3.5.min.js"></script>
+<script type="text/javascript" src="js/public.js?v=20180912"></script>
+<script type="text/javascript">
+	// 初始化人员
+	var idCodeArr = {};
+	var downloadImg = '';
+	ajax({
+		url: '@server/act=member_index',
+		param: {
+			key: userLoginToken,
+		},
+		call: function(r){
+			// cs(r);
+			idCodeArr = {
+				name: r.member_info.user_name,
+				head: r.member_info.avatar,
+				level: r.member_info.member_grade_name,
+				code: r.member_info.member_unique, // 邀请码
+				codeImg: r.member_info.member_code,
+			};
+			idCodeInit();
+		}
+	});
+
+	function idCodeInit(arr,obj){
+		downloadImg = idCodeArr.codeImg
+		$('#idCodeItem .person img').attr('src',idCodeArr.head);
+		$('#idCodeItem .person .info span').text(idCodeArr.name);
+		$('#idCodeItem .person .info em').text(idCodeArr.level);
+		$('#idCodeItem .codeImg img').attr('src',idCodeArr.codeImg);
+		$('#idCodeItem .code').text(idCodeArr.code);
+		$('#idCodeItem .keep a').attr('href',idCodeArr.codeImg).attr('download',idCodeArr.codeImg);
+	}
+</script>
+</html>
